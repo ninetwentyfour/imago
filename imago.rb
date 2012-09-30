@@ -73,10 +73,27 @@ get '/get_image?' do
     content_type :json
     { :link => @link, :website => "http://#{params['website']}" }.to_json
   elsif params['format'] == "image"
-    response.headers['content_type'] = "image/jpeg"
-    data = open("http://screengrab-test.s3.amazonaws.com/cc703969d37ecf46c663478ee0a854f5.jpg").read
-    # send_data( data, :filename => "test.jpg" )
-    response.write(data)
+    # response.headers['content_type'] = "image/jpeg"
+    # data = open("http://screengrab-test.s3.amazonaws.com/cc703969d37ecf46c663478ee0a854f5.jpg").read
+    # # send_data( data, :filename => "test.jpg" )
+    # response.write(data)
+    
+    uri = URI('http://screengrab-test.s3.amazonaws.com/cc703969d37ecf46c663478ee0a854f5.jpg')
+
+    # get only header data
+    head = Net::HTTP.start(uri.host, uri.port) do |http|
+      http.head(uri.request_uri)
+    end
+
+    # set headers accordingly (all that apply)
+    headers 'Content-Type' => head['Content-Type']
+
+    # stream back the contents
+    stream do |out|
+      Net::HTTP.get_response(uri) do |f| 
+        f.read_body { |ch| out << ch }
+      end
+    end
   end
 end
 
