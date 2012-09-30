@@ -39,7 +39,7 @@ get '/get_image?' do
     unless @link
       # Create the image.
       # should set a commen standard here, and resize later with passed params since this actually sets the browser viewport size
-      begin
+      #begin
         kit   = IMGKit.new(html, quality: 50, width: params['width'].to_i, height: params['height'].to_i )
         
         outfile = MiniMagick::Image.read(kit.to_img(:png))
@@ -51,9 +51,9 @@ get '/get_image?' do
 
         # Create the link.
         @link = "http://screengrab-test.s3.amazonaws.com/#{name}.png"
-      rescue Exception => exception
-        @link = "http://screengrab-test.s3.amazonaws.com/not_found.png"
-      end
+      # rescue Exception => exception
+      #   @link = "http://screengrab-test.s3.amazonaws.com/not_found.png"
+      # end
       # Save in redis for re-use later.
       REDIS.set "#{name}", @link
     end
