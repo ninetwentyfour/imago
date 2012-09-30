@@ -67,9 +67,14 @@ get '/get_image?' do
   end
   
   # Render the main.haml view
-  # haml :main
-  content_type :json
+  if !given? params['format']
+    haml :main
+  elsif params['format'] == "json"
+    content_type :json
     { :link => @link, :website => "http://#{params['website']}" }.to_json
+  elsif params['format'] == "image"
+
+  end
 end
 
 
@@ -77,8 +82,8 @@ def validate params
   errors = {}
   
   # Make sure the website is a passed in param.
-  if !given? params[:website]
-    errors[:website]   = "This field is required"
+  if !given? params['website']
+    errors['website']   = "This field is required"
   end
 
   errors
