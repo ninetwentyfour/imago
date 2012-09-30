@@ -58,13 +58,13 @@ get '/get_image?' do
         # Create the link.
         @link = "http://d29sc4udwyhodq.cloudfront.net/#{name}.jpg"
       rescue Exception => exception
-        @link = "http://d29sc4udwyhodq.cloudfront.net/not_found.png"
+        @link = "http://d29sc4udwyhodq.cloudfront.net/not_found.jpg"
       end
       # Save in redis for re-use later.
       REDIS.set "#{name}", @link
     end
   else
-    @link = "http://d29sc4udwyhodq.cloudfront.net/not_found.png"
+    @link = "http://d29sc4udwyhodq.cloudfront.net/not_found.jpg"
   end
   
   respond(@link, params)
