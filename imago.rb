@@ -1,11 +1,13 @@
 %w(rubygems sinatra imgkit aws/s3 digest/md5 haml redis open-uri sinatra-initializers).each{ |g| require g }
 
-set :bucket, 'screengrab-test'
-set :s3_key, ENV['S3_KEY']
-set :s3_secret, ENV['S3_SECRET']
+require_relative 'config'
 
-uri = URI.parse(ENV["REDISTOGO_URL"])
-redis = Redis.new(:host => uri.host, :port => uri.port, :password => uri.password)
+# set :bucket, 'screengrab-test'
+# set :s3_key, ENV['S3_KEY']
+# set :s3_secret, ENV['S3_SECRET']
+# 
+# uri = URI.parse(ENV["REDISTOGO_URL"])
+# redis = Redis.new(:host => uri.host, :port => uri.port, :password => uri.password)
 
 # register Sinatra::Initializers
 
