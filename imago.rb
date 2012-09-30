@@ -68,32 +68,15 @@ get '/get_image?' do
   end
   
   respond(@link, params)
-  # # Respond based on format
-  # if params['format'] == "html"
-  #   haml :main
-  # elsif params['format'] == "json"
-  #   content_type :json
-  #   { :link => @link, :website => "http://#{params['website']}" }.to_json
-  # elsif params['format'] == "image" 
-  #   uri = URI(@link)
-  # 
-  #   # get only header data
-  #   head = Net::HTTP.start(uri.host, uri.port) do |http|
-  #     http.head(uri.request_uri)
-  #   end
-  # 
-  #   # set headers accordingly (all that apply)
-  #   headers 'Content-Type' => head['Content-Type']
-  # 
-  #   # stream back the contents
-  #   stream do |out|
-  #     Net::HTTP.get_response(uri) do |f| 
-  #       f.read_body { |ch| out << ch }
-  #     end
-  #   end
-  # end
 end
 
+#### respond
+#
+# * `link`: the final link to the image.
+#
+# * `params`: the params that were sent with the request.
+#
+# Respond to request
 def respond(link, params)
   @link = link
   # Respond based on format
@@ -122,8 +105,12 @@ def respond(link, params)
   end
 end
 
-
-def validate params
+#### validate
+#
+# * `params`: the params that were sent with the request.
+#
+# Validate the params sent with the request.
+def validate(params)
   errors = {}
   
   # Make sure the website is a passed in param.
@@ -149,12 +136,23 @@ def validate params
   errors
 end
 
-def given? field
+#### given?
+#
+# * `field`: the param field to check.
+#
+# Check that a field is not empty
+def given?(field)
   !field.empty?
 end
 
+#### send_to_s3
+#
+# * `file`: the tmp path to the image file.
+#
+# * `name`: the name to use for the file.
+#
+# Store the image on s3.
 def send_to_s3(file, name)
-  # Store the image on s3.
   AWS::S3::Base.establish_connection!(
                                       :access_key_id     => settings.s3_key,
                                       :secret_access_key => settings.s3_secret
