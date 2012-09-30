@@ -39,7 +39,7 @@ get '/get_image?' do
     unless @link
       # Create the image.
       # should set a commen standard here, and resize later with passed params since this actually sets the browser viewport size
-      #begin
+      begin
         temp_dir = "#{settings.root}/tmp"
         Dir.mkdir(temp_dir) unless Dir.exists?(temp_dir)
         #temp_file = Tempfile.new(["csv_export", '.csv'], temp_dir)
@@ -56,23 +56,12 @@ get '/get_image?' do
         #outfile = FastImage.resize(kit.to_img(:png), 50, 50)
         # Store the image on s3.
         send_to_s3(temp_file, name)
-        # Store the image on s3.
-        # AWS::S3::Base.establish_connection!(
-        #                                     :access_key_id     => settings.s3_key,
-        #                                     :secret_access_key => settings.s3_secret
-        #                                   )
-        # AWS::S3::S3Object.store(
-        #                           "#{name}.jpg",
-        #                           open("#{temp_dir}/#{name}.jpg"),
-        #                           settings.bucket,
-        #                           :access => :public_read
-        #                         )
 
         # Create the link.
         @link = "http://screengrab-test.s3.amazonaws.com/#{name}.jpg"
-      # rescue Exception => exception
-      #   @link = "http://screengrab-test.s3.amazonaws.com/not_found.png"
-      # end
+      rescue Exception => exception
+        @link = "http://screengrab-test.s3.amazonaws.com/not_found.png"
+      end
       # Save in redis for re-use later.
       REDIS.set "#{name}", @link
     end
