@@ -44,7 +44,7 @@ get '/get_image?' do
         Dir.mkdir(temp_dir) unless Dir.exists?(temp_dir)
         
         # Capture the screenshot
-        kit   = IMGKit.new(html, quality: 50, width: 1280, height: 720 )
+        kit   = IMGKit.new(html, quality: 80, width: 1280, height: 720 )
         
         temp_file = "#{temp_dir}/#{name}.jpg"
         # Resize the screengrab using rmagick
