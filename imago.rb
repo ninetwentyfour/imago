@@ -108,7 +108,7 @@ def send_to_s3(file, name)
                                     )
   AWS::S3::S3Object.store(
                             "#{name}.jpg",
-                            file,
+                            open(file),
                             settings.bucket,
                             :access => :public_read
                           )
