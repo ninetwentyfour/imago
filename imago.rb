@@ -45,12 +45,12 @@ get '/get_image?' do
         Dir.mkdir(temp_dir) unless Dir.exists?(temp_dir)
         
         # Capture the screenshot
-        kit   = IMGKit.new(html, quality: 50, width: params['width'].to_i, height: params['height'].to_i )
+        kit   = IMGKit.new(html, quality: 50, width: 1280, height: 720 )
         
         temp_file = "#{temp_dir}/#{name}.jpg"
         # Resize the screengrab
         img = Image.from_blob(kit.to_img(:jpg)).first
-        thumb = img.scale(125, 125)
+        thumb = img.scale(params['width'].to_i, params['height'].to_i)
         thumb.write temp_file
 
         # Store the image on s3.
