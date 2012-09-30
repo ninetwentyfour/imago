@@ -49,7 +49,7 @@ get '/get_image?' do
               
         kit   = IMGKit.new(html, quality: 50, width: params['width'].to_i, height: params['height'].to_i )
         
-        img = Image.read(kit.to_img(:jpg)).first
+        img = Image.from_blob(kit.to_img(:jpg)).first
         thumb = img.scale(125, 125)
         thumb.write "#{temp_dir}/#{name}.jpg"
         #outfile = FastImage.resize(kit.to_img(:png), 50, 50)
