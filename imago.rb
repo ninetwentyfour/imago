@@ -32,5 +32,5 @@ get '/?' do
   AWS::S3::Base.establish_connection!(
   :access_key_id     => settings.s3_key,
   :secret_access_key => settings.s3_secret)
-  AWS::S3::S3Object.store(name,kit.to_img(:png),settings.bucket,:access => :public_read)
+  AWS::S3::S3Object.store("#{name}.png",kit.to_img(:png),settings.bucket,:access => :public_read)
 end
