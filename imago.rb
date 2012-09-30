@@ -49,7 +49,7 @@ get '/get_image?' do
               
         #kit   = IMGKit.new(html, quality: 50, width: params['width'].to_i, height: params['height'].to_i )
         
-        outfile = MiniMagick::Image.open(file)
+        outfile = MiniMagick::Image.open("#{temp_dir}/#{name}.png")
         outfile.resize "100x100"
         ooutfile.write "#{temp_dir}/#{name}_2.png"
         #outfile = FastImage.resize(kit.to_img(:png), 50, 50)
