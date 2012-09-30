@@ -82,7 +82,7 @@ def validate params
   errors = {}
   
   # Make sure the website is a passed in param.
-  if !params.has_key?('website') && !given? params['website']
+  if !given? params['website']
     errors['website']   = "This field is required"
   end
 
