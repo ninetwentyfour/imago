@@ -1,7 +1,7 @@
 #### Requires
 
 # Write out all requires from gems
-%w(rubygems sinatra imgkit aws/s3 digest/md5 haml redis open-uri mini_magick tempfile).each{ |g| require g }
+%w(rubygems sinatra imgkit aws/s3 digest/md5 haml redis open-uri RMagick).each{ |g| require g }
 
 # require the app configs
 require_relative 'config'
@@ -49,13 +49,16 @@ get '/get_image?' do
               
         #kit   = IMGKit.new(html, quality: 50, width: params['width'].to_i, height: params['height'].to_i )
         
-        outfile = MiniMagick::Image.open("#{temp_dir}/#{name}.png")
-        outfile.resize "100x100"
-        outfile.write "#{temp_dir}/#{name}_2.png"
+        img = Image.new "#{temp_dir}/#{name}.png"
+        thumb = img.scale(125, 125)
+        thumb.write "#{temp_dir}/#{name}_2.png"
+        # outfile = MiniMagick::Image.open("#{temp_dir}/#{name}.png")
+        # outfile.resize "100x100"
+        # outfile.write "#{temp_dir}/#{name}_2.png"
         #outfile = FastImage.resize(kit.to_img(:png), 50, 50)
         
         # Store the image on s3.
-        send_to_s3(outfile, name)
+        send_to_s3(thumb, name)
 
         # Create the link.
         @link = "http://screengrab-test.s3.amazonaws.com/#{name}.png"
