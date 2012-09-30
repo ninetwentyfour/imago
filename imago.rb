@@ -73,8 +73,10 @@ get '/get_image?' do
     content_type :json
     { :link => @link, :website => "http://#{params['website']}" }.to_json
   elsif params['format'] == "image"
+    response.headers['content_type'] = "image/jpg"
     data = open("http://screengrab-test.s3.amazonaws.com/cc703969d37ecf46c663478ee0a854f5.jpg").read
-    send_data( data, :filename => "test.jpg" )
+    # send_data( data, :filename => "test.jpg" )
+    response.write(data)
   end
 end
 
