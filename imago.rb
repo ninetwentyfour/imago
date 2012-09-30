@@ -51,7 +51,7 @@ get '/get_image?' do
         
         outfile = MiniMagick::Image.open("#{temp_dir}/#{name}.png")
         outfile.resize "100x100"
-        ooutfile.write "#{temp_dir}/#{name}_2.png"
+        outfile.write "#{temp_dir}/#{name}_2.png"
         #outfile = FastImage.resize(kit.to_img(:png), 50, 50)
         
         # Store the image on s3.
