@@ -20,7 +20,7 @@ include Magick
 # * `height`: the height of the screenshot. (e.g. 600)
 #
 # * `format`: the format to respond with. Accepted values are html, json, and image.
-#    Use image to inline images (e.g. <img src="/get_image?format=image" />)
+#    Use image to inline images (e.g. `<img src="/get_image?format=image" />`)
 #
 # _EXAMPLE_:
 #
@@ -30,8 +30,6 @@ get '/get_image?' do
   @errors = validate(params)
 
   if @errors.empty?
-    # make a way to reuturn either json or a straight image file - also do a for fun email image to person call
-
     html = "http://#{params['website']}"
 
     # Hash the params to get the filename and the key for redis
@@ -69,6 +67,35 @@ get '/get_image?' do
     @link = "http://screengrab-test.s3.amazonaws.com/not_found.png"
   end
   
+  respond(@link, params)
+  # # Respond based on format
+  # if params['format'] == "html"
+  #   haml :main
+  # elsif params['format'] == "json"
+  #   content_type :json
+  #   { :link => @link, :website => "http://#{params['website']}" }.to_json
+  # elsif params['format'] == "image" 
+  #   uri = URI(@link)
+  # 
+  #   # get only header data
+  #   head = Net::HTTP.start(uri.host, uri.port) do |http|
+  #     http.head(uri.request_uri)
+  #   end
+  # 
+  #   # set headers accordingly (all that apply)
+  #   headers 'Content-Type' => head['Content-Type']
+  # 
+  #   # stream back the contents
+  #   stream do |out|
+  #     Net::HTTP.get_response(uri) do |f| 
+  #       f.read_body { |ch| out << ch }
+  #     end
+  #   end
+  # end
+end
+
+def respond(link, params)
+  @link = link
   # Respond based on format
   if params['format'] == "html"
     haml :main
