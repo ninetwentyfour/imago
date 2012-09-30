@@ -42,7 +42,7 @@ get '/?' do
     AWS::S3::S3Object.store("#{name}.png",kit.to_img(:png),settings.bucket,:access => :public_read)
   
     @link = "http://screengrab-test.s3.amazonaws.com/#{name}.png"
-    redis.setnx "#{name}", @link
+    redis.set "#{name}", @link
   end
   
   haml :main
