@@ -6,6 +6,9 @@
 # require the app configs
 require_relative 'config'
 
+ENV['INLINEDIR'] = settings.root + "/tmp"  # for RubyInline
+#{RAILS_ROOT}/tmp/myfile_#{Process.pid}
+
 
 #### GET /get_image?
 
