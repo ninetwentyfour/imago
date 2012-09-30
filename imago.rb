@@ -45,12 +45,12 @@ get '/get_image?' do
         Dir.mkdir(temp_dir) unless Dir.exists?(temp_dir)
         
         # Capture the image
-        kit   = IMGKit.new(html, quality: 50, width: 1200, height: 1200 )
+        kit   = IMGKit.new(html, quality: 50, width: params['width'].to_i, height: params['height'].to_i )
         
         temp_file = "#{temp_dir}/#{name}.jpg"
         # Resize the image.
         img = Image.from_blob(kit.to_img(:jpg)).first
-        thumb = img.scale(params['width'].to_i, params['height'].to_i)
+        thumb = img.scale(100, 100)
         thumb.write temp_file
 
         # Store the image on s3.
@@ -59,13 +59,13 @@ get '/get_image?' do
         # Create the link.
         @link = "http://screengrab-test.s3.amazonaws.com/#{name}.jpg"
       rescue Exception => exception
-        @link = "http://screengrab-test.s3.amazonaws.com/not_found.jpg"
+        @link = "http://screengrab-test.s3.amazonaws.com/not_found.png"
       end
       # Save in redis for re-use later.
       REDIS.set "#{name}", @link
     end
   else
-    @link = "http://screengrab-test.s3.amazonaws.com/not_found.jpg"
+    @link = "http://screengrab-test.s3.amazonaws.com/not_found.png"
   end
   
   # Render the main.haml view
