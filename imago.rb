@@ -1,15 +1,6 @@
-%w(rubygems sinatra imgkit aws/s3 digest/md5 haml redis open-uri sinatra-initializers).each{ |g| require g }
+%w(rubygems sinatra imgkit aws/s3 digest/md5 haml redis open-uri).each{ |g| require g }
 
 require_relative 'config'
-
-# set :bucket, 'screengrab-test'
-# set :s3_key, ENV['S3_KEY']
-# set :s3_secret, ENV['S3_SECRET']
-# 
-# uri = URI.parse(ENV["REDISTOGO_URL"])
-# redis = Redis.new(:host => uri.host, :port => uri.port, :password => uri.password)
-
-# register Sinatra::Initializers
 
 # ?website=example.com&width=600&height=600
 get '/?' do
@@ -26,11 +17,6 @@ get '/?' do
   # check for valid url
   
   # check that image exists or return some default not found with an error message 
-  
-  # move this into real config file
-  # IMGKit.configure do |config|
-  #   config.wkhtmltoimage = "#{settings.root}/bin/wkhtmltoimage-amd64"
-  # end
   
   html = "http://#{params['website']}"
   name = Digest::MD5.hexdigest("#{params['website']}_#{params['width']}_#{params['height']}")
