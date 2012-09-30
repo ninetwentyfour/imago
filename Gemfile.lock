@@ -3,7 +3,7 @@ GEM
   specs:
     RubyInline (3.11.3)
       ZenTest (~> 4.3)
-    ZenTest (4.8.2)
+    ZenTest (4.6.0)
     aws-s3 (0.6.3)
       builder
       mime-types
@@ -34,6 +34,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  ZenTest (= 4.6.0)
   aws-s3
   fastimage_resize
   haml
