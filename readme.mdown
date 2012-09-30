@@ -1,0 +1,40 @@
+Imago
+====
+
+Imago is a simple service to return website thumbnails.
+
+API
+====
+
+## Base API URL
+http://api.imago.in/get_image?
+
+## Required Params
+
+- `website`: the url you wish to screenshot. Do not include http/https. url should be encoded. (e.g. www.example.com)
+
+- `width`: the width of the screen shot. (e.g. 600)
+
+- `height`: the height of the screenshot. (e.g. 600)
+
+- `format`: the format to respond with. Accepted values are html, json, and image. Use image to inline images (e.g. `<img src="/get_image?format=image" />`)
+
+Usage
+====
+
+## Use as an image tag!
+`<img src="http://api.imago.in/get_image?website=www.travisberry.com&width=320&height=200&format=image" />`
+<img src="http://api.imago.in/get_image?website=www.travisberry.com&width=320&height=200&format=image" />
+
+## Return JSON!
+`curl http://api.imago.in/get_image?website=www.travisberry.com&width=320&height=200&format=json`
+Expected Result:
+`{"link":"http://screengrab-test.s3.amazonaws.com/6b3927a0e37512e2efa3b25cb440a498.jpg","website":"http://www.travisberry.com"}`
+
+## View the HTML!
+[http://api.imago.in/get_image?website=www.travisberry.com&width=320&height=200&format=html](http://api.imago.in/get_image?website=www.travisberry.com&width=320&height=200&format=json)
+
+Docs
+====
+
+View our docs [here](http://imago.in/docs/imago.html).
