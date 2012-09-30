@@ -1,7 +1,7 @@
 #### Requires
 
 # Write out all requires from gems
-%w(rubygems sinatra imgkit aws/s3 digest/md5 haml redis open-uri mini_magick).each{ |g| require g }
+%w(rubygems sinatra imgkit aws/s3 digest/md5 haml redis open-uri mini_magick tempfile).each{ |g| require g }
 
 # require the app configs
 require_relative 'config'
@@ -40,9 +40,12 @@ get '/get_image?' do
       # Create the image.
       # should set a commen standard here, and resize later with passed params since this actually sets the browser viewport size
       #begin
-        kit   = IMGKit.new(html, quality: 50, width: params['width'].to_i, height: params['height'].to_i )
+        file = Tempfile.new("#{name}", './tmp')
+        file.write(IMGKit.new(html, quality: 50, width: params['width'].to_i, height: params['height'].to_i ).to_png)
+              
+        #kit   = IMGKit.new(html, quality: 50, width: params['width'].to_i, height: params['height'].to_i )
         
-        outfile = MiniMagick::Image.read(kit.to_img(:png))
+        outfile = MiniMagick::Image.new(file)
         outfile.resize "100x100"
         #outfile = FastImage.resize(kit.to_img(:png), 50, 50)
         
