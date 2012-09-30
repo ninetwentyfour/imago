@@ -74,8 +74,7 @@ get '/get_image?' do
     { :link => @link, :website => "http://#{params['website']}" }.to_json
   elsif params['format'] == "image"
     data = open("http://screengrab-test.s3.amazonaws.com/cc703969d37ecf46c663478ee0a854f5.jpg").read
-    send_file data, :type => 'image/jpeg',
-      :disposition => 'inline'
+    send_file data, :type => 'image/jpeg'
   end
 end
 
