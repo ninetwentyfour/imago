@@ -43,14 +43,15 @@ get '/get_image?' do
         temp_dir = "#{settings.root}/tmp"
         Dir.mkdir(temp_dir) unless Dir.exists?(temp_dir)
         #temp_file = Tempfile.new(["csv_export", '.csv'], temp_dir)
-        
-        file = Tempfile.new("#{name}.png", "#{settings.root}/tmp")
-        file.write(IMGKit.new(html, quality: 50, width: params['width'].to_i, height: params['height'].to_i ).to_png)
+        file = File.open("#{temp_dir}/#{name}.png", 'w') {|f| f.write(IMGKit.new(html, quality: 50, width: params['width'].to_i, height: params['height'].to_i ).to_img(:png)) }
+        #file = Tempfile.new("#{name}.png", "#{settings.root}/tmp")
+        #file.write(IMGKit.new(html, quality: 50, width: params['width'].to_i, height: params['height'].to_i ).to_img(:png))
               
         #kit   = IMGKit.new(html, quality: 50, width: params['width'].to_i, height: params['height'].to_i )
         
         outfile = MiniMagick::Image.open(file)
         outfile.resize "100x100"
+        ooutfile.write "#{temp_dir}/#{name}_2.png"
         #outfile = FastImage.resize(kit.to_img(:png), 50, 50)
         
         # Store the image on s3.
