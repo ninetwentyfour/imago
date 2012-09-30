@@ -69,7 +69,7 @@ get '/get_image?' do
     @link = "http://screengrab-test.s3.amazonaws.com/not_found.png"
   end
   
-  # Render the main.haml view
+  # Respond based on format
   if params['format'] == "html"
     haml :main
   elsif params['format'] == "json"
@@ -102,6 +102,21 @@ def validate params
   # Make sure the website is a passed in param.
   if !given? params['website']
     errors['website']   = "This field is required"
+  end
+  
+  # Make sure the width is a passed in param.
+  if !given? params['width']
+    errors['width']   = "This field is required"
+  end
+  
+  # Make sure the height is a passed in param.
+  if !given? params['height']
+    errors['height']   = "This field is required"
+  end
+  
+  # Make sure the format is a passed in param.
+  if !given? params['format']
+    errors['format']   = "This field is required"
   end
 
   errors
