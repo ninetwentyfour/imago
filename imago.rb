@@ -1,8 +1,12 @@
-%w(rubygems sinatra sinatra-initializers imgkit aws/s3 digest/md5 haml).each{ |g| require g }
+%w(rubygems sinatra sinatra-initializers imgkit aws/s3 digest/md5 haml redis open-uri).each{ |g| require g }
 
 set :bucket, 'screengrab-test'
 set :s3_key, ENV['S3_KEY']
 set :s3_secret, ENV['S3_SECRET']
+
+uri = URI.parse(ENV["REDISTOGO_URL"])
+redis = Redis.new(:host => uri.host, :port => uri.port, :password => uri.password)
+
 # register Sinatra::Initializers
 
 # ?website=example.com&width=600&height=600
@@ -28,13 +32,18 @@ get '/?' do
   
   html = "http://#{params['website']}"
   name = Digest::MD5.hexdigest(html)
-  kit   = IMGKit.new(html, quality: 50, width: params['width'].to_i, height: params['height'].to_i )
+  @link = redis.get "#{name}"
+  unless @link
+    kit   = IMGKit.new(html, quality: 50, width: params['width'].to_i, height: params['height'].to_i )
 
-  AWS::S3::Base.establish_connection!(
-  :access_key_id     => settings.s3_key,
-  :secret_access_key => settings.s3_secret)
-  AWS::S3::S3Object.store("#{name}.png",kit.to_img(:png),settings.bucket,:access => :public_read)
+    AWS::S3::Base.establish_connection!(
+    :access_key_id     => settings.s3_key,
+    :secret_access_key => settings.s3_secret)
+    AWS::S3::S3Object.store("#{name}.png",kit.to_img(:png),settings.bucket,:access => :public_read)
   
-  @link = "http://screengrab-test.s3.amazonaws.com/#{name}.png"
+    @link = "http://screengrab-test.s3.amazonaws.com/#{name}.png"
+    redis.setnx "#{name}", @link
+  end
+  
   haml :main
 end
