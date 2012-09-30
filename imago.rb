@@ -49,23 +49,24 @@ get '/get_image?' do
               
         kit   = IMGKit.new(html, quality: 50, width: params['width'].to_i, height: params['height'].to_i )
         
+        temp_file = "#{temp_dir}/#{name}.jpg"
         img = Image.from_blob(kit.to_img(:jpg)).first
         thumb = img.scale(125, 125)
-        thumb.write "#{temp_dir}/#{name}.jpg"
+        thumb.write temp_file
         #outfile = FastImage.resize(kit.to_img(:png), 50, 50)
         # Store the image on s3.
-        # send_to_s3(img2, name)
+        send_to_s3(temp_file, name)
         # Store the image on s3.
-        AWS::S3::Base.establish_connection!(
-                                            :access_key_id     => settings.s3_key,
-                                            :secret_access_key => settings.s3_secret
-                                          )
-        AWS::S3::S3Object.store(
-                                  "#{name}.jpg",
-                                  open("#{temp_dir}/#{name}.jpg"),
-                                  settings.bucket,
-                                  :access => :public_read
-                                )
+        # AWS::S3::Base.establish_connection!(
+        #                                     :access_key_id     => settings.s3_key,
+        #                                     :secret_access_key => settings.s3_secret
+        #                                   )
+        # AWS::S3::S3Object.store(
+        #                           "#{name}.jpg",
+        #                           open("#{temp_dir}/#{name}.jpg"),
+        #                           settings.bucket,
+        #                           :access => :public_read
+        #                         )
 
         # Create the link.
         @link = "http://screengrab-test.s3.amazonaws.com/#{name}.jpg"
