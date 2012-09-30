@@ -57,9 +57,20 @@ get '/get_image?' do
         # outfile.write "#{temp_dir}/#{name}_2.png"
         #outfile = FastImage.resize(kit.to_img(:png), 50, 50)
         
-        img2 = Image.read("#{temp_dir}/#{name}_2.jpg").first
+        # img2 = Image.read("#{temp_dir}/#{name}_2.jpg").first
         # Store the image on s3.
-        send_to_s3(img2, name)
+        # send_to_s3(img2, name)
+        # Store the image on s3.
+        AWS::S3::Base.establish_connection!(
+                                            :access_key_id     => settings.s3_key,
+                                            :secret_access_key => settings.s3_secret
+                                          )
+        AWS::S3::S3Object.store(
+                                  "#{name}.jpg",
+                                  open("#{temp_dir}/#{name}_2.jpg"),
+                                  settings.bucket,
+                                  :access => :public_read
+                                )
 
         # Create the link.
         @link = "http://screengrab-test.s3.amazonaws.com/#{name}.png"
