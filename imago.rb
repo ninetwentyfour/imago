@@ -26,9 +26,9 @@ get '/?' do
   # check that image exists or return some default not found with an error message 
   
   # move this into real config file
-  IMGKit.configure do |config|
-    config.wkhtmltoimage = "#{settings.root}/bin/wkhtmltoimage-amd64"
-  end
+  # IMGKit.configure do |config|
+  #   config.wkhtmltoimage = "#{settings.root}/bin/wkhtmltoimage-amd64"
+  # end
   
   html = "http://#{params['website']}"
   name = Digest::MD5.hexdigest("#{params['website']}_#{params['width']}_#{params['height']}")
