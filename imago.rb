@@ -73,7 +73,7 @@ get '/get_image?' do
     content_type :json
     { :link => @link, :website => "http://#{params['website']}" }.to_json
   elsif params['format'] == "image"
-
+    send_file @link, :type => :jpg
   end
 end
 
@@ -82,7 +82,7 @@ def validate params
   errors = {}
   
   # Make sure the website is a passed in param.
-  if !given? params['website']
+  if !params.has_key?('website') && !given? params['website']
     errors['website']   = "This field is required"
   end
 
