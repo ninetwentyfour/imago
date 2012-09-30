@@ -1,5 +1,5 @@
 $:.unshift(__FILE__, ".")
 
-require 'bucket'
+require 'imago'
 
 run Sinatra::Application
