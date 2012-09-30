@@ -1,7 +1,7 @@
 #### Requires
 
 # Write out all requires from gems
-%w(rubygems sinatra imgkit aws/s3 digest/md5 haml redis open-uri RMagick).each{ |g| require g }
+%w(rubygems sinatra imgkit aws/s3 digest/md5 haml redis open-uri RMagick json).each{ |g| require g }
 
 # require the app configs
 require_relative 'config'
@@ -9,7 +9,7 @@ include Magick
 
 #### GET /get_image?
 
-# `/?` takes a list of params.
+# `/get_image?` takes a list of params.
 # The list of params are (all are required):
 #
 # * `website`: the url you wish to screenshot. Do not include http/https.
@@ -67,7 +67,9 @@ get '/get_image?' do
   end
   
   # Render the main.haml view
-  haml :main
+  # haml :main
+  content_type :json
+    { :link => @link, :website => "http://#{params['website']}" }.to_json
 end
 
 
