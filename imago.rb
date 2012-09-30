@@ -73,7 +73,8 @@ get '/get_image?' do
     content_type :json
     { :link => @link, :website => "http://#{params['website']}" }.to_json
   elsif params['format'] == "image"
-    send_file @link, :type => 'image/jpeg',
+    data = open(@link).read
+    send_file data, :type => 'image/jpeg',
       :disposition => 'inline'
   end
 end
