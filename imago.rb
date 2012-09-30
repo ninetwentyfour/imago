@@ -1,13 +1,13 @@
 #### Requires
 
 # Write out all requires from gems
-%w(rubygems sinatra imgkit aws/s3 digest/md5 haml redis open-uri).each{ |g| require g }
+%w(rubygems sinatra imgkit aws/s3 digest/md5 haml redis open-uri fastimage_resize).each{ |g| require g }
 
 # require the app configs
 require_relative 'config'
 
 
-#### GET /
+#### GET /get_image?
 
 # `/?` takes a list of params.
 # The list of params are (all are required):
@@ -21,15 +21,13 @@ require_relative 'config'
 #
 # _EXAMPLE_:
 #
-# /?website=www.example.com&width=600&height=600
+# /get_image?website=www.example.com&width=600&height=600
 get '/get_image?' do
   
   @errors = validate(params)
 
   if @errors.empty?
     # make a way to reuturn either json or a straight image file - also do a for fun email image to person call
-
-    # validate params
 
     html = "http://#{params['website']}"
 
@@ -43,9 +41,11 @@ get '/get_image?' do
       # should set a commen standard here, and resize later with passed params since this actually sets the browser viewport size
       begin
         kit   = IMGKit.new(html, quality: 50, width: params['width'].to_i, height: params['height'].to_i )
-
+        
+        outfile = FastImage.resize(kit.to_img(:png), 50, 50)
+        
         # Store the image on s3.
-        send_to_s3(kit.to_img(:png), name)
+        send_to_s3(outfile, name)
 
         # Create the link.
         @link = "http://screengrab-test.s3.amazonaws.com/#{name}.png"
