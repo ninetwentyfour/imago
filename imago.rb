@@ -43,21 +43,16 @@ get '/get_image?' do
         temp_dir = "#{settings.root}/tmp"
         Dir.mkdir(temp_dir) unless Dir.exists?(temp_dir)
         #temp_file = Tempfile.new(["csv_export", '.csv'], temp_dir)
-        file = File.open("#{temp_dir}/#{name}.jpg", 'w') {|f| f.write(IMGKit.new(html, quality: 50, width: params['width'].to_i, height: params['height'].to_i ).to_img(:jpg)) }
+        #file = File.open("#{temp_dir}/#{name}.jpg", 'w') {|f| f.write(IMGKit.new(html, quality: 50, width: params['width'].to_i, height: params['height'].to_i ).to_img(:jpg)) }
         #file = Tempfile.new("#{name}.png", "#{settings.root}/tmp")
         #file.write(IMGKit.new(html, quality: 50, width: params['width'].to_i, height: params['height'].to_i ).to_img(:png))
               
-        #kit   = IMGKit.new(html, quality: 50, width: params['width'].to_i, height: params['height'].to_i )
+        kit   = IMGKit.new(html, quality: 50, width: params['width'].to_i, height: params['height'].to_i )
         
-        img = Image.read("#{temp_dir}/#{name}.jpg").first
+        img = Image.read(kit.to_img(:jpg)).first
         thumb = img.scale(125, 125)
-        thumb.write "#{temp_dir}/#{name}_2.jpg"
-        # outfile = MiniMagick::Image.open("#{temp_dir}/#{name}.png")
-        # outfile.resize "100x100"
-        # outfile.write "#{temp_dir}/#{name}_2.png"
+        thumb.write "#{temp_dir}/#{name}.jpg"
         #outfile = FastImage.resize(kit.to_img(:png), 50, 50)
-        
-        # img2 = Image.read("#{temp_dir}/#{name}_2.jpg").first
         # Store the image on s3.
         # send_to_s3(img2, name)
         # Store the image on s3.
@@ -67,13 +62,13 @@ get '/get_image?' do
                                           )
         AWS::S3::S3Object.store(
                                   "#{name}.jpg",
-                                  open("#{temp_dir}/#{name}_2.jpg"),
+                                  open("#{temp_dir}/#{name}.jpg"),
                                   settings.bucket,
                                   :access => :public_read
                                 )
 
         # Create the link.
-        @link = "http://screengrab-test.s3.amazonaws.com/#{name}.png"
+        @link = "http://screengrab-test.s3.amazonaws.com/#{name}.jpg"
       # rescue Exception => exception
       #   @link = "http://screengrab-test.s3.amazonaws.com/not_found.png"
       # end
