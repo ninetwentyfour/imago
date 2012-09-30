@@ -22,8 +22,10 @@ require_relative 'config'
 # _EXAMPLE_:
 #
 # /?website=www.example.com&width=600&height=600
-get '/?' do
+get '/get_image?' do
+  # make a way to reuturn either json or a straight image file - also do a for fun email image to person call
   
+  # validate params
   # check for valid url
   
   # check that image exists or return some default not found with an error message 
@@ -37,13 +39,15 @@ get '/?' do
   @link = REDIS.get "#{name}"
   unless @link
     # Create the image.
+    # should set a commen standard here, and resize later with passed params since this actually sets the browser viewport size
     kit   = IMGKit.new(html, quality: 50, width: params['width'].to_i, height: params['height'].to_i )
     
-    # Store the image on s3.
-    AWS::S3::Base.establish_connection!(
-    :access_key_id     => settings.s3_key,
-    :secret_access_key => settings.s3_secret)
-    AWS::S3::S3Object.store("#{name}.png",kit.to_img(:png),settings.bucket,:access => :public_read)
+    # # Store the image on s3.
+    # AWS::S3::Base.establish_connection!(
+    # :access_key_id     => settings.s3_key,
+    # :secret_access_key => settings.s3_secret)
+    # AWS::S3::S3Object.store("#{name}.png",kit.to_img(:png),settings.bucket,:access => :public_read)
+    send_to_s3(kit.to_img(:png), name)
     
     # Create the link.
     @link = "http://screengrab-test.s3.amazonaws.com/#{name}.png"
@@ -54,4 +58,18 @@ get '/?' do
   
   # Render the main.haml view
   haml :main
+end
+
+def send_to_s3(file, name)
+  # Store the image on s3.
+  AWS::S3::Base.establish_connection!(
+                                      :access_key_id     => settings.s3_key,
+                                      :secret_access_key => settings.s3_secret
+                                    )
+  AWS::S3::S3Object.store(
+                            "#{name}.png",
+                            file,
+                            settings.bucket,
+                            :access => :public_read
+                          )
 end
