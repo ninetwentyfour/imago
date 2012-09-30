@@ -1,11 +1,12 @@
 !!! 5
 %html
 	%head
-		%link{:href => "/css/twitter.css", :media => "screen", :rel => "stylesheet", :type => "text/css"}
+		%link{:href => "http://netdna.bootstrapcdn.com/twitter-bootstrap/2.1.0/css/bootstrap-combined.min.css", :media => "screen", :rel => "stylesheet", :type => "text/css"}
 	%body
 		.container
 			.hero-unit
 				%h1 Screencaps
-				= @link
+				%a{:href => "#{@link}"}
+					= @link
 			Created by 
 			%a{:href => "http://www.travisberry.com"} Travis Berry

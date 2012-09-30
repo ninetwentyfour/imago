@@ -35,6 +35,6 @@ get '/?' do
   :secret_access_key => settings.s3_secret)
   AWS::S3::S3Object.store("#{name}.png",kit.to_img(:png),settings.bucket,:access => :public_read)
   
-  @link = "http://screengrab-test.amazonaws.com/#{name}.png"
+  @link = "http://screengrab-test.s3.amazonaws.com/#{name}.png"
   haml :main
 end
