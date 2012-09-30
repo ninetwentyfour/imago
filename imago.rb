@@ -75,6 +75,10 @@ def validate params
   errors
 end
 
+def given? field
+  !field.empty?
+end
+
 def send_to_s3(file, name)
   # Store the image on s3.
   AWS::S3::Base.establish_connection!(
