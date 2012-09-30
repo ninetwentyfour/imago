@@ -9,7 +9,7 @@ get '/?' do
   
   html = "http://google.com"
   kit   = IMGKit.new('http://google.com')
-  kit.to_file('./test.png')
+  kit.to_file('./tmp/test.png')
 
   #puts "#{settings.root}/bin/wkhtmltoimage-amd64"
 end
