@@ -39,40 +39,28 @@ get '/get_image?' do
     unless @link
       # Create the image.
       # should set a commen standard here, and resize later with passed params since this actually sets the browser viewport size
-      #begin
+      begin
+        # Create a tmp directory if one doesn't exist.
         temp_dir = "#{settings.root}/tmp"
         Dir.mkdir(temp_dir) unless Dir.exists?(temp_dir)
-        #temp_file = Tempfile.new(["csv_export", '.csv'], temp_dir)
-        #file = File.open("#{temp_dir}/#{name}.jpg", 'w') {|f| f.write(IMGKit.new(html, quality: 50, width: params['width'].to_i, height: params['height'].to_i ).to_img(:jpg)) }
-        #file = Tempfile.new("#{name}.png", "#{settings.root}/tmp")
-        #file.write(IMGKit.new(html, quality: 50, width: params['width'].to_i, height: params['height'].to_i ).to_img(:png))
-              
-        kit   = IMGKit.new(html, quality: 50, width: params['width'].to_i, height: params['height'].to_i )
+        
+        # Capture the image
+        kit   = IMGKit.new(html, quality: 50, width: 1920, height: 1080 )
         
         temp_file = "#{temp_dir}/#{name}.jpg"
+        # Resize the image.
         img = Image.from_blob(kit.to_img(:jpg)).first
-        thumb = img.scale(125, 125)
+        thumb = img.scale(params['width'].to_i, params['height'].to_i)
         thumb.write temp_file
-        #outfile = FastImage.resize(kit.to_img(:png), 50, 50)
+
         # Store the image on s3.
         send_to_s3(temp_file, name)
-        # Store the image on s3.
-        # AWS::S3::Base.establish_connection!(
-        #                                     :access_key_id     => settings.s3_key,
-        #                                     :secret_access_key => settings.s3_secret
-        #                                   )
-        # AWS::S3::S3Object.store(
-        #                           "#{name}.jpg",
-        #                           open("#{temp_dir}/#{name}.jpg"),
-        #                           settings.bucket,
-        #                           :access => :public_read
-        #                         )
 
         # Create the link.
         @link = "http://screengrab-test.s3.amazonaws.com/#{name}.jpg"
-      # rescue Exception => exception
-      #   @link = "http://screengrab-test.s3.amazonaws.com/not_found.png"
-      # end
+      rescue Exception => exception
+        @link = "http://screengrab-test.s3.amazonaws.com/not_found.png"
+      end
       # Save in redis for re-use later.
       REDIS.set "#{name}", @link
     end
