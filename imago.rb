@@ -31,7 +31,7 @@ get '/?' do
   end
   
   html = "http://#{params['website']}"
-  name = Digest::MD5.hexdigest(html)
+  name = Digest::MD5.hexdigest("#{params['website']}_#{params['width']}_#{params['height']}")
   @link = redis.get "#{name}"
   unless @link
     kit   = IMGKit.new(html, quality: 50, width: params['width'].to_i, height: params['height'].to_i )
