@@ -1,4 +1,4 @@
-%w(rubygems sinatra sinatra-initializers imgkit aws/s3 digest/md5 haml redis open-uri).each{ |g| require g }
+%w(rubygems sinatra imgkit aws/s3 digest/md5 haml redis open-uri sinatra-initializers).each{ |g| require g }
 
 set :bucket, 'screengrab-test'
 set :s3_key, ENV['S3_KEY']
