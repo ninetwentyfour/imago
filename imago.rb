@@ -49,7 +49,7 @@ get '/get_image?' do
               
         #kit   = IMGKit.new(html, quality: 50, width: params['width'].to_i, height: params['height'].to_i )
         
-        img = Image.new "#{temp_dir}/#{name}.jpg"
+        img = Image.read("#{temp_dir}/#{name}.jpg").first
         thumb = img.scale(125, 125)
         thumb.write "#{temp_dir}/#{name}_2.jpg"
         # outfile = MiniMagick::Image.open("#{temp_dir}/#{name}.png")
