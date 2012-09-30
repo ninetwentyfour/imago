@@ -56,15 +56,15 @@ get '/get_image?' do
         send_to_s3(temp_file, name)
 
         # Create the link.
-        @link = "http://screengrab-test.s3.amazonaws.com/#{name}.jpg"
+        @link = "http://d29sc4udwyhodq.cloudfront.net/#{name}.jpg"
       rescue Exception => exception
-        @link = "http://screengrab-test.s3.amazonaws.com/not_found.png"
+        @link = "http://d29sc4udwyhodq.cloudfront.net/not_found.png"
       end
       # Save in redis for re-use later.
       REDIS.set "#{name}", @link
     end
   else
-    @link = "http://screengrab-test.s3.amazonaws.com/not_found.png"
+    @link = "http://d29sc4udwyhodq.cloudfront.net/not_found.png"
   end
   
   respond(@link, params)
