@@ -43,15 +43,15 @@ get '/get_image?' do
         temp_dir = "#{settings.root}/tmp"
         Dir.mkdir(temp_dir) unless Dir.exists?(temp_dir)
         #temp_file = Tempfile.new(["csv_export", '.csv'], temp_dir)
-        file = File.open("#{temp_dir}/#{name}.png", 'w') {|f| f.write(IMGKit.new(html, quality: 50, width: params['width'].to_i, height: params['height'].to_i ).to_img(:png)) }
+        file = File.open("#{temp_dir}/#{name}.jpg", 'w') {|f| f.write(IMGKit.new(html, quality: 50, width: params['width'].to_i, height: params['height'].to_i ).to_img(:jpg)) }
         #file = Tempfile.new("#{name}.png", "#{settings.root}/tmp")
         #file.write(IMGKit.new(html, quality: 50, width: params['width'].to_i, height: params['height'].to_i ).to_img(:png))
               
         #kit   = IMGKit.new(html, quality: 50, width: params['width'].to_i, height: params['height'].to_i )
         
-        img = Image.read "#{temp_dir}/#{name}.png"
+        img = Image.new "#{temp_dir}/#{name}.jpg"
         thumb = img.scale(125, 125)
-        thumb.write "#{temp_dir}/#{name}_2.png"
+        thumb.write "#{temp_dir}/#{name}_2.jpg"
         # outfile = MiniMagick::Image.open("#{temp_dir}/#{name}.png")
         # outfile.resize "100x100"
         # outfile.write "#{temp_dir}/#{name}_2.png"
@@ -99,7 +99,7 @@ def send_to_s3(file, name)
                                       :secret_access_key => settings.s3_secret
                                     )
   AWS::S3::S3Object.store(
-                            "#{name}.png",
+                            "#{name}.jpg",
                             file,
                             settings.bucket,
                             :access => :public_read
