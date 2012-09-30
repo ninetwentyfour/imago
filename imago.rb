@@ -1,4 +1,4 @@
-%w(rubygems sinatra sinatra-initializers imgkit aws/s3 digest/md5).each{ |g| require g }
+%w(rubygems sinatra sinatra-initializers imgkit aws/s3 digest/md5 haml).each{ |g| require g }
 
 set :bucket, 'screengrab-test'
 set :s3_key, ENV['S3_KEY']
@@ -34,4 +34,7 @@ get '/?' do
   :access_key_id     => settings.s3_key,
   :secret_access_key => settings.s3_secret)
   AWS::S3::S3Object.store("#{name}.png",kit.to_img(:png),settings.bucket,:access => :public_read)
+  
+  @link = "http://screengrab-test.amazonaws.com/#{name}.png"
+  haml :main
 end
