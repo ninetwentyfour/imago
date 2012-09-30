@@ -4,7 +4,7 @@ configure do
   set :s3_secret, ENV['S3_SECRET']
 
   uri = URI.parse(ENV["REDISTOGO_URL"])
-  redis = Redis.new(:host => uri.host, :port => uri.port, :password => uri.password)
+  REDIS = Redis.new(:host => uri.host, :port => uri.port, :password => uri.password)
   
   IMGKit.configure do |config|
     config.wkhtmltoimage = "#{settings.root}/bin/wkhtmltoimage-amd64"

@@ -34,7 +34,7 @@ get '/?' do
   
   html = "http://#{params['website']}"
   name = Digest::MD5.hexdigest("#{params['website']}_#{params['width']}_#{params['height']}")
-  @link = redis.get "#{name}"
+  @link = REDIS.get "#{name}"
   unless @link
     kit   = IMGKit.new(html, quality: 50, width: params['width'].to_i, height: params['height'].to_i )
 
@@ -44,7 +44,7 @@ get '/?' do
     AWS::S3::S3Object.store("#{name}.png",kit.to_img(:png),settings.bucket,:access => :public_read)
   
     @link = "http://screengrab-test.s3.amazonaws.com/#{name}.png"
-    redis.set "#{name}", @link
+    REDIS.set "#{name}", @link
   end
   
   haml :main
