@@ -37,8 +37,6 @@ get '/get_image?' do
     # Try to lookup the hash to see if this image has been created before
     @link = REDIS.get "#{name}"
     unless @link
-      # Create the image.
-      # should set a commen standard here, and resize later with passed params since this actually sets the browser viewport size
       begin
         # Create tmp directory if it doesn't exist
         temp_dir = "#{settings.root}/tmp"
@@ -48,9 +46,9 @@ get '/get_image?' do
         kit   = IMGKit.new(html, quality: 50, width: 1280, height: 720 )
         
         temp_file = "#{temp_dir}/#{name}.jpg"
-        # Resize the screengrab
+        # Resize the screengrab using rmagick
         img = Image.from_blob(kit.to_img(:jpg)).first
-        thumb = img.scale(params['width'].to_i, params['height'].to_i)
+        thumb = img.resize_to_fill(params['width'].to_i, params['height'].to_i)
         thumb.write temp_file
 
         # Store the image on s3.
