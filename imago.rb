@@ -5,7 +5,7 @@
 
 # require the app configs
 require_relative 'config'
-
+include Magick
 
 #### GET /get_image?
 
