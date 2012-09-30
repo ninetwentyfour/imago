@@ -20,10 +20,8 @@
   <body>
       <div id="header">
         <nav>
-          <li class="fork"><a href="https://github.com/ninetwentyfour/imago">View On GitHub</a></li>
-          <li class="downloads"><a href="https://github.com/ninetwentyfour/imago/zipball/master">ZIP</a></li>
-          <li class="downloads"><a href="https://github.com/ninetwentyfour/imago/tarball/master">TAR</a></li>
-          <li class="title">DOWNLOADS</li>
+          <!--<li class="fork"><a href="https://github.com/ninetwentyfour/imago">View On GitHub</a></li>-->
+
         </nav>
       </div><!-- end header -->
 
@@ -34,36 +32,50 @@
           <h1>Imago</h1>
           <p></p>
           <hr>
-          <span class="credits left">Project maintained by <a href="https://github.com/ninetwentyfour">ninetwentyfour</a></span>
-          <span class="credits right">Hosted on GitHub Pages &mdash; Theme by <a href="http://twitter.com/#!/michigangraham">mattgraham</a></span>
+          <span class="credits left">Project maintained by <a href="http://www.travisberry.com">Travis Berry</a></span>
+          <span class="credits right">Theme by <a href="http://twitter.com/#!/michigangraham">mattgraham</a></span>
         </div>
-
-        <h3>Welcome to GitHub Pages.</h3>
-<p><a href="http://ninetwentyfour.github.com/imago/docs/imago.html">Docs</a></p>
-<p>This automatic page generator is the easiest way to create beautiful pages for all of your projects. Author your page content here using GitHub Flavored Markdown, select a template crafted by a designer, and publish. After your page is generated, you can check out the new branch:</p>
-
-<pre><code>$ cd your_repo_root/repo_name
-$ git fetch origin
-$ git checkout gh-pages
-</code></pre>
-
-<p>If you're using the GitHub for Mac, simply sync your repository and you'll see the new branch.</p>
-
-<h3>Designer Templates</h3>
-
-<p>We've crafted some handsome templates for you to use. Go ahead and continue to layouts to browse through them. You can easily go back to edit your page before publishing. After publishing your page, you can revisit the page generator and switch to another theme. Your Page content will be preserved if it remained markdown format.</p>
-
-<h3>Rather Drive Stick?</h3>
-
-<p>If you prefer to not use the automatic generator, push a branch named <code>gh-pages</code> to your repository to create a page manually. In addition to supporting regular HTML content, GitHub Pages support Jekyll, a simple, blog aware static site generator written by our own Tom Preston-Werner. Jekyll makes it easy to create site-wide headers and footers without having to copy them across every page. It also offers intelligent blog support and other advanced templating features.</p>
-
-<h3>Authors and Contributors</h3>
-
-<p>You can <a href="https://github.com/blog/821" class="user-mention">@mention</a> a GitHub username to generate a link to their profile. The resulting <code>&lt;a&gt;</code> element will link to the contributor's GitHub Profile. For example: In 2007, Chris Wanstrath (<a href="https://github.com/defunkt" class="user-mention">@defunkt</a>), PJ Hyett (<a href="https://github.com/pjhyett" class="user-mention">@pjhyett</a>), and Tom Preston-Werner (<a href="https://github.com/mojombo" class="user-mention">@mojombo</a>) founded GitHub.</p>
-
-<h3>Support or Contact</h3>
-
-<p>Having trouble with Pages? Check out the documentation at <a href="http://help.github.com/pages">http://help.github.com/pages</a> or contact <a href="mailto:support@github.com">support@github.com</a> and we’ll help you sort it out.</p>
+				<p>Imago is a simple service to return website thumbnails.</p>
+				<br />
+				<h1 id="api">API</h1>
+				<hr />
+				<h3 id="base-api-url">Base API URL</h3>
+				<p>http://api.imago.in/get_image?</p>
+				<h3 id="required-params">Required Params</h3>
+				<ul>
+				<li><p><code>website</code>: the url you wish to screenshot. Do not include http/https. url should be encoded. (e.g. www.example.com)</p></li>
+				<li><p><code>width</code>: the width of the screen shot. (e.g. 600)</p></li>
+				<li><p><code>height</code>: the height of the screenshot. (e.g. 600)</p></li>
+				<li><p><code>format</code>: the format to respond with. Accepted values are html, json, and image. Use image to inline images (e.g. <code>&lt;img src=&quot;/get_image?format=image&quot; /&gt;</code>)</p></li>
+				</ul>
+				<br />
+				<h1>Usage</h1>
+				<hr />
+				<h3>Use as an image tag!</h3>
+				<p>
+					<pre><code>&lt;img src=&quot;http://api.imago.in/get_image?website=www.travisberry.com&amp;width=320&amp;height=200&amp;format=image&quot; /&gt;</code></pre> 
+				</p>
+				<p>
+					<img src="http://api.imago.in/get_image?website=www.travisberry.com&width=320&height=200&format=image" />
+				</p>
+				<h3>Return JSON!</h3>
+				<p>
+					<pre><code>curl http://api.imago.in/get_image?website=www.travisberry.com&amp;width=320&amp;height=200&amp;format=json</code></pre>
+				</p>
+				<p>
+					Expected Result:
+				</p>
+				<p>
+					<pre><code>{&quot;link&quot;:&quot;http://screengrab-test.s3.amazonaws.com/6b3927a0e37512e2efa3b25cb440a498.jpg&quot;,&quot;website&quot;:&quot;http://www.travisberry.com&quot;}</code></pre>
+				</p>
+				<h3>View the HTML!</h3>
+				<p><a href="http://api.imago.in/get_image?website=www.travisberry.com&amp;width=320&amp;height=200&amp;format=html">http://api.imago.in/get_image?website=www.travisberry.com&amp;width=320&amp;height=200&amp;format=html</a></p>
+				<br />
+				<h1 id="docs">Docs</h1>
+				<hr />
+				<p>View our docs <a href="http://imago.in/docs/imago.html">here</a>.</p>
+				<br />
+        
       </section>
 
     </div>
