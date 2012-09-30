@@ -5,6 +5,7 @@ set :s3_key, ENV['S3_KEY']
 set :s3_secret, ENV['S3_SECRET']
 # register Sinatra::Initializers
 
+# ?website=example.com&width=600&height=600
 get '/?' do
   # take website and sizes as params (maybe jpg or png)
   
@@ -27,7 +28,7 @@ get '/?' do
   
   html = "http://#{params['website']}"
   name = Digest::MD5.hexdigest(html)
-  kit   = IMGKit.new(html)
+  kit   = IMGKit.new(html, quality: 50, width: params['width'].to_i, height: params['height'].to_i )
 
   AWS::S3::Base.establish_connection!(
   :access_key_id     => settings.s3_key,
