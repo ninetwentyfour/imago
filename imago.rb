@@ -40,20 +40,19 @@ get '/get_image?' do
       # Create the image.
       # should set a commen standard here, and resize later with passed params since this actually sets the browser viewport size
       begin
+        # Create tmp directory if it doesn't exist
         temp_dir = "#{settings.root}/tmp"
         Dir.mkdir(temp_dir) unless Dir.exists?(temp_dir)
-        #temp_file = Tempfile.new(["csv_export", '.csv'], temp_dir)
-        #file = File.open("#{temp_dir}/#{name}.jpg", 'w') {|f| f.write(IMGKit.new(html, quality: 50, width: params['width'].to_i, height: params['height'].to_i ).to_img(:jpg)) }
-        #file = Tempfile.new("#{name}.png", "#{settings.root}/tmp")
-        #file.write(IMGKit.new(html, quality: 50, width: params['width'].to_i, height: params['height'].to_i ).to_img(:png))
-              
+        
+        # Capture the screenshot
         kit   = IMGKit.new(html, quality: 50, width: params['width'].to_i, height: params['height'].to_i )
         
         temp_file = "#{temp_dir}/#{name}.jpg"
+        # Resize the screengrab
         img = Image.from_blob(kit.to_img(:jpg)).first
         thumb = img.scale(125, 125)
         thumb.write temp_file
-        #outfile = FastImage.resize(kit.to_img(:png), 50, 50)
+
         # Store the image on s3.
         send_to_s3(temp_file, name)
 
