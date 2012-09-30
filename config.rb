@@ -1,3 +1,5 @@
+#### App Configs
+
 configure do
   # s3 configs
   set :bucket, 'screengrab-test'
