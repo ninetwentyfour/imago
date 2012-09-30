@@ -19,9 +19,12 @@ include Magick
 #
 # * `height`: the height of the screenshot. (e.g. 600)
 #
+# * `format`: the format to respond with. Accepted values are html, json, and image.
+#    Use image to inline images (e.g. <img src="/get_image?format=image" />)
+#
 # _EXAMPLE_:
 #
-# /get_image?website=www.example.com&width=600&height=600
+# /get_image?website=www.example.com&width=600&height=600&format=image
 get '/get_image?' do
   
   @errors = validate(params)
@@ -67,7 +70,7 @@ get '/get_image?' do
   end
   
   # Render the main.haml view
-  if !params.has_key?('format')
+  if params['format'] == "html"
     haml :main
   elsif params['format'] == "json"
     content_type :json
