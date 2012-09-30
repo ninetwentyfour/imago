@@ -6,9 +6,6 @@
 # require the app configs
 require_relative 'config'
 
-ENV['INLINEDIR'] = settings.root + "/tmp"  # for RubyInline
-#{RAILS_ROOT}/tmp/myfile_#{Process.pid}
-
 
 #### GET /get_image?
 
@@ -45,7 +42,9 @@ get '/get_image?' do
       begin
         kit   = IMGKit.new(html, quality: 50, width: params['width'].to_i, height: params['height'].to_i )
         
-        outfile = FastImage.resize(kit.to_img(:png), 50, 50)
+        outfile = MiniMagick::Image.open(kit.to_img(:png))
+        outfile.resize "100x100"
+        #outfile = FastImage.resize(kit.to_img(:png), 50, 50)
         
         # Store the image on s3.
         send_to_s3(outfile, name)
