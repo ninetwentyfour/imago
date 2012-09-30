@@ -67,7 +67,7 @@ get '/get_image?' do
   end
   
   # Render the main.haml view
-  if !given? params['format']
+  if !given? params[:format]
     haml :main
   elsif params['format'] == "json"
     content_type :json
