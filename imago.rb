@@ -40,7 +40,7 @@ get '/get_image?' do
       # Create the image.
       # should set a commen standard here, and resize later with passed params since this actually sets the browser viewport size
       #begin
-        file = Tempfile.new("#{name}", './tmp')
+        file = Tempfile.new("#{name}.png", "#{settings.root}/tmp")
         file.write(IMGKit.new(html, quality: 50, width: params['width'].to_i, height: params['height'].to_i ).to_png)
               
         #kit   = IMGKit.new(html, quality: 50, width: params['width'].to_i, height: params['height'].to_i )
