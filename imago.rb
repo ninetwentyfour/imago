@@ -96,7 +96,7 @@ def respond(link, params)
 
     # set headers accordingly (all that apply)
     headers 'Content-Type' => head['Content-Type']
-    headers 'Cache-Control' => head['Cache-Control']
+    headers 'Cache-Control' => "max-age=2592000, no-transform, public"
 
     # stream back the contents
     stream do |out|
