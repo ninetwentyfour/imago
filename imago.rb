@@ -62,7 +62,7 @@ get '/get_image?' do
       end
       # Save in redis for re-use later.
       REDIS.set "#{name}", @link
-      REDIS.expire "#{name}", 60
+      REDIS.expire "#{name}", 1209600
     end
   else
     @link = "http://d29sc4udwyhodq.cloudfront.net/not_found.jpg"
