@@ -1,0 +1,10 @@
+language: ruby
+rvm:
+  - "1.9.3"
+# env:
+#   global:
+#     - secure: <encrypted string here>
+#     - TIMEOUT=1000
+# uncomment this line if your project needs to run something other than `rake`:
+script: bundle exec rspec spec
+

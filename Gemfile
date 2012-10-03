@@ -11,3 +11,8 @@ gem "rmagick", "2.12.0"
 gem "json"
 gem "newrelic_rpm"
 gem "sinatra-jsonp"
+
+group :development,:test do
+  gem 'rspec'
+  gem 'rack-test'
+end
