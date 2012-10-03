@@ -8,9 +8,7 @@ require_relative 'config'
 include Magick
 
 #JSONP
-# require 'rack'
-# require 'rack/contrib'
-# use Rack::JSONP
+require "sinatra/jsonp"
 
 #### GET /get_image?
 
@@ -89,8 +87,10 @@ def respond(link, params)
   if params['format'] == "html"
     haml :main
   elsif params['format'] == "json"
-    content_type :json
-    { :link => @link, :website => "http://#{params['website']}" }.to_json
+    # content_type :json
+    # { :link => @link, :website => "http://#{params['website']}" }.to_json
+    data = { :link => @link, :website => "http://#{params['website']}" }.to_json
+    JSONP data      # JSONP is an alias for jsonp method
   elsif params['format'] == "image" 
     uri = URI(@link)
 
