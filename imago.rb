@@ -8,9 +8,9 @@ require_relative 'config'
 include Magick
 
 #JSONP
-require 'rack'
-require 'rack/contrib'
-use Rack::JSONP
+# require 'rack'
+# require 'rack/contrib'
+# use Rack::JSONP
 
 #### GET /get_image?
 
