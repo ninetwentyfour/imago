@@ -92,11 +92,11 @@ def respond(link, params)
     data = { :link => @link, :website => "http://#{params['website']}" }
     JSONP data      # JSONP is an alias for jsonp method
   elsif params['format'] == "image" 
+    @link = @link.sub("https://", 'http://')
     uri = URI(@link)
 
     # get only header data
     head = Net::HTTP.start(uri.host, uri.port) do |http|
-      http.use_ssl = true
       http.head(uri.request_uri)
     end
 
@@ -108,7 +108,6 @@ def respond(link, params)
     # stream back the contents
     stream do |out|
       Net::HTTP.get_response(uri) do |f| 
-        f.use_ssl = true
         f.read_body { |ch| out << ch }
       end
     end
