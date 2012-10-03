@@ -12,6 +12,8 @@ GEM
     mime-types (1.19)
     newrelic_rpm (3.4.2.1)
     rack (1.4.1)
+    rack-contrib (1.1.0)
+      rack (>= 0.9.1)
     rack-protection (1.2.0)
       rack
     redis (3.0.1)
@@ -34,6 +36,7 @@ DEPENDENCIES
   imgkit
   json
   newrelic_rpm
+  rack-contrib
   redis
   rmagick (= 2.12.0)
   shotgun

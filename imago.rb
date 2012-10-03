@@ -3,6 +3,10 @@
 # Write out all requires from gems
 %w(rubygems sinatra imgkit aws/s3 digest/md5 haml redis open-uri RMagick json newrelic_rpm).each{ |g| require g }
 
+#JSONP
+require 'rack/contrib/jsonp'
+use Rack::JSONP
+
 # require the app configs
 require_relative 'config'
 include Magick
