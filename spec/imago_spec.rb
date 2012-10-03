@@ -1,3 +1,4 @@
+#
 require File.join(File.dirname(__FILE__), '../imago.rb')
 require 'rspec'
 require 'rack/test'
