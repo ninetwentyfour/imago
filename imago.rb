@@ -59,16 +59,16 @@ get '/get_image?' do
         send_to_s3(temp_file, name)
 
         # Create the link.
-        @link = "http://d29sc4udwyhodq.cloudfront.net/#{name}.jpg"
+        @link = "https://d29sc4udwyhodq.cloudfront.net/#{name}.jpg"
       rescue Exception => exception
-        @link = "http://d29sc4udwyhodq.cloudfront.net/not_found.jpg"
+        @link = "https://d29sc4udwyhodq.cloudfront.net/not_found.jpg"
       end
       # Save in redis for re-use later.
       REDIS.set "#{name}", @link
       REDIS.expire "#{name}", 1209600
     end
   else
-    @link = "http://d29sc4udwyhodq.cloudfront.net/not_found.jpg"
+    @link = "https://d29sc4udwyhodq.cloudfront.net/not_found.jpg"
   end
   
   respond(@link, params)
