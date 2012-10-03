@@ -34,4 +34,11 @@ describe 'Imago' do
       last_response.should be_ok
       last_response.body.should == '{"link":"http://d29sc4udwyhodq.cloudfront.net/6b3927a0e37512e2efa3b25cb440a498.jpg","website":"http://www.travisberry.com"}'
     end
+    
+    it "returns a image response for a valid url" do
+      get '/get_image?website=www.travisberry.com&width=320&height=200&format=image'
+      last_response.should be_ok
+      last_response.header.should == {"Content-Type"=>"image/jpeg"}
+      last_response.body.should == '{"link":"http://d29sc4udwyhodq.cloudfront.net/6b3927a0e37512e2efa3b25cb440a498.jpg","website":"http://www.travisberry.com"}'
+    end
 end
