@@ -2,7 +2,6 @@
 require File.join(File.dirname(__FILE__), '../imago.rb')
 require 'rspec'
 require 'rack/test'
-require 'rspec_candy/all'
 
 set :environment, :test
 
