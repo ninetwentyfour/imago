@@ -39,6 +39,6 @@ describe 'Imago' do
     it "returns a image response for a valid url" do
       get '/get_image?website=www.travisberry.com&width=320&height=200&format=image'
       last_response.should be_ok
-      last_response.header.should include_hash("Content-Type"=>"image/jpeg")
+      last_response.header.should == {"Content-Type"=>"image/jpeg", "X-Frame-Options"=>"sameorigin", "X-XSS-Protection"=>"1; mode=block", "Cache-Control"=>"max-age=2592000, no-transform, public", "Expires"=>"Thu, 29 Sep 2022 01:22:54 GMT+00:00", "Content-Length"=>"11120"}
     end
 end

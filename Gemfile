@@ -15,5 +15,4 @@ gem "sinatra-jsonp"
 group :development,:test do
   gem 'rspec'
   gem 'rack-test'
-  gem 'rspec_candy'
 end
