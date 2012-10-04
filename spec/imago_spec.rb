@@ -25,6 +25,7 @@ describe 'Imago' do
     
     it "validates bad params" do
       params = {
+        'website' => '',
         'width' => '600',
         'height' => '600',
         'format' => 'json'
@@ -55,7 +56,7 @@ describe 'Imago' do
     it "returns a html response for a valid url" do
       get '/get_image?website=www.travisberry.com&width=320&height=200&format=html'
       last_response.should be_ok
-      last_response.header["Content-Type"].should == "text/html"
+      last_response.header["Content-Type"].should == "text/html;charset=utf-8"
       assigns(:link).should_not be_blank
     end
 end

@@ -87,7 +87,7 @@ def respond(link, params)
   if params['format'] == "html"
     haml :main
   elsif params['format'] == "json"
-    # content_type :json
+    content_type :json
     # { :link => @link, :website => "http://#{params['website']}" }.to_json
     data = { :link => @link, :website => "http://#{params['website']}" }
     JSONP data      # JSONP is an alias for jsonp method
