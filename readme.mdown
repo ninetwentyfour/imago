@@ -1,6 +1,8 @@
 Imago
 ====
 
+[![Build Status](https://secure.travis-ci.org/ninetwentyfour/imago.png)](http://travis-ci.org/ninetwentyfour/imago)
+
 Imago is a simple service to return website thumbnails.
 
 API
