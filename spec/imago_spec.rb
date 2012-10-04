@@ -23,6 +23,16 @@ describe 'Imago' do
       @errors.should == {}
     end
     
+    it "validates bad params" do
+      params = {
+        'width' => '600',
+        'height' => '600',
+        'format' => 'json'
+      }
+      @errors = validate(params)
+      @errors.should_not == {}
+    end
+    
     
     it "uploads a file to amazon s3" do
       file = './spec/thug_life.jpeg'
