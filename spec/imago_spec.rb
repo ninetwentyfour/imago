@@ -43,7 +43,7 @@ describe 'Imago' do
     it "should set @link" do
       get '/get_image?website=www.travisberry.com&width=320&height=200&format=json'
       last_response.should be_ok
-      app_instance.instance_variable_get('@link').should be_true
+      app.instance_variable_get('@link').should be_true
     end
     
     it "returns a json response for a valid url" do
