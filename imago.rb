@@ -7,9 +7,6 @@
 require_relative 'config'
 include Magick
 
-#JSONP
-# require "sinatra/jsonp"
-
 #### GET /get_image?
 
 # `/get_image?` takes a list of params.
