@@ -1,14 +1,14 @@
 #### Requires
 
 # Write out all requires from gems
-%w(rubygems sinatra imgkit aws/s3 digest/md5 haml redis open-uri RMagick json newrelic_rpm).each{ |g| require g }
+%w(rubygems sinatra imgkit aws/s3 digest/md5 haml redis open-uri RMagick json newrelic_rpm sinatra/jsonp).each{ |g| require g }
 
 # require the app configs
 require_relative 'config'
 include Magick
 
 #JSONP
-require "sinatra/jsonp"
+# require "sinatra/jsonp"
 
 #### GET /get_image?
 
@@ -88,7 +88,6 @@ def respond(link, params)
     haml :main
   elsif params['format'] == "json"
     content_type :json
-    # { :link => @link, :website => "http://#{params['website']}" }.to_json
     data = { :link => @link, :website => "http://#{params['website']}" }
     JSONP data      # JSONP is an alias for jsonp method
   elsif params['format'] == "image" 
