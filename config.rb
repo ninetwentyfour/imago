@@ -14,4 +14,15 @@ configure do
   IMGKit.configure do |config|
     config.wkhtmltoimage = "#{settings.root}/bin/wkhtmltoimage-amd64"
   end
+  
+  if ENV['RACK_ENV'] == 'production'
+    # airbrake configs
+    Airbrake.configure do |config|
+      config.api_key = ENV['AIRBRAKE_API_KEY']
+    end
+  
+    # use airbrake errors
+    use Airbrake::Rack
+    enable :raise_errors
+  end
 end
