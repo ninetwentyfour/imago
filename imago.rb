@@ -80,33 +80,40 @@ end
 # Respond to request
 def respond(link, params)
   @link = link
-  # Respond based on format
-  if params['format'] == "html"
-    haml :main
-  elsif params['format'] == "json"
+  if params['format']
+    # Respond based on format
+    if params['format'] == "html"
+      haml :main
+    elsif params['format'] == "json"
+      content_type :json
+      data = { :link => @link, :website => "http://#{params['website']}" }
+      JSONP data      # JSONP is an alias for jsonp method
+    elsif params['format'] == "image" 
+      @link = @link.sub("https://", 'http://')
+      uri = URI(@link)
+
+      # get only header data
+      head = Net::HTTP.start(uri.host, uri.port) do |http|
+        http.head(uri.request_uri)
+      end
+
+      # set headers accordingly (all that apply)
+      headers 'Content-Type' => head['Content-Type']
+      headers 'Cache-Control' => "max-age=2592000, no-transform, public"
+      headers 'Expires' => "Thu, 29 Sep 2022 01:22:54 GMT+00:00"
+
+      # stream back the contents
+      stream do |out|
+        Net::HTTP.get_response(uri) do |f| 
+          f.read_body { |ch| out << ch }
+        end
+      end
+    end
+  else
+    # Default to json if no format.
     content_type :json
     data = { :link => @link, :website => "http://#{params['website']}" }
     JSONP data      # JSONP is an alias for jsonp method
-  elsif params['format'] == "image" 
-    @link = @link.sub("https://", 'http://')
-    uri = URI(@link)
-
-    # get only header data
-    head = Net::HTTP.start(uri.host, uri.port) do |http|
-      http.head(uri.request_uri)
-    end
-
-    # set headers accordingly (all that apply)
-    headers 'Content-Type' => head['Content-Type']
-    headers 'Cache-Control' => "max-age=2592000, no-transform, public"
-    headers 'Expires' => "Thu, 29 Sep 2022 01:22:54 GMT+00:00"
-
-    # stream back the contents
-    stream do |out|
-      Net::HTTP.get_response(uri) do |f| 
-        f.read_body { |ch| out << ch }
-      end
-    end
   end
 end
 
@@ -119,22 +126,22 @@ def validate(params)
   errors = {}
   
   # Make sure the website is a passed in param.
-  if !given? params['website']
+  unless params['website'] && given?(params['website'])
     errors['website']   = "This field is required"
   end
   
   # Make sure the width is a passed in param.
-  if !given? params['width']
+  unless params['width'] && given?(params['width'])
     errors['width']   = "This field is required"
   end
   
   # Make sure the height is a passed in param.
-  if !given? params['height']
+  unless params['height'] && given?(params['height'])
     errors['height']   = "This field is required"
   end
   
   # Make sure the format is a passed in param.
-  if !given? params['format']
+  unless params['format'] && given?(params['format'])
     errors['format']   = "This field is required"
   end
 
