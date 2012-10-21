@@ -5,6 +5,51 @@ Imago
 
 Imago is a simple service to return website thumbnails.
 
+Installation
+====
+
+Imago works best when deployed to Heroku. It requires a Amazon s3 account and an Airbrake account.
+
+First download the latest imago source.
+
+    git clone https://github.com/ninetwentyfour/imago.git
+
+    cd imago
+
+You should have the heroku command available if you've installed the heroku gem correctly. You can read the [Heroku help](https://devcenter.heroku.com/articles/heroku-command) for configuring the gem once it's installed.
+
+Create a new Heroku application.
+
+    heroku create
+
+You will need to add the Redis to Go addon (this requires a verified account).
+
+    heroku addons:add redistogo:nano
+
+(please note that the nano plan does not include persistence)
+
+Using the Airbrake addon is highly recommended as well.
+
+    heroku addons:add airbrake
+
+(This adds the the developer plan. If you’d like another plan, specify that instead.)
+
+You will also need to set a couple configuration variables.
+
+    heroku config:add S3_KEY=YOUR_S3_KEY
+
+    heroku config:add S3_SECRET=YOUR_S3_SECRET
+
+    heroku config:add S3_BUCKET=YOUR_S3_BUCKET
+
+After the configuration variables are added, you can deploy the app.
+
+    git push heroku master
+
+When the deploy is finished, you can test the install with
+
+    curl http://YOUR_HEROKU_APP_URL/get_image?website=www.reddit.com&width=320&height=200&format=json
+
 API
 ====
 
@@ -29,18 +74,22 @@ Usage
 
 Use as an image tag!
 ----
-`<img src="http://api.imago.in/get_image?website=www.travisberry.com&width=320&height=200&format=image" />`
-<img src="http://api.imago.in/get_image?website=www.travisberry.com&width=320&height=200&format=image" />
+`<img src="http://api.imago.in/get_image?website=www.reddit.com&width=320&height=200&format=image" />`
+<img src="http://api.imago.in/get_image?website=www.reddit.com&width=320&height=200&format=image" />
 
 Return JSON!
 ----
-`curl http://api.imago.in/get_image?website=www.travisberry.com&width=320&height=200&format=json`
+`curl http://api.imago.in/get_image?website=www.reddit.com&width=320&height=200&format=json`
+
 Expected Result:
-`{"link":"https://d29sc4udwyhodq.cloudfront.net/6b3927a0e37512e2efa3b25cb440a498.jpg","website":"http://www.travisberry.com"}`
+
+`{"link":"https://d29sc4udwyhodq.cloudfront.net/309d0aa8f6edbe57b4d09630ec592f57.jpg","website":"http://www.reddit.com"}`
+
+Also available with jsonp.
 
 View the HTML!
 ----
-[http://api.imago.in/get_image?website=www.travisberry.com&width=320&height=200&format=html](http://api.imago.in/get_image?website=www.travisberry.com&width=320&height=200&format=json)
+[http://api.imago.in/get_image?website=www.reddit.com&width=320&height=200&format=html](http://api.imago.in/get_image?website=www.reddit.com&width=320&height=200&format=json)
 
 Docs
 ====
