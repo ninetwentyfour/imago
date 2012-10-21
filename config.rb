@@ -2,7 +2,7 @@
 
 configure do
   # s3 configs
-  set :bucket, 'static.imago.in'
+  set :bucket, ENV['S3_BUCKET']
   set :s3_key, ENV['S3_KEY']
   set :s3_secret, ENV['S3_SECRET']
   
