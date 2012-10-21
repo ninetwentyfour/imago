@@ -53,13 +53,11 @@ When the deploy is finished, you can test the install with
 API
 ====
 
-Base API URL
-----
+##### Base API URL
 
 http://api.imago.in/get_image?
 
-Required Params
-----
+##### Required Params
 
 - `website`: the url you wish to screenshot. Do not include http/https. url should be encoded. (e.g. www.example.com)
 
@@ -72,13 +70,13 @@ Required Params
 Usage
 ====
 
-Use as an image tag!
-----
+##### Use as an image tag!
+
 `<img src="http://api.imago.in/get_image?website=www.reddit.com&width=320&height=200&format=image" />`
 <img src="http://api.imago.in/get_image?website=www.reddit.com&width=320&height=200&format=image" />
 
-Return JSON!
-----
+##### Return JSON!
+
 `curl http://api.imago.in/get_image?website=www.reddit.com&width=320&height=200&format=json`
 
 Expected Result:
@@ -87,8 +85,8 @@ Expected Result:
 
 Also available with jsonp.
 
-View the HTML!
-----
+##### View the HTML!
+
 [http://api.imago.in/get_image?website=www.reddit.com&width=320&height=200&format=html](http://api.imago.in/get_image?website=www.reddit.com&width=320&height=200&format=json)
 
 Docs
