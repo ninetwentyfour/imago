@@ -198,7 +198,7 @@ end
 
 def http_get(file, name)
   # get the fiber our browser request is being processed in
-  calling_fiber = Fiber.current
+  calling_fiber = Fiber.new
 
   # make an async request
   # EventMachine queues the http.callback block and executes it at some point after the http request returns
