@@ -56,6 +56,11 @@ get '/get_image?' do
         # Store the image on s3.
         # send_to_s3(temp_file, name)
         http_get(temp_file, name)
+        # @all_threads = Queue.new
+        # t = Thread.new do
+        #   send_to_s3(temp_file, name)
+        # end
+        # @all_threads << t
 
         # Create the link.
         @link = "http://static-stage.imago.in.s3.amazonaws.com/#{name}.jpg"
@@ -69,7 +74,9 @@ get '/get_image?' do
   else
     @link = "https://d29sc4udwyhodq.cloudfront.net/not_found.jpg"
   end
-  
+  # @all_threads.each do |t|
+  #   t.join if t.alive?
+  # end
   respond(@link, params)
 end
 
@@ -209,17 +216,17 @@ def http_get(file, name)
   headers = {'Cache-Control' => "max-age=252460800", 
              'Content-Type' => 'image/jpeg', 
              'Expires' => 'Fri, 16 Nov 2018 22:09:29 GMT'}
-  on_error = Proc.new {|http| logger.info "amazon error"; EM.stop }
-  on_success = Proc.new {|http| calling_fiber.resume(http) }
+  # on_error = Proc.new {|http| logger.info "amazon error"; EM.stop }
+  # on_success = Proc.new {|http| calling_fiber.resume(http) }
   item = Happening::S3::Item.new( settings.bucket, "#{name}.jpg",
                                   :aws_access_key_id => settings.s3_key, 
                                   :aws_secret_access_key => settings.s3_secret,
                                   :permissions => 'public-read'
                                 )
-  item.put( File.read(file), :on_error => on_error, :on_success => on_success, :headers => headers ) do |response|
+  item.put( File.read(file), :on_error => on_error, :headers => headers ) do |response|
     logger.info "trying uload"
     puts "Upload finished!"
-    calling_fiber.resume(item)
+    calling_fiber.resume(response)
   end
   
 
