@@ -40,19 +40,10 @@ get '/get_image?' do
         url = "http://#{params['website']}"
         
         # Generate the image.
-        # img = generate_image(url)
+        img = generate_image(url)
 
         # Store the image on s3.
-        # send_to_s3(img, name)
-        # send_to_s3(temp_file, name)
-        # if params['format'] == "image" 
-        #   send_to_s3(temp_file, name)
-        # else
-          Thread.start do
-            img = generate_image(url)
-            send_to_s3(img, name)
-          end
-        # end
+        send_to_s3(img, name)
 
         # Create the link url.
         @link = "#{settings.base_link_url}#{name}.jpg"
