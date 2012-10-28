@@ -1,12 +1,11 @@
 #### Requires
 
 # Write out all requires from gems
-%w(rubygems sinatra imgkit aws/s3 digest/md5 haml redis open-uri mini_magick json airbrake newrelic_rpm sinatra/jsonp).each{ |g| require g }
+%w(rubygems sinatra imgkit aws/s3 digest/md5 haml redis open-uri RMagick json airbrake newrelic_rpm sinatra/jsonp).each{ |g| require g }
 
 # require the app configs
 require_relative 'config'
-# include Magick
-include MiniMagick
+include Magick
 
 #### GET /get_image?
 
@@ -39,7 +38,7 @@ get '/get_image?' do
     # Try to lookup the hash to see if this image has been created before
     @link = REDIS.get "#{name}"
     unless @link
-      # begin
+      begin
         # Create tmp directory if it doesn't exist
         temp_dir = "#{settings.root}/tmp"
         Dir.mkdir(temp_dir) unless Dir.exists?(temp_dir)
@@ -58,10 +57,10 @@ get '/get_image?' do
         send_to_s3(temp_file, name)
 
         # Create the link.
-        @link = "https://d29sc4udwyhodq.cloudfront.net/#{name}.jpg"
-      # rescue Exception => exception
-      #   @link = "https://d29sc4udwyhodq.cloudfront.net/not_found.jpg"
-      # end
+        @link = "http://static-stage.imago.in.s3.amazonaws.com/#{name}.jpg"
+      rescue Exception => exception
+        @link = "https://d29sc4udwyhodq.cloudfront.net/not_found.jpg"
+      end
       # Save in redis for re-use later.
       REDIS.set "#{name}", @link
       REDIS.expire "#{name}", 1209600
