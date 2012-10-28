@@ -1,7 +1,7 @@
 #### Requires
 
 # Write out all requires from gems
-%w(rubygems sinatra imgkit aws/s3 digest/md5 haml redis open-uri RMagick json airbrake newrelic_rpm sinatra/jsonp).each{ |g| require g }
+%w(rubygems sinatra imgkit happening digest/md5 haml redis open-uri RMagick json airbrake newrelic_rpm sinatra/jsonp).each{ |g| require g }
 
 # require the app configs
 require_relative 'config'
@@ -38,7 +38,7 @@ get '/get_image?' do
     # Try to lookup the hash to see if this image has been created before
     @link = REDIS.get "#{name}"
     unless @link
-      # begin
+      begin
         # Create tmp directory if it doesn't exist
         temp_dir = "#{settings.root}/tmp"
         Dir.mkdir(temp_dir) unless Dir.exists?(temp_dir)
@@ -55,17 +55,12 @@ get '/get_image?' do
 
         # Store the image on s3.
         send_to_s3(temp_file, name)
-        
-        # free up RAM
-        # img.flush if img
-        # thumb.flush if thumb
-        temp_file.flush if temp_file
 
         # Create the link.
         @link = "http://static-stage.imago.in.s3.amazonaws.com/#{name}.jpg"
-      # rescue Exception => exception
-      #   @link = "https://d29sc4udwyhodq.cloudfront.net/not_found.jpg"
-      # end
+      rescue Exception => exception
+        @link = "https://d29sc4udwyhodq.cloudfront.net/not_found.jpg"
+      end
       # Save in redis for re-use later.
       REDIS.set "#{name}", @link
       REDIS.expire "#{name}", 1209600
@@ -171,14 +166,26 @@ end
 #
 # Store the image on s3.
 def send_to_s3(file, name)
-  AWS::S3::Base.establish_connection!(
-                                      :access_key_id     => settings.s3_key,
-                                      :secret_access_key => settings.s3_secret
-                                    )
-  AWS::S3::S3Object.store(
-                            "#{name}.jpg",
-                            open(file),
-                            settings.bucket,
-                            :access => :public_read
-                          )
+  # AWS::S3::Base.establish_connection!(
+  #                                     :access_key_id     => settings.s3_key,
+  #                                     :secret_access_key => settings.s3_secret
+  #                                   )
+  # AWS::S3::S3Object.store(
+  #                           "#{name}.jpg",
+  #                           open(file),
+  #                           settings.bucket,
+  #                           :access => :public_read
+  #                         )
+  EM.run do
+    on_error = Proc.new {|http| puts "An error occured: #{http.response_header.status}"; EM.stop }
+    item = Happening::S3::Item.new( settings.bucket, 
+                                    :aws_access_key_id => settings.s3_key, 
+                                    :aws_secret_access_key => settings.s3_secret, 
+                                    :on_success => on_success, 
+                                    :on_error => on_error
+                                  )
+    item.put( File.read(file), :on_error => on_error ) do |response|
+      puts "Upload finished!"; EM.stop 
+    end
+  end
 end
