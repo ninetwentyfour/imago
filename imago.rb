@@ -58,13 +58,13 @@ get '/get_image?' do
 
         # Store the image on s3.
         # send_to_s3(temp_file, name)
-        if params['format'] == "image" 
-          send_to_s3(temp_file, name)
-        else
-          Thread.start do
+        # if params['format'] == "image" 
+        #   send_to_s3(temp_file, name)
+        # else
+        #   Thread.start do
             send_to_s3(img, name)
-          end
-        end
+        #   end
+        # end
 
         # Create the link.
         @link = "http://static-stage.imago.in.s3.amazonaws.com/#{name}.jpg"
