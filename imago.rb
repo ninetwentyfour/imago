@@ -70,6 +70,7 @@ get '/get_image?' do
         # Create the link.
         @link = "http://static-stage.imago.in.s3.amazonaws.com/#{name}.jpg"
       rescue Exception => exception
+        logger.error "Rescued Error Creating and Uploading Image: #{exception}"
         @link = "https://d29sc4udwyhodq.cloudfront.net/not_found.jpg"
       end
       # Save in redis for re-use later.
@@ -77,6 +78,7 @@ get '/get_image?' do
       REDIS.expire "#{name}", 1209600
     end
   else
+    logger.info "Setting link to not found because of bad params: #{@errors.inspect}"
     @link = "https://d29sc4udwyhodq.cloudfront.net/not_found.jpg"
   end
   # flickr_thread = Thread.start do
@@ -112,7 +114,8 @@ def respond(link, params)
       content_type :json
       data = { :link => @link, :website => "http://#{params['website']}" }
       JSONP data      # JSONP is an alias for jsonp method
-    elsif params['format'] == "image" 
+    elsif params['format'] == "image"
+      #TODO do all of this in a begin block
       @link = @link.sub("https://", 'http://')
       uri = URI(@link)
 
