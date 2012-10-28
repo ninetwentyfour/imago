@@ -61,9 +61,7 @@ get '/get_image?' do
           send_to_s3(temp_file, name)
         end
         @all_threads << t
-        @all_threads.each do |t|
-          t.join if t.alive?
-        end
+        @all_threads.join
 
         # Create the link.
         @link = "http://static-stage.imago.in.s3.amazonaws.com/#{name}.jpg"
