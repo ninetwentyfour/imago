@@ -177,6 +177,7 @@ def send_to_s3(file, name)
   #                           :access => :public_read
   #                         )
   EM.run do
+    file = "#{settings.root}/bin/big_image.jpeg"
     headers = {'Cache-Control' => "max-age=252460800", 
                'Content-Type' => 'image/jpeg', 
                'Expires' => 'Fri, 16 Nov 2018 22:09:29 GMT'}
