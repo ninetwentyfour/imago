@@ -177,6 +177,9 @@ def send_to_s3(file, name)
   #                           :access => :public_read
   #                         )
   EM.run do
+    headers = {'Cache-Control' => "max-age=252460800", 
+               'Content-Type' => 'image/jpeg', 
+               'Expires' => 'Fri, 16 Nov 2018 22:09:29 GMT'}
     on_error = Proc.new {|http| logger.info "amazon error"; EM.stop }
     on_success = Proc.new {|http| logger.info "the response is: #{http.response}"; EM.stop }
     item = Happening::S3::Item.new( settings.bucket, "#{name}.jpg",
@@ -184,7 +187,7 @@ def send_to_s3(file, name)
                                     :aws_secret_access_key => settings.s3_secret,
                                     :permissions => 'public-read'
                                   )
-    item.put( File.read(file), :on_error => on_error ) do |response|
+    item.put( File.read(file), :on_error => on_error, :headers => headers ) do |response|
       logger.info "trying uload"
       puts "Upload finished!"; EM.stop 
     end
