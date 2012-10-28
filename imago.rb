@@ -56,12 +56,12 @@ get '/get_image?' do
         # Store the image on s3.
         # send_to_s3(temp_file, name)
         # http_get(temp_file, name)
-        @all_threads = Queue.new
+        # @all_threads = Queue.new
         t = Thread.new do
           send_to_s3(temp_file, name)
         end
-        @all_threads << t
-        @all_threads.join
+        # @all_threads << t
+        # @all_threads.join
 
         # Create the link.
         @link = "http://static-stage.imago.in.s3.amazonaws.com/#{name}.jpg"
