@@ -48,7 +48,7 @@ get '/get_image?' do
         # if params['format'] == "image" 
         #   send_to_s3(temp_file, name)
         # else
-          Thread.start do
+          thread = Thread.start do
             img = generate_image(url)
             send_to_s3(img, name)
           end
@@ -68,7 +68,7 @@ get '/get_image?' do
     logger.info "Setting link to not found because of bad params: #{@errors.inspect}"
     @link = "#{settings.base_link_url}not_found.jpg"
   end
-  
+  thread.join
   # Respond to request
   respond(@link, params)
 end
