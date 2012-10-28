@@ -62,7 +62,7 @@ get '/get_image?' do
         #   send_to_s3(temp_file, name)
         # else
         #   Thread.start do
-            send_to_s3(img, name)
+            send_to_s3(img.to_blob, name)
         #   end
         # end
 
