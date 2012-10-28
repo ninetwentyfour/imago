@@ -38,39 +38,40 @@ get '/get_image?' do
     # Try to lookup the hash to see if this image has been created before
     @link = REDIS.get "#{name}"
     unless @link
-      # begin
+      begin
         # Create tmp directory if it doesn't exist
         # temp_dir = "#{settings.root}/tmp"
         # Dir.mkdir(temp_dir) unless Dir.exists?(temp_dir)
         
         # Capture the screenshot
-        kit   = IMGKit.new(html, quality: 90, width: 1280, height: 720 )
-        
-        # temp_file = "#{temp_dir}/#{name}.jpg"
-        # Resize the screengrab using rmagick
-        img = Image.from_blob(kit.to_img(:jpg)).first
-        # thumb = img.sample(params['width'].to_i, params['height'].to_i)
-        # thumb = img.thumbnail(params['width'].to_i, params['height'].to_i)
-        img.resize_to_fill!(params['width'].to_i, params['height'].to_i)
+        # kit   = IMGKit.new(html, quality: 90, width: 1280, height: 720 )
+        # 
+        # # temp_file = "#{temp_dir}/#{name}.jpg"
+        # # Resize the screengrab using rmagick
+        # img = Image.from_blob(kit.to_img(:jpg)).first
+        # # thumb = img.sample(params['width'].to_i, params['height'].to_i)
+        # # thumb = img.thumbnail(params['width'].to_i, params['height'].to_i)
+        # img.resize_to_fill!(params['width'].to_i, params['height'].to_i)
         # img.write temp_file
+        img = generate_image(html)
         
         # Image.from_blob(kit.to_img(:jpg)).first.resize_to_fill(params['width'].to_i, params['height'].to_i).write temp_file
 
         # Store the image on s3.
         # send_to_s3(temp_file, name)
-        # if params['format'] == "image" 
-        #   send_to_s3(temp_file, name)
-        # else
-        #   Thread.start do
+        if params['format'] == "image" 
+          send_to_s3(temp_file, name)
+        else
+          Thread.start do
             send_to_s3(img.to_blob, name)
-        #   end
-        # end
+          end
+        end
 
         # Create the link.
         @link = "http://static-stage.imago.in.s3.amazonaws.com/#{name}.jpg"
-      # rescue Exception => exception
-      #   @link = "https://d29sc4udwyhodq.cloudfront.net/not_found.jpg"
-      # end
+      rescue Exception => exception
+        @link = "https://d29sc4udwyhodq.cloudfront.net/not_found.jpg"
+      end
       # Save in redis for re-use later.
       REDIS.set "#{name}", @link
       REDIS.expire "#{name}", 1209600
@@ -187,7 +188,7 @@ end
 # * `name`: the name to use for the file.
 #
 # Store the image on s3.
-def send_to_s3(file, name)
+def send_to_s3(img, name)
   AWS::S3::Base.establish_connection!(
                                       :access_key_id     => settings.s3_key,
                                       :secret_access_key => settings.s3_secret
@@ -200,7 +201,7 @@ def send_to_s3(file, name)
   #                         )
   AWS::S3::S3Object.store(
                             "#{name}.jpg",
-                            file,
+                            img,
                             settings.bucket,
                             :access => :public_read
                           )
@@ -221,4 +222,17 @@ def send_to_s3(file, name)
   #     puts "Upload finished!"; EM.stop 
   #   end
   # end
+end
+
+def generate_image(html)
+  # Capture the screenshot
+  kit   = IMGKit.new(html, quality: 90, width: 1280, height: 720 )
+  
+  # temp_file = "#{temp_dir}/#{name}.jpg"
+  # Resize the screengrab using rmagick
+  img = Image.from_blob(kit.to_img(:jpg)).first
+  # thumb = img.sample(params['width'].to_i, params['height'].to_i)
+  # thumb = img.thumbnail(params['width'].to_i, params['height'].to_i)
+  img.resize_to_fill!(params['width'].to_i, params['height'].to_i)
+  img.to_blob
 end
