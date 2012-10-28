@@ -1,7 +1,7 @@
 #### Requires
 
 # Write out all requires from gems
-%w(rubygems sinatra imgkit happening digest/md5 haml redis open-uri RMagick json airbrake newrelic_rpm sinatra/jsonp).each{ |g| require g }
+%w(rubygems sinatra thread imgkit happening digest/md5 haml redis open-uri RMagick json airbrake newrelic_rpm sinatra/jsonp).each{ |g| require g }
 
 # require the app configs
 require_relative 'config'
@@ -55,12 +55,15 @@ get '/get_image?' do
 
         # Store the image on s3.
         # send_to_s3(temp_file, name)
-        http_get(temp_file, name)
-        # @all_threads = Queue.new
-        # t = Thread.new do
-        #   send_to_s3(temp_file, name)
-        # end
-        # @all_threads << t
+        # http_get(temp_file, name)
+        @all_threads = Queue.new
+        t = Thread.new do
+          send_to_s3(temp_file, name)
+        end
+        @all_threads << t
+        @all_threads.each do |t|
+          t.join if t.alive?
+        end
 
         # Create the link.
         @link = "http://static-stage.imago.in.s3.amazonaws.com/#{name}.jpg"
@@ -74,9 +77,6 @@ get '/get_image?' do
   else
     @link = "https://d29sc4udwyhodq.cloudfront.net/not_found.jpg"
   end
-  # @all_threads.each do |t|
-  #   t.join if t.alive?
-  # end
   respond(@link, params)
 end
 
@@ -201,37 +201,4 @@ def send_to_s3(file, name)
       puts "Upload finished!"; EM.stop 
     end
   end
-end
-
-def http_get(file, name)
-  # get the fiber our browser request is being processed in
-  calling_fiber = Fiber.new
-
-  # make an async request
-  # EventMachine queues the http.callback block and executes it at some point after the http request returns
-  # http = EventMachine::HttpRequest.new( url ).get
-  # http.callback { calling_fiber.resume( http ) }
-  
-  # file = "#{settings.root}/bin/big_image.jpeg"
-  headers = {'Cache-Control' => "max-age=252460800", 
-             'Content-Type' => 'image/jpeg', 
-             'Expires' => 'Fri, 16 Nov 2018 22:09:29 GMT'}
-  # on_error = Proc.new {|http| logger.info "amazon error"; EM.stop }
-  # on_success = Proc.new {|http| calling_fiber.resume(http) }
-  item = Happening::S3::Item.new( settings.bucket, "#{name}.jpg",
-                                  :aws_access_key_id => settings.s3_key, 
-                                  :aws_secret_access_key => settings.s3_secret,
-                                  :permissions => 'public-read'
-                                )
-  item.put( File.read(file), :on_error => on_error, :headers => headers ) do |response|
-    logger.info "trying uload"
-    puts "Upload finished!"
-    calling_fiber.resume(response)
-  end
-  
-
-  # the calling_fiber yields control back to the EM reactor, which can continue processing other browser requests etc
-  # When the async http request returns, the callback block is queued for EM to execute when it received control again.
-  # The callback resumes the calling fiber, and the get method returns the result of the http get request.
-  return calling_fiber.yield
 end
