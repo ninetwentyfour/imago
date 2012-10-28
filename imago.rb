@@ -4,12 +4,13 @@
 %w(rubygems sinatra/base sinatra/async imgkit happening digest/md5 haml redis open-uri RMagick json airbrake newrelic_rpm sinatra/jsonp).each{ |g| require g }
 
 # require the app configs
-require_relative 'config'
+# require_relative 'config'
 include Magick
 # include Sinatra::Async
 
 class Imago < Sinatra::Base
   register Sinatra::Async
+  require_relative 'config'
   #### GET /get_image?
 
   # `/get_image?` takes a list of params.
