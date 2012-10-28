@@ -1,12 +1,12 @@
 #### Requires
 
 # Write out all requires from gems
-%w(rubygems sinatra imgkit happening digest/md5 haml redis open-uri RMagick json airbrake newrelic_rpm sinatra/jsonp).each{ |g| require g }
+%w(rubygems sinatra sinatra/async imgkit happening digest/md5 haml redis open-uri RMagick json airbrake newrelic_rpm sinatra/jsonp).each{ |g| require g }
 
 # require the app configs
 require_relative 'config'
 include Magick
-
+register Async
 #### GET /get_image?
 
 # `/get_image?` takes a list of params.
@@ -25,7 +25,7 @@ include Magick
 # _EXAMPLE_:
 #
 # /get_image?website=www.example.com&width=600&height=600&format=image
-get '/get_image?' do
+aget '/get_image?' do
   
   @errors = validate(params)
 
