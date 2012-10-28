@@ -1,7 +1,7 @@
 #### Requires
 
 # Write out all requires from gems
-%w(rubygems sinatra sinatra/synchrony imgkit happening digest/md5 haml redis open-uri RMagick json airbrake newrelic_rpm sinatra/jsonp).each{ |g| require g }
+%w(rubygems sinatra imgkit happening digest/md5 haml redis open-uri RMagick json airbrake newrelic_rpm sinatra/jsonp).each{ |g| require g }
 
 # require the app configs
 require_relative 'config'
@@ -56,7 +56,7 @@ get '/get_image?' do
         # Store the image on s3.
         # send_to_s3(temp_file, name)
         EM.run do
-          file = "#{settings.root}/bin/big_image.jpeg"
+          file = "#{settings.root}/bin/big_photo.jpg"
           headers = {'Cache-Control' => "max-age=252460800", 
                      'Content-Type' => 'image/jpeg', 
                      'Expires' => 'Fri, 16 Nov 2018 22:09:29 GMT'}
