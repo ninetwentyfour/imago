@@ -67,7 +67,7 @@ get '/get_image?' do
                                           :aws_secret_access_key => settings.s3_secret,
                                           :permissions => 'public-read'
                                         )
-          item.put( File.read(file), :on_error => on_error, :headers => headers ) do |response|
+          item.put( File.read(file), :on_error => on_error, :on_success => on_success,:headers => headers ) do |response|
             logger.info "trying uload"
             puts "Upload finished!"; EM.stop 
           end
