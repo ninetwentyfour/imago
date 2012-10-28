@@ -52,7 +52,7 @@ get '/get_image?' do
         # thumb = img.sample(params['width'].to_i, params['height'].to_i)
         # thumb = img.thumbnail(params['width'].to_i, params['height'].to_i)
         img.resize_to_fill!(params['width'].to_i, params['height'].to_i)
-        img.write temp_file
+        # img.write temp_file
         
         # Image.from_blob(kit.to_img(:jpg)).first.resize_to_fill(params['width'].to_i, params['height'].to_i).write temp_file
 
