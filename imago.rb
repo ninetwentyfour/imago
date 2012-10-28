@@ -55,7 +55,7 @@ get '/get_image?' do
 
         # Store the image on s3.
         # send_to_s3(temp_file, name)
-        http_get(file, name)
+        http_get(temp_file, name)
 
         # Create the link.
         @link = "http://static-stage.imago.in.s3.amazonaws.com/#{name}.jpg"
