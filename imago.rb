@@ -40,13 +40,13 @@ get '/get_image?' do
     unless @link
       # begin
         # Create tmp directory if it doesn't exist
-        temp_dir = "#{settings.root}/tmp"
-        Dir.mkdir(temp_dir) unless Dir.exists?(temp_dir)
+        # temp_dir = "#{settings.root}/tmp"
+        # Dir.mkdir(temp_dir) unless Dir.exists?(temp_dir)
         
         # Capture the screenshot
         kit   = IMGKit.new(html, quality: 90, width: 1280, height: 720 )
         
-        temp_file = "#{temp_dir}/#{name}.jpg"
+        # temp_file = "#{temp_dir}/#{name}.jpg"
         # Resize the screengrab using rmagick
         img = Image.from_blob(kit.to_img(:jpg)).first
         # thumb = img.sample(params['width'].to_i, params['height'].to_i)
