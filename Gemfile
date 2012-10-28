@@ -7,12 +7,12 @@ gem "imgkit"
 gem "aws-s3"
 gem "haml"
 gem "redis"
-gem "rmagick", "2.12.0"
+# gem "rmagick", "2.12.0"
 gem "json"
 gem "newrelic_rpm"
 gem "sinatra-jsonp"
 gem "airbrake"
-gem "gd2"
+gem "mini_magick"
 
 group :development,:test do
   gem 'rspec'
