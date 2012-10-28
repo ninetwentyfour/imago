@@ -49,19 +49,19 @@ get '/get_image?' do
         temp_file = "#{temp_dir}/#{name}.jpg"
         # Resize the screengrab using rmagick
         img = Image.from_blob(kit.to_img(:jpg)).first
-        thumb = img.sample(params['width'].to_i, params['height'].to_i)
-        # thumb = img.resize_to_fill(params['width'].to_i, params['height'].to_i)
+        # thumb = img.sample(params['width'].to_i, params['height'].to_i)
+        thumb = img.resize_to_fill(params['width'].to_i, params['height'].to_i)
         thumb.write temp_file
 
         # Store the image on s3.
         # send_to_s3(temp_file, name)
-        # http_get(temp_file, name)
-        # @all_threads = Queue.new
-        Thread.start do
+        if params['format'] == "image" 
           send_to_s3(temp_file, name)
+        else
+          Thread.start do
+            send_to_s3(temp_file, name)
+          end
         end
-        # @all_threads << t
-        # @all_threads.join
 
         # Create the link.
         @link = "http://static-stage.imago.in.s3.amazonaws.com/#{name}.jpg"
