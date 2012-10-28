@@ -54,6 +54,7 @@ get '/get_image?' do
         # end
 
         # Create the link.
+        "#{settings.base_link_url}#{name}.jpg"
         @link = "http://static-stage.imago.in.s3.amazonaws.com/#{name}.jpg"
       rescue Exception => exception
         logger.error "Rescued Error Creating and Uploading Image: #{exception}"
