@@ -6,7 +6,7 @@
 # require the app configs
 require_relative 'config'
 include Magick
-register Sinatra::Async
+include Async
 #### GET /get_image?
 
 # `/get_image?` takes a list of params.
