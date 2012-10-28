@@ -13,6 +13,7 @@ gem "newrelic_rpm"
 gem "sinatra-jsonp"
 gem "airbrake"
 gem "happening", :git => "https://github.com/peritor/happening.git"
+gem "sinatra-synchrony"
 
 group :development,:test do
   gem 'rspec'
