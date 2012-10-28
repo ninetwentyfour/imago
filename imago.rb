@@ -1,7 +1,7 @@
 #### Requires
 
 # Write out all requires from gems
-%w(rubygems sinatra imgkit happening digest/md5 haml redis open-uri RMagick json airbrake newrelic_rpm sinatra/jsonp).each{ |g| require g }
+%w(rubygems sinatra sinatra/synchrony imgkit happening digest/md5 haml redis open-uri RMagick json airbrake newrelic_rpm sinatra/jsonp).each{ |g| require g }
 
 # require the app configs
 require_relative 'config'
@@ -54,7 +54,24 @@ get '/get_image?' do
         thumb.write temp_file
 
         # Store the image on s3.
-        send_to_s3(temp_file, name)
+        # send_to_s3(temp_file, name)
+        EM.run do
+          file = "#{settings.root}/bin/big_image.jpeg"
+          headers = {'Cache-Control' => "max-age=252460800", 
+                     'Content-Type' => 'image/jpeg', 
+                     'Expires' => 'Fri, 16 Nov 2018 22:09:29 GMT'}
+          on_error = Proc.new {|http| logger.info "amazon error"; EM.stop }
+          on_success = Proc.new {|http| logger.info "the response is: #{http.response}"; EM.stop }
+          item = Happening::S3::Item.new( settings.bucket, "#{name}.jpg",
+                                          :aws_access_key_id => settings.s3_key, 
+                                          :aws_secret_access_key => settings.s3_secret,
+                                          :permissions => 'public-read'
+                                        )
+          item.put( File.read(file), :on_error => on_error, :on_success => on_success,:headers => headers ) do |response|
+            logger.info "trying uload"
+            puts "Upload finished!"; EM.stop 
+          end
+        end
 
         # Create the link.
         @link = "http://static-stage.imago.in.s3.amazonaws.com/#{name}.jpg"
@@ -176,21 +193,21 @@ def send_to_s3(file, name)
   #                           settings.bucket,
   #                           :access => :public_read
   #                         )
-  EM.run do
-    # file = "#{settings.root}/bin/big_image.jpeg"
-    headers = {'Cache-Control' => "max-age=252460800", 
-               'Content-Type' => 'image/jpeg', 
-               'Expires' => 'Fri, 16 Nov 2018 22:09:29 GMT'}
-    on_error = Proc.new {|http| logger.info "amazon error"; EM.stop }
-    on_success = Proc.new {|http| logger.info "the response is: #{http.response}"; EM.stop }
-    item = Happening::S3::Item.new( settings.bucket, "#{name}.jpg",
-                                    :aws_access_key_id => settings.s3_key, 
-                                    :aws_secret_access_key => settings.s3_secret,
-                                    :permissions => 'public-read'
-                                  )
-    item.put( File.read(file), :on_error => on_error, :headers => headers ) do |response|
-      logger.info "trying uload"
-      puts "Upload finished!"; EM.stop 
-    end
-  end
+  # EM.run do
+  #   file = "#{settings.root}/bin/big_image.jpeg"
+  #   headers = {'Cache-Control' => "max-age=252460800", 
+  #              'Content-Type' => 'image/jpeg', 
+  #              'Expires' => 'Fri, 16 Nov 2018 22:09:29 GMT'}
+  #   on_error = Proc.new {|http| logger.info "amazon error"; EM.stop }
+  #   on_success = Proc.new {|http| logger.info "the response is: #{http.response}"; EM.stop }
+  #   item = Happening::S3::Item.new( settings.bucket, "#{name}.jpg",
+  #                                   :aws_access_key_id => settings.s3_key, 
+  #                                   :aws_secret_access_key => settings.s3_secret,
+  #                                   :permissions => 'public-read'
+  #                                 )
+  #   item.put( File.read(file), :on_error => on_error, :headers => headers ) do |response|
+  #     logger.info "trying uload"
+  #     puts "Upload finished!"; EM.stop 
+  #   end
+  # end
 end
