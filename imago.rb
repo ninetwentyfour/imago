@@ -38,7 +38,7 @@ get '/get_image?' do
     # Try to lookup the hash to see if this image has been created before
     @link = REDIS.get "#{name}"
     unless @link
-      begin
+      # begin
         # Create tmp directory if it doesn't exist
         temp_dir = "#{settings.root}/tmp"
         Dir.mkdir(temp_dir) unless Dir.exists?(temp_dir)
@@ -58,9 +58,9 @@ get '/get_image?' do
 
         # Create the link.
         @link = "http://static-stage.imago.in.s3.amazonaws.com/#{name}.jpg"
-      rescue Exception => exception
-        @link = "https://d29sc4udwyhodq.cloudfront.net/not_found.jpg"
-      end
+      # rescue Exception => exception
+      #   @link = "https://d29sc4udwyhodq.cloudfront.net/not_found.jpg"
+      # end
       # Save in redis for re-use later.
       REDIS.set "#{name}", @link
       REDIS.expire "#{name}", 1209600
