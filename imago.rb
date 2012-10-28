@@ -49,7 +49,8 @@ get '/get_image?' do
         temp_file = "#{temp_dir}/#{name}.jpg"
         # Resize the screengrab using rmagick
         img = Image.from_blob(kit.to_img(:jpg)).first
-        thumb = img.resize_to_fill(params['width'].to_i, params['height'].to_i)
+        thumb = img.sample(params['width'].to_i, params['height'].to_i)
+        # thumb = img.resize_to_fill(params['width'].to_i, params['height'].to_i)
         thumb.write temp_file
 
         # Store the image on s3.
