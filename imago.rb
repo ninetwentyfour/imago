@@ -57,9 +57,9 @@ get '/get_image?' do
         send_to_s3(temp_file, name)
         
         # free up RAM
-        img.close if img
-        thumb.close if thumb
-        temp_file.close if temp_file
+        img.flush if img
+        thumb.flush if thumb
+        temp_file.flush if temp_file
 
         # Create the link.
         @link = "http://static-stage.imago.in.s3.amazonaws.com/#{name}.jpg"
