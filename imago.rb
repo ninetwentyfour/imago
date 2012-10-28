@@ -1,7 +1,7 @@
 #### Requires
 
 # Write out all requires from gems
-%w(rubygems sinatra thread imgkit happening digest/md5 haml redis open-uri RMagick json airbrake newrelic_rpm sinatra/jsonp).each{ |g| require g }
+%w(rubygems sinatra thread imgkit aws/s3 digest/md5 haml redis open-uri RMagick json airbrake newrelic_rpm sinatra/jsonp).each{ |g| require g }
 
 # require the app configs
 require_relative 'config'
@@ -48,11 +48,13 @@ get '/get_image?' do
         
         temp_file = "#{temp_dir}/#{name}.jpg"
         # Resize the screengrab using rmagick
-        img = Image.from_blob(kit.to_img(:jpg)).first
-        # thumb = img.sample(params['width'].to_i, params['height'].to_i)
-        # thumb = img.thumbnail(params['width'].to_i, params['height'].to_i)
-        thumb = img.resize_to_fill(params['width'].to_i, params['height'].to_i)
-        thumb.write temp_file
+        # img = Image.from_blob(kit.to_img(:jpg)).first
+        # # thumb = img.sample(params['width'].to_i, params['height'].to_i)
+        # # thumb = img.thumbnail(params['width'].to_i, params['height'].to_i)
+        # thumb = img.resize_to_fill(params['width'].to_i, params['height'].to_i)
+        # thumb.write temp_file
+        
+        Image.from_blob(kit.to_img(:jpg)).first.resize_to_fill(params['width'].to_i, params['height'].to_i).write temp_file
 
         # Store the image on s3.
         # send_to_s3(temp_file, name)
@@ -186,31 +188,31 @@ end
 #
 # Store the image on s3.
 def send_to_s3(file, name)
-  # AWS::S3::Base.establish_connection!(
-  #                                     :access_key_id     => settings.s3_key,
-  #                                     :secret_access_key => settings.s3_secret
-  #                                   )
-  # AWS::S3::S3Object.store(
-  #                           "#{name}.jpg",
-  #                           open(file),
-  #                           settings.bucket,
-  #                           :access => :public_read
-  #                         )
-  EM.run do
-    # file = "#{settings.root}/bin/big_image.jpeg"
-    headers = {'Cache-Control' => "max-age=252460800", 
-               'Content-Type' => 'image/jpeg', 
-               'Expires' => 'Fri, 16 Nov 2018 22:09:29 GMT'}
-    on_error = Proc.new {|http| logger.info "amazon error"; EM.stop }
-    on_success = Proc.new {|http| logger.info "the response is: #{http.response}"; EM.stop }
-    item = Happening::S3::Item.new( settings.bucket, "#{name}.jpg",
-                                    :aws_access_key_id => settings.s3_key, 
-                                    :aws_secret_access_key => settings.s3_secret,
-                                    :permissions => 'public-read'
-                                  )
-    item.put( File.read(file), :on_error => on_error, :headers => headers ) do |response|
-      logger.info "trying uload"
-      puts "Upload finished!"; EM.stop 
-    end
-  end
+  AWS::S3::Base.establish_connection!(
+                                      :access_key_id     => settings.s3_key,
+                                      :secret_access_key => settings.s3_secret
+                                    )
+  AWS::S3::S3Object.store(
+                            "#{name}.jpg",
+                            open(file),
+                            settings.bucket,
+                            :access => :public_read
+                          )
+  # EM.run do
+  #   # file = "#{settings.root}/bin/big_image.jpeg"
+  #   headers = {'Cache-Control' => "max-age=252460800", 
+  #              'Content-Type' => 'image/jpeg', 
+  #              'Expires' => 'Fri, 16 Nov 2018 22:09:29 GMT'}
+  #   on_error = Proc.new {|http| logger.info "amazon error"; EM.stop }
+  #   on_success = Proc.new {|http| logger.info "the response is: #{http.response}"; EM.stop }
+  #   item = Happening::S3::Item.new( settings.bucket, "#{name}.jpg",
+  #                                   :aws_access_key_id => settings.s3_key, 
+  #                                   :aws_secret_access_key => settings.s3_secret,
+  #                                   :permissions => 'public-read'
+  #                                 )
+  #   item.put( File.read(file), :on_error => on_error, :headers => headers ) do |response|
+  #     logger.info "trying uload"
+  #     puts "Upload finished!"; EM.stop 
+  #   end
+  # end
 end
