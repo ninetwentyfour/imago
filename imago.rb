@@ -30,8 +30,6 @@ get '/get_image?' do
   @errors = validate(params)
 
   if @errors.empty?
-    html = "http://#{params['website']}"
-
     # Hash the params to get the filename and the key for redis
     name = Digest::MD5.hexdigest("#{params['website']}_#{params['width']}_#{params['height']}")
 
@@ -39,31 +37,19 @@ get '/get_image?' do
     @link = REDIS.get "#{name}"
     unless @link
       begin
-        # Create tmp directory if it doesn't exist
-        # temp_dir = "#{settings.root}/tmp"
-        # Dir.mkdir(temp_dir) unless Dir.exists?(temp_dir)
+        url = "http://#{params['website']}"
         
-        # Capture the screenshot
-        # kit   = IMGKit.new(html, quality: 90, width: 1280, height: 720 )
-        # 
-        # # temp_file = "#{temp_dir}/#{name}.jpg"
-        # # Resize the screengrab using rmagick
-        # img = Image.from_blob(kit.to_img(:jpg)).first
-        # # thumb = img.sample(params['width'].to_i, params['height'].to_i)
-        # # thumb = img.thumbnail(params['width'].to_i, params['height'].to_i)
-        # img.resize_to_fill!(params['width'].to_i, params['height'].to_i)
-        # img.write temp_file
-        img = generate_image(html)
-        
-        # Image.from_blob(kit.to_img(:jpg)).first.resize_to_fill(params['width'].to_i, params['height'].to_i).write temp_file
+        # Generate the image.
+        img = generate_image(url)
 
         # Store the image on s3.
+        send_to_s3(img, name)
         # send_to_s3(temp_file, name)
         # if params['format'] == "image" 
         #   send_to_s3(temp_file, name)
         # else
         #   Thread.start do
-            send_to_s3(img, name)
+            # send_to_s3(img, name)
         #   end
         # end
 
@@ -81,19 +67,8 @@ get '/get_image?' do
     logger.info "Setting link to not found because of bad params: #{@errors.inspect}"
     @link = "https://d29sc4udwyhodq.cloudfront.net/not_found.jpg"
   end
-  # flickr_thread = Thread.start do
-  #   @flickr_result = ... # make the Flickr request
-  # end
-  # 
-  # twitter_thread = Thread.start do
-  #   @twitter_result = ... # make the Twitter request
-  # end
-  # 
-  # # this makes the main thread wait for the other two threads
-  # # before continuing with its execution
-  # flickr_thread.join
-  # twitter_thread.join
   
+  # Respond to request
   respond(@link, params)
 end
 
@@ -115,7 +90,7 @@ def respond(link, params)
       data = { :link => @link, :website => "http://#{params['website']}" }
       JSONP data      # JSONP is an alias for jsonp method
     elsif params['format'] == "image"
-      #TODO do all of this in a begin block
+      # TODO do all of this in a begin block. Do a send_file with a local copy of not found if fail
       @link = @link.sub("https://", 'http://')
       uri = URI(@link)
 
@@ -195,47 +170,28 @@ def send_to_s3(img, name)
   AWS::S3::Base.establish_connection!(
                                       :access_key_id     => settings.s3_key,
                                       :secret_access_key => settings.s3_secret
-                                    )
-  # AWS::S3::S3Object.store(
-  #                           "#{name}.jpg",
-  #                           open(file),
-  #                           settings.bucket,
-  #                           :access => :public_read
-  #                         )
+                                     )
   AWS::S3::S3Object.store(
                             "#{name}.jpg",
                             img,
                             settings.bucket,
                             :access => :public_read
                           )
-  # EM.run do
-  #   # file = "#{settings.root}/bin/big_image.jpeg"
-  #   headers = {'Cache-Control' => "max-age=252460800", 
-  #              'Content-Type' => 'image/jpeg', 
-  #              'Expires' => 'Fri, 16 Nov 2018 22:09:29 GMT'}
-  #   on_error = Proc.new {|http| logger.info "amazon error"; EM.stop }
-  #   on_success = Proc.new {|http| logger.info "the response is: #{http.response}"; EM.stop }
-  #   item = Happening::S3::Item.new( settings.bucket, "#{name}.jpg",
-  #                                   :aws_access_key_id => settings.s3_key, 
-  #                                   :aws_secret_access_key => settings.s3_secret,
-  #                                   :permissions => 'public-read'
-  #                                 )
-  #   item.put( File.read(file), :on_error => on_error, :headers => headers ) do |response|
-  #     logger.info "trying uload"
-  #     puts "Upload finished!"; EM.stop 
-  #   end
-  # end
 end
 
-def generate_image(html)
+#### generate_image
+#
+# * `url`: the url of the website to thumbnail. (http://www.example.com)
+#
+# Grab the website image, resize with rmagick and return the image blob.
+def generate_image(url)
   # Capture the screenshot
-  kit   = IMGKit.new(html, quality: 90, width: 1280, height: 720 )
-  
-  # temp_file = "#{temp_dir}/#{name}.jpg"
+  kit   = IMGKit.new(url, quality: 90, width: 1280, height: 720 )
+
   # Resize the screengrab using rmagick
   img = Image.from_blob(kit.to_img(:jpg)).first
-  # thumb = img.sample(params['width'].to_i, params['height'].to_i)
-  # thumb = img.thumbnail(params['width'].to_i, params['height'].to_i)
+  # img.sample!(params['width'].to_i, params['height'].to_i)
+  # img.thumbnail!(params['width'].to_i, params['height'].to_i)
   img.resize_to_fill!(params['width'].to_i, params['height'].to_i)
   img.to_blob
 end
