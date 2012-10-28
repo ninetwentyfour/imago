@@ -57,7 +57,7 @@ get '/get_image?' do
         # send_to_s3(temp_file, name)
         # http_get(temp_file, name)
         # @all_threads = Queue.new
-        t = Thread.new do
+        Thread.start do
           send_to_s3(temp_file, name)
         end
         # @all_threads << t
@@ -75,6 +75,19 @@ get '/get_image?' do
   else
     @link = "https://d29sc4udwyhodq.cloudfront.net/not_found.jpg"
   end
+  # flickr_thread = Thread.start do
+  #   @flickr_result = ... # make the Flickr request
+  # end
+  # 
+  # twitter_thread = Thread.start do
+  #   @twitter_result = ... # make the Twitter request
+  # end
+  # 
+  # # this makes the main thread wait for the other two threads
+  # # before continuing with its execution
+  # flickr_thread.join
+  # twitter_thread.join
+  
   respond(@link, params)
 end
 
@@ -183,7 +196,7 @@ def send_to_s3(file, name)
   #                           :access => :public_read
   #                         )
   EM.run do
-    # file = "#{settings.root}/bin/big_image.jpeg"
+    file = "#{settings.root}/bin/big_image.jpeg"
     headers = {'Cache-Control' => "max-age=252460800", 
                'Content-Type' => 'image/jpeg', 
                'Expires' => 'Fri, 16 Nov 2018 22:09:29 GMT'}
