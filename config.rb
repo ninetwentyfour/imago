@@ -5,7 +5,7 @@ configure do
   set :bucket, ENV['S3_BUCKET']
   set :s3_key, ENV['S3_KEY']
   set :s3_secret, ENV['S3_SECRET']
-  set :base_link_url, ENV['BASE_LINK_URL']
+  set :base_link_url, ENV['BASE_LINK_URL'] # http://www.example.com/ note trailing slash
   
   # redis configs
   uri = URI.parse(ENV["REDISTOGO_URL"])

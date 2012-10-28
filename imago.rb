@@ -53,12 +53,11 @@ get '/get_image?' do
         #   end
         # end
 
-        # Create the link.
-        "#{settings.base_link_url}#{name}.jpg"
-        @link = "http://static-stage.imago.in.s3.amazonaws.com/#{name}.jpg"
+        # Create the link url.
+        @link = "#{settings.base_link_url}#{name}.jpg"
       rescue Exception => exception
         logger.error "Rescued Error Creating and Uploading Image: #{exception}"
-        @link = "https://d29sc4udwyhodq.cloudfront.net/not_found.jpg"
+        @link = "#{settings.base_link_url}not_found.jpg"
       end
       # Save in redis for re-use later.
       REDIS.set "#{name}", @link
@@ -66,7 +65,7 @@ get '/get_image?' do
     end
   else
     logger.info "Setting link to not found because of bad params: #{@errors.inspect}"
-    @link = "https://d29sc4udwyhodq.cloudfront.net/not_found.jpg"
+    @link = "#{settings.base_link_url}not_found.jpg"
   end
   
   # Respond to request
