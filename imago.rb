@@ -40,7 +40,7 @@ get '/get_image?' do
         url = "http://#{params['website']}"
         
         # Generate the image.
-        img = generate_image(url)
+        # img = generate_image(url)
 
         # Store the image on s3.
         # send_to_s3(img, name)
@@ -49,6 +49,7 @@ get '/get_image?' do
         #   send_to_s3(temp_file, name)
         # else
           Thread.start do
+            img = generate_image(url)
             send_to_s3(img, name)
           end
         # end
