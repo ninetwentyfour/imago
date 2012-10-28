@@ -62,7 +62,7 @@ get '/get_image?' do
           send_to_s3(temp_file, name)
         else
           Thread.start do
-            send_to_s3(temp_file, name)
+            send_to_s3(img, name)
           end
         end
 
@@ -192,9 +192,15 @@ def send_to_s3(file, name)
                                       :access_key_id     => settings.s3_key,
                                       :secret_access_key => settings.s3_secret
                                     )
+  # AWS::S3::S3Object.store(
+  #                           "#{name}.jpg",
+  #                           open(file),
+  #                           settings.bucket,
+  #                           :access => :public_read
+  #                         )
   AWS::S3::S3Object.store(
                             "#{name}.jpg",
-                            open(file),
+                            file,
                             settings.bucket,
                             :access => :public_read
                           )
