@@ -181,7 +181,8 @@ def send_to_s3(file, name)
     on_success = Proc.new {|http| logger.info "the response is: #{http.response}"; EM.stop }
     item = Happening::S3::Item.new( settings.bucket, "#{name}.jpg",
                                     :aws_access_key_id => settings.s3_key, 
-                                    :aws_secret_access_key => settings.s3_secret
+                                    :aws_secret_access_key => settings.s3_secret,
+                                    :permissions => 'public-read'
                                   )
     item.put( File.read(file), :on_error => on_error ) do |response|
       logger.info "trying uload"
