@@ -57,8 +57,8 @@ get '/get_image?' do
         send_to_s3(temp_file, name)
         
         # free up RAM
-        img.flush if img
-        thumb.flush if thumb
+        # img.flush if img
+        # thumb.flush if thumb
         temp_file.flush if temp_file
 
         # Create the link.
