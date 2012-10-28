@@ -1,11 +1,12 @@
 #### Requires
 
 # Write out all requires from gems
-%w(rubygems sinatra imgkit aws/s3 digest/md5 haml redis open-uri RMagick json airbrake newrelic_rpm sinatra/jsonp).each{ |g| require g }
+%w(rubygems sinatra imgkit aws/s3 digest/md5 haml redis open-uri gd2 json airbrake newrelic_rpm sinatra/jsonp).each{ |g| require g }
 
 # require the app configs
 require_relative 'config'
-include Magick
+# include Magick
+include GD2
 
 #### GET /get_image?
 
@@ -49,9 +50,11 @@ get '/get_image?' do
         temp_file = "#{temp_dir}/#{name}.jpg"
         # Resize the screengrab using rmagick
         img = Image.from_blob(kit.to_img(:jpg)).first
-        thumb = img.sample(params['width'].to_i, params['height'].to_i)
+        img.resize! params['width'].to_i, params['height'].to_i
+        # thumb = img.sample(params['width'].to_i, params['height'].to_i)
         # thumb = img.resize_to_fill(params['width'].to_i, params['height'].to_i)
-        thumb.write temp_file
+        # thumb.write temp_file
+        img.write temp_file
 
         # Store the image on s3.
         send_to_s3(temp_file, name)
