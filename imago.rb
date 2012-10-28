@@ -178,6 +178,7 @@ def send_to_s3(file, name)
   #                         )
   EM.run do
     on_error = Proc.new {|http| puts "An error occured: #{http.response_header.status}"; EM.stop }
+    on_success = Proc.new {|http| puts "the response is: #{http.response}"; EM.stop }
     item = Happening::S3::Item.new( settings.bucket, 
                                     :aws_access_key_id => settings.s3_key, 
                                     :aws_secret_access_key => settings.s3_secret, 
