@@ -46,7 +46,7 @@ get '/get_image?' do
         send_to_s3(img, name)
         
         img = nil
-        GC.start
+        # GC.start
         # Create the link url.
         @link = "#{settings.base_link_url}#{name}.jpg"
       # rescue Exception => exception
@@ -110,6 +110,7 @@ def respond(link, params)
     data = { :link => @link, :website => "http://#{params['website']}" }
     JSONP data      # JSONP is an alias for jsonp method
   end
+  GC.start
 end
 
 #### validate
