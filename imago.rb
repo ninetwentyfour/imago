@@ -60,7 +60,6 @@ get '/get_image?' do
     @link = "#{settings.base_link_url}not_found.jpg"
   end
 
-  # Respond to request
   respond(@link, params)
 end
 

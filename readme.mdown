@@ -42,7 +42,7 @@ You will also need to set a couple configuration variables.
 
     heroku config:add S3_BUCKET=YOUR_S3_BUCKET
 
-    heroku config:add BASE_LINK_URL=http://YOUR_BASE_URL/
+    heroku config:add BASE_LINK_URL=YOUR_BASE_URL # This is for the final link url. Should be your s3 url or cloudfront url. Include trailing slash.
 
 After the configuration variables are added, you can deploy the app.
 
