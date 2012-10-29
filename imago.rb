@@ -110,7 +110,6 @@ def respond(link, params)
     data = { :link => @link, :website => "http://#{params['website']}" }
     JSONP data      # JSONP is an alias for jsonp method
   end
-  GC.start
 end
 
 #### validate
