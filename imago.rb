@@ -47,7 +47,7 @@ get '/get_image?' do
         
         # cleanup memory
         img = nil
-        GC.start
+        # GC.start
         
         # Create the link url.
         @link = "#{settings.base_link_url}#{name}.jpg"
