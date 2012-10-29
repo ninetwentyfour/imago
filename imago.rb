@@ -46,7 +46,8 @@ get '/get_image?' do
         send_to_s3(img, name)
         
         # cleanup memory
-        img = nil
+        # img = nil
+        img.clear
         # GC.start
         
         # Create the link url.
@@ -188,5 +189,6 @@ def generate_image(url)
   # img.sample!(params['width'].to_i, params['height'].to_i)
   img.thumbnail!(params['width'].to_i, params['height'].to_i)
   # img.resize_to_fill!(params['width'].to_i, params['height'].to_i)
+  kit = nil
   img.to_blob
 end
