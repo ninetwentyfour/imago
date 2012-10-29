@@ -36,7 +36,7 @@ get '/get_image?' do
     # Try to lookup the hash to see if this image has been created before
     @link = REDIS.get "#{name}"
     unless @link
-      begin
+      # begin
         url = "http://#{params['website']}"
         
         # Generate the image.
@@ -44,13 +44,14 @@ get '/get_image?' do
 
         # Store the image on s3.
         send_to_s3(img, name)
-
+        
+        img.destroy
         # Create the link url.
         @link = "#{settings.base_link_url}#{name}.jpg"
-      rescue Exception => exception
-        logger.error "Rescued Error Creating and Uploading Image: #{exception}"
-        @link = "#{settings.base_link_url}not_found.jpg"
-      end
+      # rescue Exception => exception
+      #   logger.error "Rescued Error Creating and Uploading Image: #{exception}"
+      #   @link = "#{settings.base_link_url}not_found.jpg"
+      # end
       # Save in redis for re-use later.
       REDIS.set "#{name}", @link
       REDIS.expire "#{name}", 1209600
