@@ -45,7 +45,8 @@ get '/get_image?' do
         # Store the image on s3.
         send_to_s3(img, name)
         
-        img.flush
+        img = nil
+        GC.start
         # Create the link url.
         @link = "#{settings.base_link_url}#{name}.jpg"
       # rescue Exception => exception
