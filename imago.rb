@@ -46,8 +46,8 @@ get '/get_image?' do
         send_to_s3(img, name)
         
         # cleanup memory
-        # img = nil
-        # GC.start
+        img = nil
+        GC.start
         
         # Create the link url.
         @link = "#{settings.base_link_url}#{name}.jpg"
