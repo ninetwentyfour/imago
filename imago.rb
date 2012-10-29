@@ -181,6 +181,7 @@ def generate_image(url)
 
   # Resize the screengrab using rmagick
   img = Image.from_blob(kit.to_img(:jpg)).first
+  # img.thumbnail!(params['width'].to_i, params['height'].to_i)
   img.resize_to_fill!(params['width'].to_i, params['height'].to_i)
   img.to_blob
 end
