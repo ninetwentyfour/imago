@@ -24,7 +24,7 @@ include Magick
 #
 # _EXAMPLE_:
 #
-# /get_image?website=www.example.com&width=600&height=600&format=image
+# /get_image?website=www.example.com&width=600&height=600&format=json
 get '/get_image?' do
   
   @errors = validate(params)
