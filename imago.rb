@@ -60,7 +60,7 @@ get '/get_image?' do
     @link = "#{settings.base_link_url}not_found.jpg"
   end
 
-  respond(@link, params)
+  respond(@link)
 end
 
 #### respond
@@ -70,7 +70,7 @@ end
 # * `params`: the params that were sent with the request.
 #
 # Respond to request
-def respond(link, params)
+def respond(link)
   @link = link
   if params['format']
     # Respond based on format
