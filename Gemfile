@@ -12,6 +12,7 @@ gem "json"
 gem "newrelic_rpm"
 gem "sinatra-jsonp"
 gem "airbrake"
+gem "unicorn"
 
 group :development,:test do
   gem 'rspec'
