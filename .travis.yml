@@ -3,9 +3,9 @@ rvm:
   - "1.9.3"
 env:
   global:
-    - secure: "MEL5S9QbFQ1Eca6E+KluAGEWUOfwWg9HO0+qRRuVPoeOvu7V7DyUUTryTXtL\ntfZW4U8dHnvx8UFJefDZhEWoMv3dnVdd3F894GEMHWSiSMFnDMZ4dCMhSG0t\n02vILXsGsv6Wa4ZyrbBm2UIA8R/9n49y40odxknUw4Ovz3wygow="
-    - secure: "WFm8Ov+GVD+70Jx52yYy5EiyTMptA9qGVutAkHdHIpCO04IZjXFeMVNBOme4\nllwwsJKygjUbiSO33DNF7YJOADx6Qt4BPH8eGZsKIWDD6e13aOEMmkYAk2Ks\nW03R3Xx5CesiLlD9wtczhVWM4zcLhhszhsM1PQUnu//PUcnfBxg="
-    - secure: "PfqOqkrRZUeC3DGHgHbWGXXy3iZL7HeTM41CExk2z8bEO7I1gemf5lR0o7YT\nlt7948zyjjDyVlsDmL/42UYtK6/Wn2X3+wlLIOn/mSrHAfHtZ+3fKMawQc7x\n70eSdXn6mVela+j1baF6SIbM5N6TeQcpq6YnRU379SOqREsDqS8="
+    - secure: "mjU4GETxZh9a+n0rXAx/qXHNaCA1fNprqCNmw9oaxgzW2gmesK+6PU0IqLR0\nzp5L/XfFFWEbxLK0cLNCIcCqg+rHiXmenLnt6+BqM0JaQskVEEkLOUb68y1o\nU2nMV4mlvdwhabvqwbJru9VncafgeTMTPHXZGksS2lc1APcb5Tc="
+    - secure: "cOsGSf5t+ZT0I3Q5OvomKImJl+1+QqCWRsJgHqZxeO0Ox9r8CGlBIEb4YHtF\nMYyJvpnEn0WEfm8IP0QkplEASlUAwA5jruty17HYABtNj6hWy99G6GbTF6Dn\nOtezqWr+PdcmA7ibuYmtRzjvloWrTm6GFI8JAKPzJoIHbd5nKuI="
+    - secure: "QaZvfTHuy4uT7mIB4FxVQ6rXNBJStOyppVnkMv6iKxJsRK2XnwRBQFnUPaHw\nxCi9tuBXa9q4Ln1ghosYrWx4LhBZmfc9zDE56gj8ojGNKTe3zvA7gAG5sqUl\nxcK2OkBB189iJUJ50/hrUJMM6cqNWwAJflAmYyxIj1GnI899xpI="
     - S3_BUCKET=static-stage.imago.in
     - BASE_LINK_URL=https://d29sc4udwyhodq.cloudfront.net/
 # uncomment this line if your project needs to run something other than `rake`:
