@@ -1,4 +1,4 @@
-source :rubygems
+source 'http://bundler-api.herokuapp.com'
 
 gem "sinatra"
 gem "shotgun"
