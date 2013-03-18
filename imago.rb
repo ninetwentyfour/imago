@@ -159,13 +159,13 @@ end
 # Store the image on s3.
 def send_to_s3(img, name)
   AWS::S3::Base.establish_connection!(
-                                      :access_key_id     => settings.s3_key,
-                                      :secret_access_key => settings.s3_secret
+                                      :access_key_id     => ENV['S3_KEY'],
+                                      :secret_access_key => ENV['S3_SECRET']
                                      )
   AWS::S3::S3Object.store(
                             "#{name}.jpg",
                             img,
-                            settings.bucket,
+                            ENV['S3_BUCKET'],
                             :access => :public_read
                           )
 end
