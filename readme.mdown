@@ -1,7 +1,8 @@
 Imago
 ====
 
-[![Build Status](https://secure.travis-ci.org/ninetwentyfour/imago.png)](http://travis-ci.org/ninetwentyfour/imago) [![Dependency Status](https://gemnasium.com/ninetwentyfour/imago.png)](https://gemnasium.com/ninetwentyfour/imago)
+[![Build Status](https://secure.travis-ci.org/ninetwentyfour/imago.png)](http://travis-ci.org/ninetwentyfour/imago) [![Dependency Status](https://gemnasium.com/ninetwentyfour/imago.png)](https://gemnasium.com/ninetwentyfour/imago) [![Coverage Status](https://coveralls.io/repos/ninetwentyfour/imago/badge.png?branch=master)](https://coveralls.io/r/ninetwentyfour/imago)
+
 
 Imago is a simple service to return website thumbnails.
 
