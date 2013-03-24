@@ -1,3 +1,11 @@
+require 'simplecov'
+require 'coveralls'
+
+SimpleCov.formatter = SimpleCov::Formatter::MultiFormatter[
+  SimpleCov::Formatter::HTMLFormatter,
+  Coveralls::SimpleCov::Formatter
+]
+SimpleCov.start 'rails'
 #
 require File.join(File.dirname(__FILE__), '../imago.rb')
 require 'rspec'
