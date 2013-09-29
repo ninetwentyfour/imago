@@ -37,7 +37,12 @@ get '/get_image?' do
     @link = REDIS.get "#{name}"
     unless @link
       begin
-        url = "http://#{params['website']}"
+        website = URI::decode(params['website'])
+        if website[/^https?/]
+          url = website
+        else
+          url = "http://#{website}"
+        end
         
         # keep super slow sites from taking forever
         Timeout.timeout(20) do
