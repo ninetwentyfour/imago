@@ -175,16 +175,6 @@ def send_to_s3(img, name)
   rescue Timeout::Error
     raise SubprocessTimedOut
   end
-  # AWS::S3::Base.establish_connection!(
-  #                                     :access_key_id     => ENV['S3_KEY'],
-  #                                     :secret_access_key => ENV['S3_SECRET']
-  #                                    )
-  # AWS::S3::S3Object.store(
-  #                           "#{name}.jpg",
-  #                           img,
-  #                           ENV['S3_BUCKET'],
-  #                           :access => :public_read
-  #                         )
 end
 
 #### generate_image
@@ -207,14 +197,6 @@ def generate_image(url)
   rescue Timeout::Error
     raise SubprocessTimedOut
   end
-  # # Capture the screenshot
-  # kit   = IMGKit.new(url, quality: 90, width: 1280, height: 720 )
-
-  # # Resize the screengrab using rmagick
-  # img = Image.from_blob(kit.to_img(:jpg)).first
-  # # img.thumbnail!(params['width'].to_i, params['height'].to_i)
-  # img.resize_to_fill!(params['width'].to_i, params['height'].to_i)
-  # img.to_blob
 end
 
 #### build_url
