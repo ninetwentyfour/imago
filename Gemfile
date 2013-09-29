@@ -14,6 +14,7 @@ gem "newrelic_rpm"
 gem "sinatra-jsonp"
 gem "airbrake"
 gem "unicorn"
+gem "sinatra-synchrony"
 
 group :development,:test do
   gem 'rspec'
