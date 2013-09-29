@@ -159,16 +159,32 @@ end
 #
 # Store the image on s3.
 def send_to_s3(img, name)
-  AWS::S3::Base.establish_connection!(
-                                      :access_key_id     => ENV['S3_KEY'],
-                                      :secret_access_key => ENV['S3_SECRET']
-                                     )
-  AWS::S3::S3Object.store(
-                            "#{name}.jpg",
-                            img,
-                            ENV['S3_BUCKET'],
-                            :access => :public_read
-                          )
+  begin
+    fork_to do
+      AWS::S3::Base.establish_connection!(
+                                          :access_key_id     => ENV['S3_KEY'],
+                                          :secret_access_key => ENV['S3_SECRET']
+                                         )
+      AWS::S3::S3Object.store(
+                                "#{name}.jpg",
+                                img,
+                                ENV['S3_BUCKET'],
+                                :access => :public_read
+                              )
+    end
+  rescue Timeout::Error
+    raise SubprocessTimedOut
+  end
+  # AWS::S3::Base.establish_connection!(
+  #                                     :access_key_id     => ENV['S3_KEY'],
+  #                                     :secret_access_key => ENV['S3_SECRET']
+  #                                    )
+  # AWS::S3::S3Object.store(
+  #                           "#{name}.jpg",
+  #                           img,
+  #                           ENV['S3_BUCKET'],
+  #                           :access => :public_read
+  #                         )
 end
 
 #### generate_image
@@ -177,14 +193,28 @@ end
 #
 # Grab the website image, resize with rmagick and return the image blob.
 def generate_image(url)
-  # Capture the screenshot
-  kit   = IMGKit.new(url, quality: 90, width: 1280, height: 720 )
+  begin
+    fork_to do
+      # Capture the screenshot
+      kit   = IMGKit.new(url, quality: 90, width: 1280, height: 720 )
 
-  # Resize the screengrab using rmagick
-  img = Image.from_blob(kit.to_img(:jpg)).first
-  # img.thumbnail!(params['width'].to_i, params['height'].to_i)
-  img.resize_to_fill!(params['width'].to_i, params['height'].to_i)
-  img.to_blob
+      # Resize the screengrab using rmagick
+      img = Image.from_blob(kit.to_img(:jpg)).first
+      # img.thumbnail!(params['width'].to_i, params['height'].to_i)
+      img.resize_to_fill!(params['width'].to_i, params['height'].to_i)
+      img.to_blob
+    end
+  rescue Timeout::Error
+    raise SubprocessTimedOut
+  end
+  # # Capture the screenshot
+  # kit   = IMGKit.new(url, quality: 90, width: 1280, height: 720 )
+
+  # # Resize the screengrab using rmagick
+  # img = Image.from_blob(kit.to_img(:jpg)).first
+  # # img.thumbnail!(params['width'].to_i, params['height'].to_i)
+  # img.resize_to_fill!(params['width'].to_i, params['height'].to_i)
+  # img.to_blob
 end
 
 #### build_url
@@ -200,4 +230,67 @@ def build_url(website)
     url = "http://#{decoded_url}"
   end
   url
+end
+
+# pulled from http://aphyr.com/posts/214-unsafe-thread-concurrency-with-fork
+def fork_to(timeout = 4)
+  r, w, pid = nil, nil, nil
+  begin
+    # Open pipe
+    r, w = IO.pipe
+
+    # Start subprocess
+    pid = fork do
+      # Child
+      begin
+        r.close
+
+        val = begin
+          Timeout.timeout(timeout) do
+            # Run block
+            yield
+          end
+        rescue Exception => e
+          e
+        end
+
+        w.write Marshal.dump val
+        w.close
+      ensure
+        # YOU SHALL NOT PASS
+        # Skip at_exit handlers.
+        exit!
+      end
+    end
+
+    # Parent
+    w.close
+
+    Timeout.timeout(timeout) do
+      # Read value from pipe
+      begin
+        val = Marshal.load r.read
+      rescue ArgumentError => e
+        # Marshal data too short
+        # Subprocess likely exited without writing.
+        raise Timeout::Error
+      end
+
+      # Return or raise value from subprocess.
+      case val
+      when Exception
+        raise val
+      else
+        return val
+      end
+    end
+  ensure
+    if pid
+      Process.kill "TERM", pid rescue nil
+      Process.kill "KILL", pid rescue nil
+      Process.waitpid pid rescue nil
+    end
+    r.close rescue nil
+    w.close rescue nil
+  end
 end
