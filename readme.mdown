@@ -62,7 +62,7 @@ http://api.imago.in/get_image?
 
 ##### Required Params
 
-- `website`: the url you wish to screenshot. url should be encoded (e.g. http%3A%2F%2Fwww.example.com%2Ftest%3F1). http/https optional.
+- `website`: the url you wish to screenshot. url should be encoded (e.g. http://www.example.com/test?1 becomes http%3A%2F%2Fwww.example.com%2Ftest%3F1). http/https optional.
 
 - `width`: the width of the screen shot. (e.g. 600)
 

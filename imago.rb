@@ -28,21 +28,16 @@ include Magick
 get '/get_image?' do
   
   @errors = validate(params)
-
+  url = params['website'] || ""
   if @errors.empty?
     # Hash the params to get the filename and the key for redis
     name = Digest::MD5.hexdigest("#{params['website']}_#{params['width']}_#{params['height']}")
 
     # Try to lookup the hash to see if this image has been created before
-    @link = REDIS.get "#{name}"
-    unless @link
+    link = REDIS.get "#{name}"
+    unless link
       begin
-        website = URI::decode(params['website'])
-        if website[/^https?/]
-          url = website
-        else
-          url = "http://#{website}"
-        end
+        url = build_url(params['website'])
         
         # keep super slow sites from taking forever
         Timeout.timeout(20) do
@@ -54,21 +49,21 @@ get '/get_image?' do
         end
         
         # Create the link url.
-        @link = "#{settings.base_link_url}#{name}.jpg"
+        link = "#{settings.base_link_url}#{name}.jpg"
       rescue Exception => exception
         logger.error "Rescued Error Creating and Uploading Image: #{exception}"
-        @link = "#{settings.base_link_url}not_found.jpg"
+        link = "#{settings.base_link_url}not_found.jpg"
       end
       # Save in redis for re-use later.
-      REDIS.set "#{name}", @link
+      REDIS.set "#{name}", link
       REDIS.expire "#{name}", 1209600
     end
   else
     logger.info "Setting link to not found because of bad params: #{@errors.inspect}"
-    @link = "#{settings.base_link_url}not_found.jpg"
+    link = "#{settings.base_link_url}not_found.jpg"
   end
 
-  respond(@link)
+  respond(link, url)
 end
 
 #### respond
@@ -78,7 +73,7 @@ end
 # * `params`: the params that were sent with the request.
 #
 # Respond to request
-def respond(link)
+def respond(link, url)
   @link = link
   if params['format']
     # Respond based on format
@@ -86,11 +81,11 @@ def respond(link)
       haml :main
     elsif params['format'] == "json"
       content_type :json
-      data = { :link => @link, :website => "http://#{params['website']}" }
+      data = { :link => @link, :website => url }
       JSONP data      # JSONP is an alias for jsonp method
     elsif params['format'] == "image"
       # TODO do all of this in a begin block. Do a send_file with a local copy of not found if fail
-      @link = @link.sub("https://", 'http://')
+      @link.sub!("https://", 'http://')
       uri = URI(@link)
 
       # get only header data
@@ -113,7 +108,7 @@ def respond(link)
   else
     # Default to json if no format.
     content_type :json
-    data = { :link => @link, :website => "http://#{params['website']}" }
+    data = { :link => @link, :website => url }
     JSONP data      # JSONP is an alias for jsonp method
   end
 end
@@ -192,4 +187,15 @@ def generate_image(url)
   # img.thumbnail!(params['width'].to_i, params['height'].to_i)
   img.resize_to_fill!(params['width'].to_i, params['height'].to_i)
   img.to_blob
+end
+
+#### build_url
+#
+# * `website`: the website to build a working url for.
+#
+# Build a usable url from the website param
+def build_url(website)
+  url = URI::decode(website)
+  url = "http://#{url}" unless url[/^https?/]
+  url
 end
