@@ -1,9 +1,7 @@
 #### Requires
 
 # Write out all requires from gems
-%w(rubygems sinatra imgkit aws/s3 digest/md5 haml redis open-uri RMagick json airbrake newrelic_rpm sinatra/jsonp timeout sinatra/synchrony).each{ |g| require g }
-
-register Sinatra::Synchrony
+%w(rubygems sinatra imgkit aws/s3 digest/md5 haml redis open-uri RMagick json airbrake newrelic_rpm sinatra/jsonp timeout).each{ |g| require g }
 
 # require the app configs
 require_relative 'config'
