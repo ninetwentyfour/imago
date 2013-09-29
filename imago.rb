@@ -1,7 +1,7 @@
 #### Requires
 
 # Write out all requires from gems
-%w(rubygems sinatra imgkit aws/s3 digest/md5 haml redis open-uri RMagick json airbrake newrelic_rpm sinatra/jsonp).each{ |g| require g }
+%w(rubygems sinatra imgkit aws/s3 digest/md5 haml redis open-uri RMagick json airbrake newrelic_rpm sinatra/jsonp timeout).each{ |g| require g }
 
 # require the app configs
 require_relative 'config'
@@ -39,11 +39,14 @@ get '/get_image?' do
       begin
         url = "http://#{params['website']}"
         
-        # Generate the image.
-        img = generate_image(url)
+        # keep super slow sites from taking forever
+        Timeout.timeout(20) do
+          # Generate the image.
+          img = generate_image(url)
 
-        # Store the image on s3.
-        send_to_s3(img, name)
+          # Store the image on s3.
+          send_to_s3(img, name)
+        end
         
         # Create the link url.
         @link = "#{settings.base_link_url}#{name}.jpg"

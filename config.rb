@@ -8,8 +8,12 @@ configure do
   set :base_link_url, ENV['BASE_LINK_URL'] # http://www.example.com/ note trailing slash
   
   # redis configs
-  uri = URI.parse(ENV["REDISTOGO_URL"])
-  REDIS = Redis.new(:host => uri.host, :port => uri.port, :password => uri.password)
+  if ENV["REDISTOGO_URL"]
+    uri = URI.parse(ENV["REDISTOGO_URL"])
+    REDIS = Redis.new(:host => uri.host, :port => uri.port, :password => uri.password)
+  else
+    REDIS = Redis.new
+  end
   
   # imgkit configs
   IMGKit.configure do |config|
