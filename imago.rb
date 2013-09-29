@@ -28,12 +28,11 @@ include Magick
 get '/get_image?' do
   
   @errors = validate(params)
-  url = params['website'] || ""
+  url = build_url(params['website']) || ""
   if @errors.empty?
     # Hash the params to get the filename and the key for redis
     name = Digest::MD5.hexdigest("#{params['website']}_#{params['width']}_#{params['height']}")
 
-    url = build_url(params['website'])
     # Try to lookup the hash to see if this image has been created before
     link = REDIS.get "#{name}"
     unless link
