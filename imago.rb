@@ -33,12 +33,11 @@ get '/get_image?' do
     # Hash the params to get the filename and the key for redis
     name = Digest::MD5.hexdigest("#{params['website']}_#{params['width']}_#{params['height']}")
 
+    url = build_url(params['website'])
     # Try to lookup the hash to see if this image has been created before
     link = REDIS.get "#{name}"
     unless link
       begin
-        url = build_url(params['website'])
-        
         # keep super slow sites from taking forever
         Timeout.timeout(20) do
           # Generate the image.
@@ -195,7 +194,11 @@ end
 #
 # Build a usable url from the website param
 def build_url(website)
-  url = URI::decode(website)
-  url = "http://#{url}" unless url[/^https?/]
+  decoded_url = URI::decode(website)
+  if decoded_url[/^https?/]
+    url = decoded_url
+  else
+    url = "http://#{decoded_url}"
+  end
   url
 end
