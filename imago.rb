@@ -160,7 +160,7 @@ end
 # Store the image on s3.
 def send_to_s3(img, name)
   begin
-    fork_to do
+    fork_to(8) do
       AWS::S3::Base.establish_connection!(
                                           :access_key_id     => ENV['S3_KEY'],
                                           :secret_access_key => ENV['S3_SECRET']
@@ -184,7 +184,7 @@ end
 # Grab the website image, resize with rmagick and return the image blob.
 def generate_image(url)
   begin
-    fork_to do
+    fork_to(10) do
       # Capture the screenshot
       kit   = IMGKit.new(url, quality: 90, width: 1280, height: 720 )
 
