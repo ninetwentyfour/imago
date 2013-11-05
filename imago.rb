@@ -48,13 +48,19 @@ get '/get_image?' do
         
         # Create the link url.
         link = "#{settings.base_link_url}#{name}.jpg"
+        # Save in redis for re-use later.
+        REDIS.set "#{name}", link
+        REDIS.expire "#{name}", 1209600
       rescue Exception => exception
         logger.error "Rescued Error Creating and Uploading Image: #{exception}"
         link = "#{settings.base_link_url}not_found.jpg"
+        # Save in redis for re-use later.
+        REDIS.set "#{name}", link
+        REDIS.expire "#{name}", 300
       end
-      # Save in redis for re-use later.
-      REDIS.set "#{name}", link
-      REDIS.expire "#{name}", 1209600
+      # # Save in redis for re-use later.
+      # REDIS.set "#{name}", link
+      # REDIS.expire "#{name}", 1209600
     end
   else
     logger.info "Setting link to not found because of bad params: #{@errors.inspect}"
