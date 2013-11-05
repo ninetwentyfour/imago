@@ -165,8 +165,8 @@ end
 #
 # Store the image on s3.
 def send_to_s3(img, name)
-  # begin
-  #   fork_to(18) do
+  begin
+    fork_to(18) do
       AWS::S3::Base.establish_connection!(
                                           :access_key_id     => ENV['S3_KEY'],
                                           :secret_access_key => ENV['S3_SECRET']
@@ -177,10 +177,10 @@ def send_to_s3(img, name)
                                 ENV['S3_BUCKET'],
                                 :access => :public_read
                               )
-  #   end
-  # rescue Timeout::Error
-  #   raise "SubprocessTimedOut"
-  # end
+    end
+  rescue Timeout::Error
+    raise "SubprocessTimedOut"
+  end
 end
 
 #### generate_image
@@ -189,8 +189,8 @@ end
 #
 # Grab the website image, resize with rmagick and return the image blob.
 def generate_image(url)
-  # begin
-  #   fork_to(20) do
+  begin
+    fork_to(20) do
       # Capture the screenshot
       kit   = IMGKit.new(url, quality: 90, width: 1280, height: 720 )
 
@@ -199,10 +199,10 @@ def generate_image(url)
       # img.thumbnail!(params['width'].to_i, params['height'].to_i)
       img.resize_to_fill!(params['width'].to_i, params['height'].to_i)
       img.to_blob
-  #   end
-  # rescue Timeout::Error
-  #   raise "SubprocessTimedOut"
-  # end
+    end
+  rescue Timeout::Error
+    raise "SubprocessTimedOut"
+  end
 end
 
 #### build_url
