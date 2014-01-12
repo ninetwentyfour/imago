@@ -3,10 +3,12 @@ rvm:
   - "2.1.0"
 env:
   global:
-    - secure: "EqG1ea2hh4hoBZpq+VPgG1aheHr7xFEDyFxdpIuuZzXVjzL6MdCV2TFtleTnxlBtuwvlLQtOxWFhW6UROyugkwlSuGpXKDCGuQKjTZtLkjlYA0YnHOeUDQbwfElcKf+LEpFR8jI9dbrCwvcixaqlJHYaueMUMexKjaUmOXVWLDk="
-    - secure: "REB+22ZogCMz9MTgeIHb/SnZ7fmM7F0iWAj9WteLh7BxoeBKxfgFHe45jkJ2rfXztUP+uNuLTD4JjD1W4TlqUpO5UmEQb7mIURucCtEojzfOPTOfqCYRTpjs1CPmzGnesiCgsK4i/3fXvg2GALeH6ISwkYI9cXsSZjAVtSJORFk="
-    - secure: "kuSTAhiHRJ63O60VRK77R/iq2o5OrWOSB/SQnriUcbFiZrCo/LdfqVuJKA51SsDAH+doLHdhqXXjXhAM+RDnm6beRvj50WooMipZ73sXoF2W/pZm1jF4RBODhSOpbnSYdYlwIvS0ZnXyJqjIrW4Bo7MxQR3AKrlVEUOx6jHgfP8="
+    - secure: "X4WRILmVESuKawBqBulN9kKcIF/ZJtcGppiLQEDc69gmjJ5eSrw6+ViPwMGC9G2mbU7it89dUhf4AryzUC5Dn3roeTEQVQYojXk39tosANXrx202op2NzEZFj0KgwVZonoS/A7toQTRJGX+uLceaHlBkMsJodsk54npYDDbIh/E="
+    - secure: "UJm2m6xNm9JhuC9i+bCgcZK1z+d0FjipbWSGPloj6BBHqMv11uEvD/e0+E+E5ZLqlWijI/OueW/zjWv5n6HyBeJpZA6QZktg2qe1AQUA+HRv/cgs/lSs4XxgQFXcM65YB+X5eO0Lv5uQ7doeTOjM3lP6K6bKgUk2rSSUxWFafqI="
     - S3_BUCKET=static-stage.imago.in
     - BASE_LINK_URL=https://d29sc4udwyhodq.cloudfront.net/
 # uncomment this line if your project needs to run something other than `rake`:
+services:
+  - memcache # will start memcached
+  - redis
 script: bundle exec rspec spec
