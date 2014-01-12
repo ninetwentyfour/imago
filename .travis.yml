@@ -3,8 +3,9 @@ rvm:
   - "2.1.0"
 env:
   global:
-    - secure: "X4WRILmVESuKawBqBulN9kKcIF/ZJtcGppiLQEDc69gmjJ5eSrw6+ViPwMGC9G2mbU7it89dUhf4AryzUC5Dn3roeTEQVQYojXk39tosANXrx202op2NzEZFj0KgwVZonoS/A7toQTRJGX+uLceaHlBkMsJodsk54npYDDbIh/E="
-    - secure: "UJm2m6xNm9JhuC9i+bCgcZK1z+d0FjipbWSGPloj6BBHqMv11uEvD/e0+E+E5ZLqlWijI/OueW/zjWv5n6HyBeJpZA6QZktg2qe1AQUA+HRv/cgs/lSs4XxgQFXcM65YB+X5eO0Lv5uQ7doeTOjM3lP6K6bKgUk2rSSUxWFafqI="
+    # S3_KEY and S3_SECRET
+    - secure: "UlJ49Mjvjn7gO+ZyeREfwFUxWtJzxuy4VmyPazwoZ+FmnQ2L3uX4D5wDGhx9LB2c7TAF/GwugZFKHnK56GWAZqKsMkFwL/sXczyIC6bJt1mOVQIrOlgMf+7KvRUp8Y55C4Jci5mhnCAGIsyzQCODGrmokZStZ6MpjiqRzWdGmWc="
+    - secure: "Q23kdG7S8wlu0RCYCGpyO5GyAzORsHDoZxXDuTn96dSwC5YX+wNrpNSANAnLuduwYkG1HFjCSW57mjTtK85VOrsUpW7yUDDvw9ePWSVq24SN+2S9LNlULG32QNDeN7yoDJQMJ/iO8jZSku/fRHEvWTzwee6o9xb/0OxRe9+LGNo="
     - S3_BUCKET=static-stage.imago.in
     - BASE_LINK_URL=https://d29sc4udwyhodq.cloudfront.net/
 # uncomment this line if your project needs to run something other than `rake`:
