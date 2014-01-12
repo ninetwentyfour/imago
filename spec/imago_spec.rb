@@ -135,7 +135,7 @@ describe 'Imago' do
     get '/get_image?website=www.travisberry.com&width=320&height=200&format=image'
     last_response.should be_ok
     # puts last_response.header
-    last_response.header.should == {"Content-Type"=>"image/jpeg", "Cache-Control"=>"max-age=2592000, no-transform, public", "Expires"=>"Thu, 29 Sep 2022 01:22:54 GMT+00:00", "X-Content-Type-Options"=>"nosniff", "Content-Length"=>"8075"}
+    last_response.header.should == {"Content-Type"=>"image/jpeg", "Cache-Control"=>"max-age=2592000, no-transform, public", "Expires"=>"Thu, 29 Sep 2022 01:22:54 GMT+00:00", "X-Content-Type-Options"=>"nosniff", "Content-Length"=>"4488"}
   end
   
   it "returns a html response for a valid url" do
