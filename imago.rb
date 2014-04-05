@@ -1,7 +1,7 @@
 #### Requires
 
 # Write out all requires from gems
-%w(rubygems sinatra imgkit aws/s3 digest/md5 haml redis open-uri RMagick json airbrake newrelic_rpm sinatra/jsonp timeout fog).each{ |g| require g }
+%w(rubygems sinatra imgkit digest/md5 haml redis open-uri RMagick json airbrake newrelic_rpm sinatra/jsonp timeout fog).each{ |g| require g }
 
 # require the app configs
 require_relative 'config'
@@ -26,9 +26,15 @@ include Magick
 #
 # /get_image?website=www.example.com&width=600&height=600&format=json
 get '/get_image?' do
-  
-  errors = validate(params)
   url = build_url(params['website']) || ""
+  link = get_image_link(url)
+  respond(link, url)
+end
+
+private
+
+def get_image_link(url)
+  errors = validate(params)
   if errors.empty?
     # Hash the params to get the filename and the key for redis
     name = Digest::MD5.hexdigest("#{params['website']}_#{params['width']}_#{params['height']}")
@@ -60,11 +66,10 @@ get '/get_image?' do
       end
     end
   else
-    logger.info "Setting link to not found because of bad params: #{@errors.inspect}"
+    logger.info "Setting link to not found because of bad params: #{errors.inspect}"
     link = "#{settings.base_link_url}not_found.jpg"
   end
-
-  respond(link, url)
+  link
 end
 
 #### respond
@@ -75,49 +80,11 @@ end
 #
 # Respond to request
 def respond(link, url)
-  # @link = link
-  if params['format']
-    # Respond based on format
-    if params['format'] == "html"
-      haml :main, :locals => {:link => link}
-    elsif params['format'] == "json"
-      content_type :json
-      data = { :link => link, :website => url }
-      JSONP data      # JSONP is an alias for jsonp method
-    elsif params['format'] == "image"
-      # TODO do all of this in a begin block. Do a send_file with a local copy of not found if fail
-      link.sub!("https://", 'http://')
-      uri = URI(link)
-
-      # get only header data
-      head = Net::HTTP.start(uri.host, uri.port) do |http|
-        http.head(uri.request_uri)
-      end
-
-      # set headers accordingly (all that apply)
-      headers 'Content-Type' => head['Content-Type']
-      headers 'Cache-Control' => "max-age=2592000, no-transform, public"
-      headers 'Expires' => "Thu, 29 Sep 2022 01:22:54 GMT+00:00"
-
-      # stream back the contents
-      stream do |out|
-        Net::HTTP.get_response(uri) do |f| 
-          f.read_body { |ch| out << ch }
-        end
-      end
-    end
-  else
-    # Default to json if no format.
-    content_type :json
-    data = { :link => link, :website => url }
-    JSONP data      # JSONP is an alias for jsonp method
-  end
-
   case params['format']
   when 'html'
     haml :main, :locals => {:link => link}
   when 'image'
-    # TODO do all of this in a begin block. Do a send_file with a local copy of not found if fail
+    # TODO: do all of this in a begin block. Do a send_file with a local copy of not found if fail
     link.sub!("https://", 'http://')
     uri = URI(link)
 
@@ -299,8 +266,6 @@ def fork_to(timeout = 4)
     w.close rescue nil
   end
 end
-
-private
 
 def s3_directory
   @s3directory ||= s3_connection.directories.get(ENV['S3_BUCKET'])
