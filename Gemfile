@@ -1,5 +1,5 @@
 source 'http://bundler-api.herokuapp.com'
-ruby "2.1.0"
+ruby "2.1.1"
 
 gem "sinatra"
 gem "shotgun"
@@ -8,7 +8,7 @@ gem "imgkit"
 gem "aws-s3"
 gem "haml"
 gem "redis"
-gem "rmagick", "2.12.0"
+gem "rmagick"
 gem "json"
 gem "newrelic_rpm"
 gem "sinatra-jsonp"

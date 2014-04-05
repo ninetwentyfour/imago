@@ -34,7 +34,7 @@ GEM
     redis (3.0.6)
     rest-client (1.6.7)
       mime-types (>= 1.16)
-    rmagick (2.12.0)
+    rmagick (2.13.2)
     rspec (2.14.1)
       rspec-core (~> 2.14.0)
       rspec-expectations (~> 2.14.0)
@@ -81,7 +81,7 @@ DEPENDENCIES
   newrelic_rpm
   rack-test
   redis
-  rmagick (= 2.12.0)
+  rmagick
   rspec
   shotgun
   simplecov
