@@ -304,7 +304,8 @@ def connect_to_s3
   config = {
     provider: 'AWS',
     aws_access_key_id: ENV['S3_KEY'],
-    aws_secret_access_key: ENV['S3_SECRET']
+    aws_secret_access_key: ENV['S3_SECRET'],
+    path_style: true
   }
   Fog::Storage.new(config)
 end
