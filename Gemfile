@@ -13,6 +13,7 @@ gem "json"
 gem "newrelic_rpm"
 gem "sinatra-jsonp"
 gem "airbrake"
+gem "connection_pool"
 gem "unicorn"
 
 group :development,:test do

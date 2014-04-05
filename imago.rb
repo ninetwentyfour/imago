@@ -45,7 +45,11 @@ def get_image_link(url)
   name = Digest::MD5.hexdigest("#{params['website']}_#{params['width']}_#{params['height']}")
 
   # Try to lookup the hash to see if this image has been created before
-  link = REDIS.get "#{name}"
+  # link = REDIS.get "#{name}"
+  link = $redis.with do |conn|
+    conn.get "#{name}"
+  end
+
   unless link
     begin
       # keep super slow sites from taking forever
@@ -263,8 +267,13 @@ end
 
 def save_to_redis(name, link, time=1209600)
   # Save in redis for re-use later.
-  REDIS.set "#{name}", link
-  REDIS.expire "#{name}", time
+  # REDIS.set "#{name}", link
+  # REDIS.expire "#{name}", time
+
+  $redis.with do |conn|
+    conn.set "#{name}", link
+    conn.expire "#{name}", time
+  end
 end
 
 def s3_directory
