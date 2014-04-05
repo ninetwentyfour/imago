@@ -82,7 +82,7 @@ def respond(link, url)
   if params['format']
     # Respond based on format
     if params['format'] == "html"
-      haml :main
+      haml :main, :locals => {:link => link}
     elsif params['format'] == "json"
       content_type :json
       data = { :link => link, :website => url }
