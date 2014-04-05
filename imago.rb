@@ -293,7 +293,7 @@ end
 private
 
 def s3_directory
-  s3_connection.directories.get(ENV['S3_BUCKET'])
+  @s3directory ||= s3_connection.directories.get(ENV['S3_BUCKET'])
 end
 
 def s3_connection
