@@ -62,7 +62,7 @@ def get_image_link(url)
       end
 
       # Create the link url.
-      link = "#{settings.base_link_url}#{name}.jpg"
+      link = "#{ENV['BASE_LINK_URL']}#{name}.jpg"
       save_to_redis(name, link)
     rescue Exception => exception
       logger.error "Rescued Error Creating and Uploading Image: #{exception}"

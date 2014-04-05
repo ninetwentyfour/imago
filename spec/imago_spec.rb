@@ -21,6 +21,18 @@ describe 'Imago' do
     Sinatra::Application
   end
 
+  before do
+    Fog.mock!
+    Fog::Mock.reset
+    @s3_connection_double = Fog::Storage.new({
+      provider: 'AWS',
+      aws_access_key_id: ENV['S3_KEY'],
+      aws_secret_access_key: ENV['S3_SECRET'],
+      path_style: true
+    })
+    @s3_connection_double.directories.create({key: ENV['S3_BUCKET']})
+  end
+
   describe 'validations' do
     
     it "validates good params" do
@@ -99,18 +111,6 @@ describe 'Imago' do
   end    
 
   describe 's3' do
-    before do
-      Fog.mock!
-      Fog::Mock.reset
-      @s3_connection_double = Fog::Storage.new({
-        provider: 'AWS',
-        aws_access_key_id: ENV['S3_KEY'],
-        aws_secret_access_key: ENV['S3_SECRET'],
-        path_style: true
-      })
-      @s3_connection_double.directories.create({key: ENV['S3_BUCKET']})
-    end
-
     it "#connect_to_s3 returns a fog object" do
       expect(connect_to_s3.methods).to eq @s3_connection_double.methods
     end
@@ -169,7 +169,7 @@ describe 'Imago' do
       get '/get_image?website=www.travisberry.com&width=320&height=200&format=json'
       last_response.should be_ok
       last_response.header["Content-Type"].should == "application/json;charset=utf-8"
-      last_response.body.should == '{"link":"https://d29sc4udwyhodq.cloudfront.net/6b3927a0e37512e2efa3b25cb440a498.jpg","website":"http://www.travisberry.com"}'
+      last_response.body.should == "{\"link\":\"#{ENV['BASE_LINK_URL']}/6b3927a0e37512e2efa3b25cb440a498.jpg\",\"website\":\"http://www.travisberry.com\"}"
     end
     
     it "returns an image response for a valid url" do
@@ -190,7 +190,7 @@ describe 'Imago' do
       get '/get_image?website=www.travisberry.com&width=320&height=200'
       last_response.should be_ok
       last_response.header["Content-Type"].should == "application/json;charset=utf-8"
-      last_response.body.should == '{"link":"https://d29sc4udwyhodq.cloudfront.net/6b3927a0e37512e2efa3b25cb440a498.jpg","website":"http://www.travisberry.com"}'
+      last_response.body.should == "{\"link\":\"#{ENV['BASE_LINK_URL']}/6b3927a0e37512e2efa3b25cb440a498.jpg\",\"website\":\"http://www.travisberry.com\"}"
     end
   end
 end
