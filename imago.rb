@@ -138,11 +138,6 @@ def validate(params)
     errors['height']   = 'This field is required'
   end
 
-  # Make sure the format is a passed in param.
-  unless params['format'] && given?(params['format'])
-    errors['format']   = 'This field is required'
-  end
-
   errors
 end
 
