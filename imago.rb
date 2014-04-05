@@ -33,6 +33,11 @@ end
 
 private
 
+#### get_image_link
+#
+# * `url`: the url of the website to image.
+#
+# Create the image and upload it. Return the link to the image
 def get_image_link(url)
   errors = validate(params)
   if errors.empty?
@@ -176,13 +181,13 @@ def generate_image(url)
   begin
     fork_to(20) do
       # Capture the screenshot
-      kit   = IMGKit.new(url, quality: 90, width: 1280, height: 720 )
+      kit = IMGKit.new(url, quality: 90, width: 1280, height: 720 )
 
       # Resize the screengrab using rmagick
-      img = Image.from_blob(kit.to_img(:jpg)).first
+      Image.from_blob(kit.to_img(:jpg)).first.resize_to_fill!(params['width'].to_i, params['height'].to_i).to_blob
       # img.thumbnail!(params['width'].to_i, params['height'].to_i)
-      img.resize_to_fill!(params['width'].to_i, params['height'].to_i)
-      img.to_blob
+      # img.resize_to_fill!(params['width'].to_i, params['height'].to_i)
+      # img.to_blob
     end
   rescue Timeout::Error
     raise "SubprocessTimedOut"
