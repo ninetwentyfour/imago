@@ -1,6 +1,6 @@
 language: ruby
 rvm:
-  - "2.1.0"
+  - "2.1.1"
 env:
   global:
     # S3_KEY and S3_SECRET
