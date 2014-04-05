@@ -169,7 +169,7 @@ describe 'Imago' do
       get '/get_image?website=www.travisberry.com&width=320&height=200&format=json'
       last_response.should be_ok
       last_response.header["Content-Type"].should == "application/json;charset=utf-8"
-      last_response.body.should == "{\"link\":\"#{ENV['BASE_LINK_URL']}/6b3927a0e37512e2efa3b25cb440a498.jpg\",\"website\":\"http://www.travisberry.com\"}"
+      last_response.body.should == "{\"link\":\"#{ENV['BASE_LINK_URL']}6b3927a0e37512e2efa3b25cb440a498.jpg\",\"website\":\"http://www.travisberry.com\"}"
     end
     
     it "returns an image response for a valid url" do
@@ -190,7 +190,7 @@ describe 'Imago' do
       get '/get_image?website=www.travisberry.com&width=320&height=200'
       last_response.should be_ok
       last_response.header["Content-Type"].should == "application/json;charset=utf-8"
-      last_response.body.should == "{\"link\":\"#{ENV['BASE_LINK_URL']}/6b3927a0e37512e2efa3b25cb440a498.jpg\",\"website\":\"http://www.travisberry.com\"}"
+      last_response.body.should == "{\"link\":\"#{ENV['BASE_LINK_URL']}6b3927a0e37512e2efa3b25cb440a498.jpg\",\"website\":\"http://www.travisberry.com\"}"
     end
   end
 end
