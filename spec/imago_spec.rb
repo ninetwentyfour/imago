@@ -6,7 +6,9 @@ SimpleCov.formatter = SimpleCov::Formatter::MultiFormatter[
   SimpleCov::Formatter::HTMLFormatter,
   Coveralls::SimpleCov::Formatter
 ]
-SimpleCov.start 'rails'
+SimpleCov.start 'rails' do
+  add_filter 'config.rb'
+end
 #
 require File.join(File.dirname(__FILE__), '../imago.rb')
 require 'rspec'
@@ -31,6 +33,9 @@ describe 'Imago' do
       path_style: true
     })
     @s3_connection_double.directories.create({key: ENV['S3_BUCKET']})
+
+    @redis = Redis.new
+    @redis.flushall
   end
 
   describe 'validations' do
@@ -42,8 +47,8 @@ describe 'Imago' do
         'height' => '600',
         'format' => 'json'
       }
-      @errors = validate(params)
-      @errors.should == {}
+      errors = validate(params)
+      errors.should == {}
     end
 
     it "requires a website" do
@@ -52,8 +57,8 @@ describe 'Imago' do
         'height' => '600',
         'format' => 'json'
       }
-      @errors = validate(params)
-      @errors['website'].should == 'This field is required'
+      errors = validate(params)
+      errors['website'].should == 'This field is required'
     end
 
     it "requires a non empty website" do
@@ -63,8 +68,8 @@ describe 'Imago' do
         'height' => '600',
         'format' => 'json'
       }
-      @errors = validate(params)
-      @errors['website'].should == 'This field is required'
+      errors = validate(params)
+      errors['website'].should == 'This field is required'
     end
     
     it "requires a width" do
@@ -73,8 +78,8 @@ describe 'Imago' do
         'height' => '600',
         'format' => 'json'
       }
-      @errors = validate(params)
-      @errors['width'].should == 'This field is required'
+      errors = validate(params)
+      errors['width'].should == 'This field is required'
     end
 
     it "requires a non empty width" do
@@ -84,8 +89,8 @@ describe 'Imago' do
         'height' => '600',
         'format' => 'json'
       }
-      @errors = validate(params)
-      @errors['width'].should == 'This field is required'
+      errors = validate(params)
+      errors['width'].should == 'This field is required'
     end
     
     it "requires a height" do
@@ -94,8 +99,8 @@ describe 'Imago' do
         'width' => '600',
         'format' => 'json'
       }
-      @errors = validate(params)
-      @errors['height'].should == 'This field is required'
+      errors = validate(params)
+      errors['height'].should == 'This field is required'
     end
 
     it "requires a non empty height" do
@@ -105,8 +110,8 @@ describe 'Imago' do
         'height' => '',
         'format' => 'json'
       }
-      @errors = validate(params)
-      @errors['height'].should == 'This field is required'
+      errors = validate(params)
+      errors['height'].should == 'This field is required'
     end    
   end    
 
@@ -136,11 +141,9 @@ describe 'Imago' do
 
   describe 'redis' do
     it "#save_to_redis should save to redis" do
-      redis = Redis.new
-
       save_to_redis("example", "bar", 10)
 
-      expect(redis.get("example")).to eq "bar"
+      expect(@redis.get("example")).to eq "bar"
     end
   end
 
@@ -171,7 +174,7 @@ describe 'Imago' do
       last_response.header["Content-Type"].should == "application/json;charset=utf-8"
       last_response.body.should == "{\"link\":\"#{ENV['BASE_LINK_URL']}6b3927a0e37512e2efa3b25cb440a498.jpg\",\"website\":\"http://www.travisberry.com\"}"
     end
-    
+
     it "returns a json response for a valid url" do
       get '/get_image?website=www.travisberry.com&width=320&height=200&format=json'
       last_response.should be_ok

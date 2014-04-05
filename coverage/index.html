@@ -14,27 +14,27 @@
       <img src="./assets/0.8.0/loading.gif" alt="loading"/>
     </div>
     <div id="wrapper" style="display:none;">
-      <div class="timestamp">Generated <abbr class="timeago" title="2014-04-05T17:24:32-06:00">2014-04-05T17:24:32-06:00</abbr></div>
+      <div class="timestamp">Generated <abbr class="timeago" title="2014-04-05T17:47:14-06:00">2014-04-05T17:47:14-06:00</abbr></div>
       <ul class="group_tabs"></ul>
 
       <div id="content">
         <div class="file_list_container" id="AllFiles">
   <h2>
     <span class="group_name">All Files</span>
-    (<span class="covered_percent"><span class="red">55.56%</span></span>
+    (<span class="covered_percent"><span class="red">54.05%</span></span>
      covered at
      <span class="covered_strength">
        <span class="green">
-         1.44
+         1.6
        </span>
     </span> hits/line)
   </h2>
   <a name="AllFiles"></a>
   <div>
-    <b>2</b> files in total.
-    <b>90</b> relevant lines. 
-    <span class="green"><b>50</b> lines covered</span> and
-    <span class="red"><b>40</b> lines missed </span>
+    <b>1</b> files in total.
+    <b>74</b> relevant lines. 
+    <span class="green"><b>40</b> lines covered</span> and
+    <span class="red"><b>34</b> lines missed </span>
   </div>
   <table class="file_list">
     <thead>
@@ -49,16 +49,6 @@
       </tr>
     </thead>
     <tbody>
-      
-      <tr>
-        <td class="strong"><a href="#e76e6d6920fdbf511989215b70eb17bb021164ce" class="src_link" title="config.rb">config.rb</a></td>
-        <td class="red strong">62.5 %</td>
-        <td>33</td>
-        <td>16</td>
-        <td>10</td>
-        <td>6</td>
-        <td>0.7</td>
-      </tr>
       
       <tr>
         <td class="strong"><a href="#63a8c4ae599cc3d4b363d0e4cdb51b7a4bfeafb7" class="src_link" title="imago.rb">imago.rb</a></td>
@@ -264,20 +254,20 @@
           <div class="file_list_container" id="Ungrouped">
   <h2>
     <span class="group_name">Ungrouped</span>
-    (<span class="covered_percent"><span class="red">55.56%</span></span>
+    (<span class="covered_percent"><span class="red">54.05%</span></span>
      covered at
      <span class="covered_strength">
        <span class="green">
-         1.44
+         1.6
        </span>
     </span> hits/line)
   </h2>
   <a name="Ungrouped"></a>
   <div>
-    <b>2</b> files in total.
-    <b>90</b> relevant lines. 
-    <span class="green"><b>50</b> lines covered</span> and
-    <span class="red"><b>40</b> lines missed </span>
+    <b>1</b> files in total.
+    <b>74</b> relevant lines. 
+    <span class="green"><b>40</b> lines covered</span> and
+    <span class="red"><b>34</b> lines missed </span>
   </div>
   <table class="file_list">
     <thead>
@@ -292,16 +282,6 @@
       </tr>
     </thead>
     <tbody>
-      
-      <tr>
-        <td class="strong"><a href="#e76e6d6920fdbf511989215b70eb17bb021164ce" class="src_link" title="config.rb">config.rb</a></td>
-        <td class="red strong">62.5 %</td>
-        <td>33</td>
-        <td>16</td>
-        <td>10</td>
-        <td>6</td>
-        <td>0.7</td>
-      </tr>
       
       <tr>
         <td class="strong"><a href="#63a8c4ae599cc3d4b363d0e4cdb51b7a4bfeafb7" class="src_link" title="imago.rb">imago.rb</a></td>
@@ -327,222 +307,6 @@
       </div>
     
       <div class="source_files">
-      
-        <div class="source_table" id="e76e6d6920fdbf511989215b70eb17bb021164ce">
-  <div class="header">
-    <h3>config.rb</h3>
-    <h4><span class="red">62.5 %</span> covered</h4>
-    <div>
-      <b>16</b> relevant lines. 
-      <span class="green"><b>10</b> lines covered</span> and
-      <span class="red"><b>6</b> lines missed.</span>
-    </div>
-  </div>
-  
-  <pre>
-    <ol>
-      
-        <li class="never" data-hits="" data-linenumber="1">
-          
-          
-          <code class="ruby">#### App Configs</code>
-        </li>
-      
-        <li class="never" data-hits="" data-linenumber="2">
-          
-          
-          <code class="ruby"></code>
-        </li>
-      
-        <li class="covered" data-hits="1" data-linenumber="3">
-          <span class="hits">1</span>
-          
-          <code class="ruby">configure do</code>
-        </li>
-      
-        <li class="never" data-hits="" data-linenumber="4">
-          
-          
-          <code class="ruby">  # s3 configs</code>
-        </li>
-      
-        <li class="covered" data-hits="1" data-linenumber="5">
-          <span class="hits">1</span>
-          
-          <code class="ruby">  set :bucket, ENV[&#39;S3_BUCKET&#39;]</code>
-        </li>
-      
-        <li class="covered" data-hits="1" data-linenumber="6">
-          <span class="hits">1</span>
-          
-          <code class="ruby">  set :s3_key, ENV[&#39;S3_KEY&#39;]</code>
-        </li>
-      
-        <li class="covered" data-hits="1" data-linenumber="7">
-          <span class="hits">1</span>
-          
-          <code class="ruby">  set :s3_secret, ENV[&#39;S3_SECRET&#39;]</code>
-        </li>
-      
-        <li class="covered" data-hits="1" data-linenumber="8">
-          <span class="hits">1</span>
-          
-          <code class="ruby">  set :base_link_url, ENV[&#39;BASE_LINK_URL&#39;] # http://www.example.com/ note trailing slash</code>
-        </li>
-      
-        <li class="never" data-hits="" data-linenumber="9">
-          
-          
-          <code class="ruby">  </code>
-        </li>
-      
-        <li class="never" data-hits="" data-linenumber="10">
-          
-          
-          <code class="ruby">  # redis configs</code>
-        </li>
-      
-        <li class="covered" data-hits="1" data-linenumber="11">
-          <span class="hits">1</span>
-          
-          <code class="ruby">  if ENV[&#39;REDISTOGO_URL&#39;]</code>
-        </li>
-      
-        <li class="missed" data-hits="0" data-linenumber="12">
-          
-          
-          <code class="ruby">    uri = URI.parse(ENV[&#39;REDISTOGO_URL&#39;])</code>
-        </li>
-      
-        <li class="missed" data-hits="0" data-linenumber="13">
-          
-          
-          <code class="ruby">    $redis = ConnectionPool.new(size: 5, timeout: 5) { Redis.new(host: uri.host, port: uri.port, password: uri.password) }</code>
-        </li>
-      
-        <li class="never" data-hits="" data-linenumber="14">
-          
-          
-          <code class="ruby">  else</code>
-        </li>
-      
-        <li class="covered" data-hits="2" data-linenumber="15">
-          <span class="hits">2</span>
-          
-          <code class="ruby">    $redis = ConnectionPool.new(size: 5, timeout: 5) { Redis.new }</code>
-        </li>
-      
-        <li class="never" data-hits="" data-linenumber="16">
-          
-          
-          <code class="ruby">  end</code>
-        </li>
-      
-        <li class="never" data-hits="" data-linenumber="17">
-          
-          
-          <code class="ruby">  </code>
-        </li>
-      
-        <li class="never" data-hits="" data-linenumber="18">
-          
-          
-          <code class="ruby">  # imgkit configs</code>
-        </li>
-      
-        <li class="covered" data-hits="1" data-linenumber="19">
-          <span class="hits">1</span>
-          
-          <code class="ruby">  IMGKit.configure do |config|</code>
-        </li>
-      
-        <li class="covered" data-hits="1" data-linenumber="20">
-          <span class="hits">1</span>
-          
-          <code class="ruby">    config.wkhtmltoimage = &quot;#{settings.root}/bin/wkhtmltoimage-amd64&quot;</code>
-        </li>
-      
-        <li class="never" data-hits="" data-linenumber="21">
-          
-          
-          <code class="ruby">  end</code>
-        </li>
-      
-        <li class="never" data-hits="" data-linenumber="22">
-          
-          
-          <code class="ruby">  </code>
-        </li>
-      
-        <li class="covered" data-hits="1" data-linenumber="23">
-          <span class="hits">1</span>
-          
-          <code class="ruby">  if ENV[&#39;RACK_ENV&#39;] == &#39;production&#39;</code>
-        </li>
-      
-        <li class="never" data-hits="" data-linenumber="24">
-          
-          
-          <code class="ruby">    # airbrake configs</code>
-        </li>
-      
-        <li class="missed" data-hits="0" data-linenumber="25">
-          
-          
-          <code class="ruby">    Airbrake.configure do |config|</code>
-        </li>
-      
-        <li class="missed" data-hits="0" data-linenumber="26">
-          
-          
-          <code class="ruby">      config.api_key = ENV[&#39;AIRBRAKE_API_KEY&#39;]</code>
-        </li>
-      
-        <li class="never" data-hits="" data-linenumber="27">
-          
-          
-          <code class="ruby">    end</code>
-        </li>
-      
-        <li class="never" data-hits="" data-linenumber="28">
-          
-          
-          <code class="ruby">  </code>
-        </li>
-      
-        <li class="never" data-hits="" data-linenumber="29">
-          
-          
-          <code class="ruby">    # use airbrake errors</code>
-        </li>
-      
-        <li class="missed" data-hits="0" data-linenumber="30">
-          
-          
-          <code class="ruby">    use Airbrake::Rack</code>
-        </li>
-      
-        <li class="missed" data-hits="0" data-linenumber="31">
-          
-          
-          <code class="ruby">    enable :raise_errors</code>
-        </li>
-      
-        <li class="never" data-hits="" data-linenumber="32">
-          
-          
-          <code class="ruby">  end</code>
-        </li>
-      
-        <li class="never" data-hits="" data-linenumber="33">
-          
-          
-          <code class="ruby">end</code>
-        </li>
-      
-    </ol>
-  </pre>
-</div>
       
         <div class="source_table" id="63a8c4ae599cc3d4b363d0e4cdb51b7a4bfeafb7">
   <div class="header">
