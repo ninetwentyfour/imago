@@ -27,9 +27,9 @@ include Magick
 # /get_image?website=www.example.com&width=600&height=600&format=json
 get '/get_image?' do
   
-  @errors = validate(params)
+  errors = validate(params)
   url = build_url(params['website']) || ""
-  if @errors.empty?
+  if errors.empty?
     # Hash the params to get the filename and the key for redis
     name = Digest::MD5.hexdigest("#{params['website']}_#{params['width']}_#{params['height']}")
 
@@ -78,19 +78,19 @@ end
 #
 # Respond to request
 def respond(link, url)
-  @link = link
+  # @link = link
   if params['format']
     # Respond based on format
     if params['format'] == "html"
       haml :main
     elsif params['format'] == "json"
       content_type :json
-      data = { :link => @link, :website => url }
+      data = { :link => link, :website => url }
       JSONP data      # JSONP is an alias for jsonp method
     elsif params['format'] == "image"
       # TODO do all of this in a begin block. Do a send_file with a local copy of not found if fail
-      @link.sub!("https://", 'http://')
-      uri = URI(@link)
+      link.sub!("https://", 'http://')
+      uri = URI(link)
 
       # get only header data
       head = Net::HTTP.start(uri.host, uri.port) do |http|
@@ -112,7 +112,7 @@ def respond(link, url)
   else
     # Default to json if no format.
     content_type :json
-    data = { :link => @link, :website => url }
+    data = { :link => link, :website => url }
     JSONP data      # JSONP is an alias for jsonp method
   end
 end
@@ -165,23 +165,6 @@ end
 #
 # Store the image on s3.
 def send_to_s3(img, name)
-  # begin
-  #   fork_to(18) do
-  #     AWS::S3::Base.establish_connection!(
-  #                                         :access_key_id     => ENV['S3_KEY'],
-  #                                         :secret_access_key => ENV['S3_SECRET']
-  #                                        )
-  #     AWS::S3::S3Object.store(
-  #                               "#{name}.jpg",
-  #                               img,
-  #                               ENV['S3_BUCKET'],
-  #                               :access => :public_read
-  #                             )
-  #   end
-  # rescue Timeout::Error
-  #   raise "SubprocessTimedOut"
-  # end
-
   s3_directory.files.create({
     key: "#{name}.jpg",
     body: img,
