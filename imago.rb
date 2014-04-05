@@ -39,8 +39,10 @@ private
 #
 # Create the image and upload it. Return the link to the image
 def get_image_link(url)
-  errors = validate(params)
-  if errors.empty?
+  return "#{settings.base_link_url}not_found.jpg" unless validate(params).empty?
+
+  # errors = validate(params)
+  # if errors.empty?
     # Hash the params to get the filename and the key for redis
     name = Digest::MD5.hexdigest("#{params['website']}_#{params['width']}_#{params['height']}")
 
@@ -59,21 +61,17 @@ def get_image_link(url)
         
         # Create the link url.
         link = "#{settings.base_link_url}#{name}.jpg"
-        # Save in redis for re-use later.
-        REDIS.set "#{name}", link
-        REDIS.expire "#{name}", 1209600
+        save_to_redis(name, link)
       rescue Exception => exception
         logger.error "Rescued Error Creating and Uploading Image: #{exception}"
         link = "#{settings.base_link_url}not_found.jpg"
-        # Save in redis for re-use later.
-        REDIS.set "#{name}", link
-        REDIS.expire "#{name}", 300
+        save_to_redis(name, link, 300)
       end
     end
-  else
-    logger.info "Setting link to not found because of bad params: #{errors.inspect}"
-    link = "#{settings.base_link_url}not_found.jpg"
-  end
+  # else
+  #   logger.info "Setting link to not found because of bad params: #{errors.inspect}"
+  #   link = "#{settings.base_link_url}not_found.jpg"
+  # end
   link
 end
 
@@ -185,9 +183,6 @@ def generate_image(url)
 
       # Resize the screengrab using rmagick
       Image.from_blob(kit.to_img(:jpg)).first.resize_to_fill!(params['width'].to_i, params['height'].to_i).to_blob
-      # img.thumbnail!(params['width'].to_i, params['height'].to_i)
-      # img.resize_to_fill!(params['width'].to_i, params['height'].to_i)
-      # img.to_blob
     end
   rescue Timeout::Error
     raise "SubprocessTimedOut"
@@ -270,6 +265,12 @@ def fork_to(timeout = 4)
     r.close rescue nil
     w.close rescue nil
   end
+end
+
+def save_to_redis(name, link, time=1209600)
+  # Save in redis for re-use later.
+  REDIS.set "#{name}", link
+  REDIS.expire "#{name}", time
 end
 
 def s3_directory
