@@ -42,7 +42,7 @@ private
 #
 # Create the image and upload it. Return the link to the image
 def get_image_link(url)
-  return "#{settings.base_link_url}not_found.jpg" unless validate(params).empty?
+  return not_found_link unless validate(params).empty?
 
   # Hash the params to get the filename and the key for redis
   name = Digest::MD5.hexdigest(
@@ -66,7 +66,7 @@ def get_image_link(url)
       save_to_redis(name, link)
     rescue Exception => exception
       logger.error "Rescued Error Creating and Uploading Image: #{exception}"
-      link = "#{settings.base_link_url}not_found.jpg"
+      link = not_found_link
       save_to_redis(name, link, 300)
     end
   end
@@ -176,18 +176,12 @@ end
 #
 # Grab the website image, resize with rmagick and return the image blob.
 def generate_image(url)
-  # begin
-  #   fork_to(20) do
-      # Capture the screenshot
-      kit = IMGKit.new(url, quality: 90, width: 1280, height: 720)
+  # Capture the screenshot
+  kit = IMGKit.new(url, quality: 90, width: 1280, height: 720)
 
-      # Resize the screengrab using rmagick
-      Image.from_blob(kit.to_img(:jpg)).first.
-        resize_to_fill!(params['width'].to_i, params['height'].to_i).to_blob
-    # end
-  # rescue Timeout::Error
-  #   raise 'SubprocessTimedOut'
-  # end
+  # Resize the screengrab using rmagick
+  Image.from_blob(kit.to_img(:jpg)).first.
+    resize_to_fill!(params['width'].to_i, params['height'].to_i).to_blob
 end
 
 #### build_url
@@ -205,68 +199,12 @@ def build_url(website)
   url
 end
 
-# # pulled from http://aphyr.com/posts/214-unsafe-thread-concurrency-with-fork
-# def fork_to(timeout = 4)
-#   r, w, pid = nil, nil, nil
-#   begin
-#     # Open pipe
-#     r, w = IO.pipe
-
-#     # Start subprocess
-#     pid = fork do
-#       # Child
-#       begin
-#         r.close
-
-#         val = begin
-#           Timeout.timeout(timeout) do
-#             # Run block
-#             yield
-#           end
-#         rescue Exception => e
-#           e
-#         end
-
-#         w.write Marshal.dump val
-#         w.close
-#       ensure
-#         # YOU SHALL NOT PASS
-#         # Skip at_exit handlers.
-#         exit!
-#       end
-#     end
-
-#     # Parent
-#     w.close
-
-#     Timeout.timeout(timeout) do
-#       # Read value from pipe
-#       begin
-#         val = Marshal.load r.read
-#       rescue ArgumentError => e
-#         # Marshal data too short
-#         # Subprocess likely exited without writing.
-#         raise Timeout::Error
-#       end
-
-#       # Return or raise value from subprocess.
-#       case val
-#       when Exception
-#         raise val
-#       else
-#         return val
-#       end
-#     end
-#   ensure
-#     if pid
-#       Process.kill "TERM", pid rescue nil
-#       Process.kill "KILL", pid rescue nil
-#       Process.waitpid pid rescue nil
-#     end
-#     r.close rescue nil
-#     w.close rescue nil
-#   end
-# end
+#### not_found_link
+#
+# The link to return if something goes wrong
+def not_found_link
+  @not_found_url ||= "#{settings.base_link_url}not_found.jpg"
+end
 
 #### save_to_redis
 #
