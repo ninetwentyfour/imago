@@ -1,7 +1,8 @@
 #### Requires
 
 # Write out all requires from gems
-%w(rubygems sinatra imgkit digest/md5 haml redis open-uri RMagick json airbrake newrelic_rpm sinatra/jsonp timeout fog connection_pool).each { |g| require g }
+%w(rubygems sinatra imgkit digest/md5 haml redis open-uri RMagick json airbrake
+  newrelic_rpm sinatra/jsonp timeout fog connection_pool).each { |g| require g }
 
 # require the app configs
 require_relative 'config'
@@ -183,7 +184,7 @@ def generate_image(url)
       # Resize the screengrab using rmagick
       Image.from_blob(kit.to_img(:jpg)).first.
         resize_to_fill!(params['width'].to_i, params['height'].to_i).to_blob
-    end
+    # end
   # rescue Timeout::Error
   #   raise 'SubprocessTimedOut'
   # end
