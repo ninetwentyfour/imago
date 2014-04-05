@@ -41,37 +41,31 @@ private
 def get_image_link(url)
   return "#{settings.base_link_url}not_found.jpg" unless validate(params).empty?
 
-  # errors = validate(params)
-  # if errors.empty?
-    # Hash the params to get the filename and the key for redis
-    name = Digest::MD5.hexdigest("#{params['website']}_#{params['width']}_#{params['height']}")
+  # Hash the params to get the filename and the key for redis
+  name = Digest::MD5.hexdigest("#{params['website']}_#{params['width']}_#{params['height']}")
 
-    # Try to lookup the hash to see if this image has been created before
-    link = REDIS.get "#{name}"
-    unless link
-      begin
-        # keep super slow sites from taking forever
-        Timeout.timeout(20) do
-          # Generate the image.
-          img = generate_image(url)
-
-          # Store the image on s3.
-          send_to_s3(img, name)
-        end
-        
-        # Create the link url.
-        link = "#{settings.base_link_url}#{name}.jpg"
-        save_to_redis(name, link)
-      rescue Exception => exception
-        logger.error "Rescued Error Creating and Uploading Image: #{exception}"
-        link = "#{settings.base_link_url}not_found.jpg"
-        save_to_redis(name, link, 300)
+  # Try to lookup the hash to see if this image has been created before
+  link = REDIS.get "#{name}"
+  unless link
+    begin
+      # keep super slow sites from taking forever
+      Timeout.timeout(20) do
+        # Generate the image.
+        img = generate_image(url)
+        # Store the image on s3.
+        send_to_s3(img, name)
       end
+
+      # Create the link url.
+      link = "#{settings.base_link_url}#{name}.jpg"
+      save_to_redis(name, link)
+    rescue Exception => exception
+      logger.error "Rescued Error Creating and Uploading Image: #{exception}"
+      link = "#{settings.base_link_url}not_found.jpg"
+      save_to_redis(name, link, 300)
     end
-  # else
-  #   logger.info "Setting link to not found because of bad params: #{errors.inspect}"
-  #   link = "#{settings.base_link_url}not_found.jpg"
-  # end
+  end
+
   link
 end
 
