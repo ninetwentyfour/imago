@@ -34,7 +34,7 @@ get '/get_image?' do
 end
 
 
-# private
+private
 
 #### get_image_link
 #
