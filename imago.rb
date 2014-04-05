@@ -1,7 +1,7 @@
 #### Requires
 
 # Write out all requires from gems
-%w(rubygems sinatra imgkit aws/s3 digest/md5 haml redis open-uri RMagick json airbrake newrelic_rpm sinatra/jsonp timeout).each{ |g| require g }
+%w(rubygems sinatra imgkit aws/s3 digest/md5 haml redis open-uri RMagick json airbrake newrelic_rpm sinatra/jsonp timeout fog).each{ |g| require g }
 
 # require the app configs
 require_relative 'config'
@@ -165,22 +165,28 @@ end
 #
 # Store the image on s3.
 def send_to_s3(img, name)
-  begin
-    fork_to(18) do
-      AWS::S3::Base.establish_connection!(
-                                          :access_key_id     => ENV['S3_KEY'],
-                                          :secret_access_key => ENV['S3_SECRET']
-                                         )
-      AWS::S3::S3Object.store(
-                                "#{name}.jpg",
-                                img,
-                                ENV['S3_BUCKET'],
-                                :access => :public_read
-                              )
-    end
-  rescue Timeout::Error
-    raise "SubprocessTimedOut"
-  end
+  # begin
+  #   fork_to(18) do
+  #     AWS::S3::Base.establish_connection!(
+  #                                         :access_key_id     => ENV['S3_KEY'],
+  #                                         :secret_access_key => ENV['S3_SECRET']
+  #                                        )
+  #     AWS::S3::S3Object.store(
+  #                               "#{name}.jpg",
+  #                               img,
+  #                               ENV['S3_BUCKET'],
+  #                               :access => :public_read
+  #                             )
+  #   end
+  # rescue Timeout::Error
+  #   raise "SubprocessTimedOut"
+  # end
+
+  s3_directory.files.create({
+    key: "#{name}.jpg",
+    body: img,
+    public: true
+  })
 end
 
 #### generate_image
@@ -281,4 +287,24 @@ def fork_to(timeout = 4)
     r.close rescue nil
     w.close rescue nil
   end
+end
+
+
+private
+
+def s3_directory
+  s3_connection.directories.get(ENV['S3_BUCKET'])
+end
+
+def s3_connection
+  @s3connection ||= connect_to_s3
+end
+
+def connect_to_s3
+  config = {
+    provider: 'AWS',
+    aws_access_key_id: ENV['S3_KEY'],
+    aws_secret_access_key: ENV['S3_SECRET']
+  }
+  Fog::Storage.new(config)
 end
