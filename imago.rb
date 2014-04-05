@@ -58,9 +58,6 @@ get '/get_image?' do
         REDIS.set "#{name}", link
         REDIS.expire "#{name}", 300
       end
-      # # Save in redis for re-use later.
-      # REDIS.set "#{name}", link
-      # REDIS.expire "#{name}", 1209600
     end
   else
     logger.info "Setting link to not found because of bad params: #{@errors.inspect}"
@@ -115,6 +112,37 @@ def respond(link, url)
     data = { :link => link, :website => url }
     JSONP data      # JSONP is an alias for jsonp method
   end
+
+  case params['format']
+  when 'html'
+    haml :main, :locals => {:link => link}
+  when 'image'
+    # TODO do all of this in a begin block. Do a send_file with a local copy of not found if fail
+    link.sub!("https://", 'http://')
+    uri = URI(link)
+
+    # get only header data
+    head = Net::HTTP.start(uri.host, uri.port) do |http|
+      http.head(uri.request_uri)
+    end
+
+    # set headers accordingly (all that apply)
+    headers 'Content-Type' => head['Content-Type']
+    headers 'Cache-Control' => "max-age=2592000, no-transform, public"
+    headers 'Expires' => "Thu, 29 Sep 2022 01:22:54 GMT+00:00"
+
+    # stream back the contents
+    stream do |out|
+      Net::HTTP.get_response(uri) do |f| 
+        f.read_body { |ch| out << ch }
+      end
+    end
+  else
+    # Return json if no format or format = json.
+    content_type :json
+    data = { :link => link, :website => url }
+    JSONP data      # JSONP is an alias for jsonp method
+  end
 end
 
 #### validate
@@ -159,7 +187,7 @@ end
 
 #### send_to_s3
 #
-# * `file`: the tmp path to the image file.
+# * `img`: the tmp path to the image file.
 #
 # * `name`: the name to use for the file.
 #
@@ -271,7 +299,6 @@ def fork_to(timeout = 4)
     w.close rescue nil
   end
 end
-
 
 private
 
