@@ -14,27 +14,27 @@
       <img src="./assets/0.8.0/loading.gif" alt="loading"/>
     </div>
     <div id="wrapper" style="display:none;">
-      <div class="timestamp">Generated <abbr class="timeago" title="2014-01-12T16:44:48-07:00">2014-01-12T16:44:48-07:00</abbr></div>
+      <div class="timestamp">Generated <abbr class="timeago" title="2014-04-05T17:00:50-06:00">2014-04-05T17:00:50-06:00</abbr></div>
       <ul class="group_tabs"></ul>
 
       <div id="content">
         <div class="file_list_container" id="AllFiles">
   <h2>
     <span class="group_name">All Files</span>
-    (<span class="covered_percent"><span class="red">71.43%</span></span>
+    (<span class="covered_percent"><span class="red">55.06%</span></span>
      covered at
      <span class="covered_strength">
        <span class="green">
-         2.26
+         1.44
        </span>
     </span> hits/line)
   </h2>
   <a name="AllFiles"></a>
   <div>
     <b>2</b> files in total.
-    <b>126</b> relevant lines. 
-    <span class="green"><b>90</b> lines covered</span> and
-    <span class="red"><b>36</b> lines missed </span>
+    <b>89</b> relevant lines. 
+    <span class="green"><b>49</b> lines covered</span> and
+    <span class="red"><b>40</b> lines missed </span>
   </div>
   <table class="file_list">
     <thead>
@@ -57,17 +57,17 @@
         <td>16</td>
         <td>10</td>
         <td>6</td>
-        <td>0.6</td>
+        <td>0.7</td>
       </tr>
       
       <tr>
         <td class="strong"><a href="#63a8c4ae599cc3d4b363d0e4cdb51b7a4bfeafb7" class="src_link" title="imago.rb">imago.rb</a></td>
-        <td class="red strong">72.73 %</td>
-        <td>284</td>
-        <td>110</td>
-        <td>80</td>
-        <td>30</td>
-        <td>2.5</td>
+        <td class="red strong">53.42 %</td>
+        <td>246</td>
+        <td>73</td>
+        <td>39</td>
+        <td>34</td>
+        <td>1.6</td>
       </tr>
       
     </tbody>
@@ -264,20 +264,20 @@
           <div class="file_list_container" id="Ungrouped">
   <h2>
     <span class="group_name">Ungrouped</span>
-    (<span class="covered_percent"><span class="red">71.43%</span></span>
+    (<span class="covered_percent"><span class="red">55.06%</span></span>
      covered at
      <span class="covered_strength">
        <span class="green">
-         2.26
+         1.44
        </span>
     </span> hits/line)
   </h2>
   <a name="Ungrouped"></a>
   <div>
     <b>2</b> files in total.
-    <b>126</b> relevant lines. 
-    <span class="green"><b>90</b> lines covered</span> and
-    <span class="red"><b>36</b> lines missed </span>
+    <b>89</b> relevant lines. 
+    <span class="green"><b>49</b> lines covered</span> and
+    <span class="red"><b>40</b> lines missed </span>
   </div>
   <table class="file_list">
     <thead>
@@ -300,17 +300,17 @@
         <td>16</td>
         <td>10</td>
         <td>6</td>
-        <td>0.6</td>
+        <td>0.7</td>
       </tr>
       
       <tr>
         <td class="strong"><a href="#63a8c4ae599cc3d4b363d0e4cdb51b7a4bfeafb7" class="src_link" title="imago.rb">imago.rb</a></td>
-        <td class="red strong">72.73 %</td>
-        <td>284</td>
-        <td>110</td>
-        <td>80</td>
-        <td>30</td>
-        <td>2.5</td>
+        <td class="red strong">53.42 %</td>
+        <td>246</td>
+        <td>73</td>
+        <td>39</td>
+        <td>34</td>
+        <td>1.6</td>
       </tr>
       
     </tbody>
@@ -405,19 +405,19 @@
         <li class="covered" data-hits="1" data-linenumber="11">
           <span class="hits">1</span>
           
-          <code class="ruby">  if ENV[&quot;REDISTOGO_URL&quot;]</code>
+          <code class="ruby">  if ENV[&#39;REDISTOGO_URL&#39;]</code>
         </li>
       
         <li class="missed" data-hits="0" data-linenumber="12">
           
           
-          <code class="ruby">    uri = URI.parse(ENV[&quot;REDISTOGO_URL&quot;])</code>
+          <code class="ruby">    uri = URI.parse(ENV[&#39;REDISTOGO_URL&#39;])</code>
         </li>
       
         <li class="missed" data-hits="0" data-linenumber="13">
           
           
-          <code class="ruby">    REDIS = Redis.new(:host =&gt; uri.host, :port =&gt; uri.port, :password =&gt; uri.password)</code>
+          <code class="ruby">    $redis = ConnectionPool.new(size: 5, timeout: 5) { Redis.new(host: uri.host, port: uri.port, password: uri.password) }</code>
         </li>
       
         <li class="never" data-hits="" data-linenumber="14">
@@ -426,10 +426,10 @@
           <code class="ruby">  else</code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="15">
-          <span class="hits">1</span>
+        <li class="covered" data-hits="2" data-linenumber="15">
+          <span class="hits">2</span>
           
-          <code class="ruby">    REDIS = Redis.new</code>
+          <code class="ruby">    $redis = ConnectionPool.new(size: 5, timeout: 5) { Redis.new }</code>
         </li>
       
         <li class="never" data-hits="" data-linenumber="16">
@@ -547,11 +547,11 @@
         <div class="source_table" id="63a8c4ae599cc3d4b363d0e4cdb51b7a4bfeafb7">
   <div class="header">
     <h3>imago.rb</h3>
-    <h4><span class="red">72.73 %</span> covered</h4>
+    <h4><span class="red">53.42 %</span> covered</h4>
     <div>
-      <b>110</b> relevant lines. 
-      <span class="green"><b>80</b> lines covered</span> and
-      <span class="red"><b>30</b> lines missed.</span>
+      <b>73</b> relevant lines. 
+      <span class="green"><b>39</b> lines covered</span> and
+      <span class="red"><b>34</b> lines missed.</span>
     </div>
   </div>
   
@@ -576,136 +576,136 @@
           <code class="ruby"># Write out all requires from gems</code>
         </li>
       
-        <li class="covered" data-hits="15" data-linenumber="4">
-          <span class="hits">15</span>
+        <li class="never" data-hits="" data-linenumber="4">
           
-          <code class="ruby">%w(rubygems sinatra imgkit aws/s3 digest/md5 haml redis open-uri RMagick json airbrake newrelic_rpm sinatra/jsonp timeout).each{ |g| require g }</code>
+          
+          <code class="ruby">%w(rubygems sinatra imgkit digest/md5 haml redis open-uri RMagick json airbrake</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="5">
+        <li class="covered" data-hits="16" data-linenumber="5">
+          <span class="hits">16</span>
           
-          
-          <code class="ruby"></code>
+          <code class="ruby">  newrelic_rpm sinatra/jsonp timeout fog connection_pool).each { |g| require g }</code>
         </li>
       
         <li class="never" data-hits="" data-linenumber="6">
           
           
-          <code class="ruby"># require the app configs</code>
+          <code class="ruby"></code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="7">
-          <span class="hits">1</span>
+        <li class="never" data-hits="" data-linenumber="7">
           
-          <code class="ruby">require_relative &#39;config&#39;</code>
+          
+          <code class="ruby"># require the app configs</code>
         </li>
       
         <li class="covered" data-hits="1" data-linenumber="8">
           <span class="hits">1</span>
           
-          <code class="ruby">include Magick</code>
+          <code class="ruby">require_relative &#39;config&#39;</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="9">
+        <li class="covered" data-hits="1" data-linenumber="9">
+          <span class="hits">1</span>
           
-          
-          <code class="ruby"></code>
+          <code class="ruby">include Magick</code>
         </li>
       
         <li class="never" data-hits="" data-linenumber="10">
           
           
-          <code class="ruby">#### GET /get_image?</code>
+          <code class="ruby"></code>
         </li>
       
         <li class="never" data-hits="" data-linenumber="11">
           
           
-          <code class="ruby"></code>
+          <code class="ruby">#### GET /get_image?</code>
         </li>
       
         <li class="never" data-hits="" data-linenumber="12">
           
           
-          <code class="ruby"># `/get_image?` takes a list of params.</code>
+          <code class="ruby"></code>
         </li>
       
         <li class="never" data-hits="" data-linenumber="13">
           
           
-          <code class="ruby"># The list of params are (all are required):</code>
+          <code class="ruby"># `/get_image?` takes a list of params.</code>
         </li>
       
         <li class="never" data-hits="" data-linenumber="14">
           
           
-          <code class="ruby">#</code>
+          <code class="ruby"># The list of params are (all are required):</code>
         </li>
       
         <li class="never" data-hits="" data-linenumber="15">
           
           
-          <code class="ruby"># * `website`: the url you wish to screenshot. Do not include http/https.</code>
+          <code class="ruby">#</code>
         </li>
       
         <li class="never" data-hits="" data-linenumber="16">
           
           
-          <code class="ruby">#    url should be encoded. (e.g. www.example.com)</code>
+          <code class="ruby"># * `website`: the url you wish to screenshot. Do not include http/https.</code>
         </li>
       
         <li class="never" data-hits="" data-linenumber="17">
           
           
-          <code class="ruby">#</code>
+          <code class="ruby">#    url should be encoded. (e.g. www.example.com)</code>
         </li>
       
         <li class="never" data-hits="" data-linenumber="18">
           
           
-          <code class="ruby"># * `width`: the width of the screen shot. (e.g. 600)</code>
+          <code class="ruby">#</code>
         </li>
       
         <li class="never" data-hits="" data-linenumber="19">
           
           
-          <code class="ruby">#</code>
+          <code class="ruby"># * `width`: the width of the screen shot. (e.g. 600)</code>
         </li>
       
         <li class="never" data-hits="" data-linenumber="20">
           
           
-          <code class="ruby"># * `height`: the height of the screenshot. (e.g. 600)</code>
+          <code class="ruby">#</code>
         </li>
       
         <li class="never" data-hits="" data-linenumber="21">
           
           
-          <code class="ruby">#</code>
+          <code class="ruby"># * `height`: the height of the screenshot. (e.g. 600)</code>
         </li>
       
         <li class="never" data-hits="" data-linenumber="22">
           
           
-          <code class="ruby"># * `format`: the format to respond with. Accepted values are html, json, and image.</code>
+          <code class="ruby">#</code>
         </li>
       
         <li class="never" data-hits="" data-linenumber="23">
           
           
-          <code class="ruby">#    Use image to inline images (e.g. `&lt;img src=&quot;/get_image?format=image&quot; /&gt;`)</code>
+          <code class="ruby"># * `format`: the format to respond with.</code>
         </li>
       
         <li class="never" data-hits="" data-linenumber="24">
           
           
-          <code class="ruby">#</code>
+          <code class="ruby">#    Accepted values are html, json, and image.</code>
         </li>
       
         <li class="never" data-hits="" data-linenumber="25">
           
           
-          <code class="ruby"># _EXAMPLE_:</code>
+          <code class="ruby">#    Use image to inline images (e.g. `&lt;img src=&quot;/get_image?format=image&quot; /&gt;`)</code>
         </li>
       
         <li class="never" data-hits="" data-linenumber="26">
@@ -717,49 +717,49 @@
         <li class="never" data-hits="" data-linenumber="27">
           
           
-          <code class="ruby"># /get_image?website=www.example.com&amp;width=600&amp;height=600&amp;format=json</code>
+          <code class="ruby"># _EXAMPLE_:</code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="28">
-          <span class="hits">1</span>
+        <li class="never" data-hits="" data-linenumber="28">
           
-          <code class="ruby">get &#39;/get_image?&#39; do</code>
+          
+          <code class="ruby">#</code>
         </li>
       
         <li class="never" data-hits="" data-linenumber="29">
           
           
-          <code class="ruby">  </code>
+          <code class="ruby"># /get_image?website=www.example.com&amp;width=600&amp;height=600&amp;format=json</code>
         </li>
       
-        <li class="covered" data-hits="4" data-linenumber="30">
-          <span class="hits">4</span>
+        <li class="covered" data-hits="1" data-linenumber="30">
+          <span class="hits">1</span>
           
-          <code class="ruby">  @errors = validate(params)</code>
+          <code class="ruby">get &#39;/get_image?&#39; do</code>
         </li>
       
-        <li class="covered" data-hits="4" data-linenumber="31">
-          <span class="hits">4</span>
+        <li class="missed" data-hits="0" data-linenumber="31">
           
-          <code class="ruby">  url = build_url(params[&#39;website&#39;]) || &quot;&quot;</code>
+          
+          <code class="ruby">  url = build_url(params[&#39;website&#39;]) || &#39;&#39;</code>
         </li>
       
-        <li class="covered" data-hits="4" data-linenumber="32">
-          <span class="hits">4</span>
+        <li class="missed" data-hits="0" data-linenumber="32">
           
-          <code class="ruby">  if @errors.empty?</code>
+          
+          <code class="ruby">  link = get_image_link(url)</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="33">
+        <li class="missed" data-hits="0" data-linenumber="33">
           
           
-          <code class="ruby">    # Hash the params to get the filename and the key for redis</code>
+          <code class="ruby">  respond(link, url)</code>
         </li>
       
-        <li class="covered" data-hits="3" data-linenumber="34">
-          <span class="hits">3</span>
+        <li class="never" data-hits="" data-linenumber="34">
           
-          <code class="ruby">    name = Digest::MD5.hexdigest(&quot;#{params[&#39;website&#39;]}_#{params[&#39;width&#39;]}_#{params[&#39;height&#39;]}&quot;)</code>
+          
+          <code class="ruby">end</code>
         </li>
       
         <li class="never" data-hits="" data-linenumber="35">
@@ -771,253 +771,253 @@
         <li class="never" data-hits="" data-linenumber="36">
           
           
-          <code class="ruby">    # Try to lookup the hash to see if this image has been created before</code>
+          <code class="ruby"></code>
         </li>
       
-        <li class="covered" data-hits="3" data-linenumber="37">
-          <span class="hits">3</span>
+        <li class="never" data-hits="" data-linenumber="37">
           
-          <code class="ruby">    link = REDIS.get &quot;#{name}&quot;</code>
+          
+          <code class="ruby"># private</code>
         </li>
       
-        <li class="covered" data-hits="3" data-linenumber="38">
-          <span class="hits">3</span>
+        <li class="never" data-hits="" data-linenumber="38">
           
-          <code class="ruby">    unless link</code>
+          
+          <code class="ruby"></code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="39">
-          <span class="hits">1</span>
+        <li class="never" data-hits="" data-linenumber="39">
           
-          <code class="ruby">      begin</code>
+          
+          <code class="ruby">#### get_image_link</code>
         </li>
       
         <li class="never" data-hits="" data-linenumber="40">
           
           
-          <code class="ruby">        # keep super slow sites from taking forever</code>
+          <code class="ruby">#</code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="41">
-          <span class="hits">1</span>
+        <li class="never" data-hits="" data-linenumber="41">
           
-          <code class="ruby">        Timeout.timeout(20) do</code>
+          
+          <code class="ruby"># * `url`: the url of the website to image.</code>
         </li>
       
         <li class="never" data-hits="" data-linenumber="42">
           
           
-          <code class="ruby">          # Generate the image.</code>
+          <code class="ruby">#</code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="43">
+        <li class="never" data-hits="" data-linenumber="43">
+          
+          
+          <code class="ruby"># Create the image and upload it. Return the link to the image</code>
+        </li>
+      
+        <li class="covered" data-hits="1" data-linenumber="44">
           <span class="hits">1</span>
           
-          <code class="ruby">          img = generate_image(url)</code>
+          <code class="ruby">def get_image_link(url)</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="44">
+        <li class="missed" data-hits="0" data-linenumber="45">
+          
+          
+          <code class="ruby">  return not_found_link unless validate(params).empty?</code>
+        </li>
+      
+        <li class="never" data-hits="" data-linenumber="46">
           
           
           <code class="ruby"></code>
-        </li>
-      
-        <li class="never" data-hits="" data-linenumber="45">
-          
-          
-          <code class="ruby">          # Store the image on s3.</code>
-        </li>
-      
-        <li class="missed" data-hits="0" data-linenumber="46">
-          
-          
-          <code class="ruby">          send_to_s3(img, name)</code>
         </li>
       
         <li class="never" data-hits="" data-linenumber="47">
           
           
-          <code class="ruby">        end</code>
+          <code class="ruby">  # Hash the params to get the filename and the key for redis</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="48">
+        <li class="missed" data-hits="0" data-linenumber="48">
           
           
-          <code class="ruby">        </code>
+          <code class="ruby">  name = Digest::MD5.hexdigest(</code>
         </li>
       
         <li class="never" data-hits="" data-linenumber="49">
           
           
-          <code class="ruby">        # Create the link url.</code>
+          <code class="ruby">    &quot;#{params[&#39;website&#39;]}_#{params[&#39;width&#39;]}_#{params[&#39;height&#39;]}&quot;</code>
         </li>
       
-        <li class="missed" data-hits="0" data-linenumber="50">
+        <li class="never" data-hits="" data-linenumber="50">
           
           
-          <code class="ruby">        link = &quot;#{settings.base_link_url}#{name}.jpg&quot;</code>
+          <code class="ruby">  )</code>
         </li>
       
         <li class="never" data-hits="" data-linenumber="51">
           
           
-          <code class="ruby">        # Save in redis for re-use later.</code>
+          <code class="ruby"></code>
         </li>
       
-        <li class="missed" data-hits="0" data-linenumber="52">
+        <li class="never" data-hits="" data-linenumber="52">
           
           
-          <code class="ruby">        REDIS.set &quot;#{name}&quot;, link</code>
+          <code class="ruby">  # Try to lookup the hash to see if this image has been created before</code>
         </li>
       
         <li class="missed" data-hits="0" data-linenumber="53">
           
           
-          <code class="ruby">        REDIS.expire &quot;#{name}&quot;, 1209600</code>
+          <code class="ruby">  link = $redis.with { |conn| conn.get(name) }</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="54">
+        <li class="missed" data-hits="0" data-linenumber="54">
           
           
-          <code class="ruby">      rescue Exception =&gt; exception</code>
+          <code class="ruby">  unless link</code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="55">
-          <span class="hits">1</span>
+        <li class="missed" data-hits="0" data-linenumber="55">
           
-          <code class="ruby">        logger.error &quot;Rescued Error Creating and Uploading Image: #{exception}&quot;</code>
+          
+          <code class="ruby">    begin</code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="56">
-          <span class="hits">1</span>
+        <li class="never" data-hits="" data-linenumber="56">
           
-          <code class="ruby">        link = &quot;#{settings.base_link_url}not_found.jpg&quot;</code>
+          
+          <code class="ruby">      # keep super slow sites from taking forever</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="57">
+        <li class="missed" data-hits="0" data-linenumber="57">
           
           
-          <code class="ruby">        # Save in redis for re-use later.</code>
+          <code class="ruby">      Timeout.timeout(20) do</code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="58">
-          <span class="hits">1</span>
+        <li class="never" data-hits="" data-linenumber="58">
           
-          <code class="ruby">        REDIS.set &quot;#{name}&quot;, link</code>
+          
+          <code class="ruby">        # Generate the image.</code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="59">
-          <span class="hits">1</span>
+        <li class="missed" data-hits="0" data-linenumber="59">
           
-          <code class="ruby">        REDIS.expire &quot;#{name}&quot;, 300</code>
+          
+          <code class="ruby">        img = generate_image(url)</code>
         </li>
       
         <li class="never" data-hits="" data-linenumber="60">
           
           
-          <code class="ruby">      end</code>
+          <code class="ruby">        # Store the image on s3.</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="61">
+        <li class="missed" data-hits="0" data-linenumber="61">
           
           
-          <code class="ruby">      # # Save in redis for re-use later.</code>
+          <code class="ruby">        send_to_s3(img, name)</code>
         </li>
       
         <li class="never" data-hits="" data-linenumber="62">
           
           
-          <code class="ruby">      # REDIS.set &quot;#{name}&quot;, link</code>
+          <code class="ruby">      end</code>
         </li>
       
         <li class="never" data-hits="" data-linenumber="63">
           
           
-          <code class="ruby">      # REDIS.expire &quot;#{name}&quot;, 1209600</code>
+          <code class="ruby"></code>
         </li>
       
         <li class="never" data-hits="" data-linenumber="64">
           
           
-          <code class="ruby">    end</code>
+          <code class="ruby">      # Create the link url.</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="65">
+        <li class="missed" data-hits="0" data-linenumber="65">
           
           
-          <code class="ruby">  else</code>
+          <code class="ruby">      link = &quot;#{settings.base_link_url}#{name}.jpg&quot;</code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="66">
-          <span class="hits">1</span>
+        <li class="missed" data-hits="0" data-linenumber="66">
           
-          <code class="ruby">    logger.info &quot;Setting link to not found because of bad params: #{@errors.inspect}&quot;</code>
+          
+          <code class="ruby">      save_to_redis(name, link)</code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="67">
-          <span class="hits">1</span>
+        <li class="never" data-hits="" data-linenumber="67">
           
-          <code class="ruby">    link = &quot;#{settings.base_link_url}not_found.jpg&quot;</code>
+          
+          <code class="ruby">    rescue Exception =&gt; exception</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="68">
+        <li class="missed" data-hits="0" data-linenumber="68">
           
           
-          <code class="ruby">  end</code>
+          <code class="ruby">      logger.error &quot;Rescued Error Creating and Uploading Image: #{exception}&quot;</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="69">
+        <li class="missed" data-hits="0" data-linenumber="69">
           
           
-          <code class="ruby"></code>
+          <code class="ruby">      link = not_found_link</code>
         </li>
       
-        <li class="covered" data-hits="4" data-linenumber="70">
-          <span class="hits">4</span>
+        <li class="missed" data-hits="0" data-linenumber="70">
           
-          <code class="ruby">  respond(link, url)</code>
+          
+          <code class="ruby">      save_to_redis(name, link, 300)</code>
         </li>
       
         <li class="never" data-hits="" data-linenumber="71">
           
           
-          <code class="ruby">end</code>
+          <code class="ruby">    end</code>
         </li>
       
         <li class="never" data-hits="" data-linenumber="72">
           
           
-          <code class="ruby"></code>
+          <code class="ruby">  end</code>
         </li>
       
         <li class="never" data-hits="" data-linenumber="73">
           
           
-          <code class="ruby">#### respond</code>
+          <code class="ruby"></code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="74">
+        <li class="missed" data-hits="0" data-linenumber="74">
           
           
-          <code class="ruby">#</code>
+          <code class="ruby">  link</code>
         </li>
       
         <li class="never" data-hits="" data-linenumber="75">
           
           
-          <code class="ruby"># * `link`: the final link to the image.</code>
+          <code class="ruby">end</code>
         </li>
       
         <li class="never" data-hits="" data-linenumber="76">
           
           
-          <code class="ruby">#</code>
+          <code class="ruby"></code>
         </li>
       
         <li class="never" data-hits="" data-linenumber="77">
           
           
-          <code class="ruby"># * `params`: the params that were sent with the request.</code>
+          <code class="ruby">#### respond</code>
         </li>
       
         <li class="never" data-hits="" data-linenumber="78">
@@ -1029,253 +1029,253 @@
         <li class="never" data-hits="" data-linenumber="79">
           
           
-          <code class="ruby"># Respond to request</code>
+          <code class="ruby"># * `link`: the final link to the image.</code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="80">
-          <span class="hits">1</span>
+        <li class="never" data-hits="" data-linenumber="80">
           
-          <code class="ruby">def respond(link, url)</code>
+          
+          <code class="ruby">#</code>
         </li>
       
-        <li class="covered" data-hits="4" data-linenumber="81">
-          <span class="hits">4</span>
+        <li class="never" data-hits="" data-linenumber="81">
           
-          <code class="ruby">  @link = link</code>
+          
+          <code class="ruby"># * `params`: the params that were sent with the request.</code>
         </li>
       
-        <li class="covered" data-hits="4" data-linenumber="82">
-          <span class="hits">4</span>
+        <li class="never" data-hits="" data-linenumber="82">
           
-          <code class="ruby">  if params[&#39;format&#39;]</code>
+          
+          <code class="ruby">#</code>
         </li>
       
         <li class="never" data-hits="" data-linenumber="83">
           
           
-          <code class="ruby">    # Respond based on format</code>
+          <code class="ruby"># Respond to request</code>
         </li>
       
-        <li class="covered" data-hits="3" data-linenumber="84">
-          <span class="hits">3</span>
-          
-          <code class="ruby">    if params[&#39;format&#39;] == &quot;html&quot;</code>
-        </li>
-      
-        <li class="covered" data-hits="1" data-linenumber="85">
+        <li class="covered" data-hits="1" data-linenumber="84">
           <span class="hits">1</span>
           
-          <code class="ruby">      haml :main</code>
+          <code class="ruby">def respond(link, url)</code>
         </li>
       
-        <li class="covered" data-hits="2" data-linenumber="86">
-          <span class="hits">2</span>
+        <li class="missed" data-hits="0" data-linenumber="85">
           
-          <code class="ruby">    elsif params[&#39;format&#39;] == &quot;json&quot;</code>
+          
+          <code class="ruby">  case params[&#39;format&#39;]</code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="87">
-          <span class="hits">1</span>
+        <li class="never" data-hits="" data-linenumber="86">
           
-          <code class="ruby">      content_type :json</code>
+          
+          <code class="ruby">  when &#39;html&#39;</code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="88">
-          <span class="hits">1</span>
+        <li class="missed" data-hits="0" data-linenumber="87">
           
-          <code class="ruby">      data = { :link =&gt; @link, :website =&gt; url }</code>
+          
+          <code class="ruby">    haml :main, locals: { link: link }</code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="89">
-          <span class="hits">1</span>
+        <li class="never" data-hits="" data-linenumber="88">
           
-          <code class="ruby">      JSONP data      # JSONP is an alias for jsonp method</code>
+          
+          <code class="ruby">  when &#39;image&#39;</code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="90">
-          <span class="hits">1</span>
+        <li class="never" data-hits="" data-linenumber="89">
           
-          <code class="ruby">    elsif params[&#39;format&#39;] == &quot;image&quot;</code>
+          
+          <code class="ruby">    # TODO: do all of this in a begin block.</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="91">
+        <li class="never" data-hits="" data-linenumber="90">
           
           
-          <code class="ruby">      # TODO do all of this in a begin block. Do a send_file with a local copy of not found if fail</code>
+          <code class="ruby">    # Do a send_file with a local copy of not found if fail</code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="92">
-          <span class="hits">1</span>
+        <li class="missed" data-hits="0" data-linenumber="91">
           
-          <code class="ruby">      @link.sub!(&quot;https://&quot;, &#39;http://&#39;)</code>
+          
+          <code class="ruby">    link.sub!(&#39;https://&#39;, &#39;http://&#39;)</code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="93">
-          <span class="hits">1</span>
+        <li class="missed" data-hits="0" data-linenumber="92">
           
-          <code class="ruby">      uri = URI(@link)</code>
+          
+          <code class="ruby">    uri = URI(link)</code>
+        </li>
+      
+        <li class="never" data-hits="" data-linenumber="93">
+          
+          
+          <code class="ruby"></code>
         </li>
       
         <li class="never" data-hits="" data-linenumber="94">
           
           
-          <code class="ruby"></code>
+          <code class="ruby">    # get only header data</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="95">
+        <li class="missed" data-hits="0" data-linenumber="95">
           
           
-          <code class="ruby">      # get only header data</code>
+          <code class="ruby">    head = Net::HTTP.start(uri.host, uri.port) do |http|</code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="96">
-          <span class="hits">1</span>
+        <li class="missed" data-hits="0" data-linenumber="96">
           
-          <code class="ruby">      head = Net::HTTP.start(uri.host, uri.port) do |http|</code>
+          
+          <code class="ruby">      http.head(uri.request_uri)</code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="97">
-          <span class="hits">1</span>
-          
-          <code class="ruby">        http.head(uri.request_uri)</code>
-        </li>
-      
-        <li class="never" data-hits="" data-linenumber="98">
-          
-          
-          <code class="ruby">      end</code>
-        </li>
-      
-        <li class="never" data-hits="" data-linenumber="99">
-          
-          
-          <code class="ruby"></code>
-        </li>
-      
-        <li class="never" data-hits="" data-linenumber="100">
-          
-          
-          <code class="ruby">      # set headers accordingly (all that apply)</code>
-        </li>
-      
-        <li class="missed" data-hits="0" data-linenumber="101">
-          
-          
-          <code class="ruby">      headers &#39;Content-Type&#39; =&gt; head[&#39;Content-Type&#39;]</code>
-        </li>
-      
-        <li class="missed" data-hits="0" data-linenumber="102">
-          
-          
-          <code class="ruby">      headers &#39;Cache-Control&#39; =&gt; &quot;max-age=2592000, no-transform, public&quot;</code>
-        </li>
-      
-        <li class="missed" data-hits="0" data-linenumber="103">
-          
-          
-          <code class="ruby">      headers &#39;Expires&#39; =&gt; &quot;Thu, 29 Sep 2022 01:22:54 GMT+00:00&quot;</code>
-        </li>
-      
-        <li class="never" data-hits="" data-linenumber="104">
-          
-          
-          <code class="ruby"></code>
-        </li>
-      
-        <li class="never" data-hits="" data-linenumber="105">
-          
-          
-          <code class="ruby">      # stream back the contents</code>
-        </li>
-      
-        <li class="missed" data-hits="0" data-linenumber="106">
-          
-          
-          <code class="ruby">      stream do |out|</code>
-        </li>
-      
-        <li class="missed" data-hits="0" data-linenumber="107">
-          
-          
-          <code class="ruby">        Net::HTTP.get_response(uri) do |f| </code>
-        </li>
-      
-        <li class="missed" data-hits="0" data-linenumber="108">
-          
-          
-          <code class="ruby">          f.read_body { |ch| out &lt;&lt; ch }</code>
-        </li>
-      
-        <li class="never" data-hits="" data-linenumber="109">
-          
-          
-          <code class="ruby">        end</code>
-        </li>
-      
-        <li class="never" data-hits="" data-linenumber="110">
-          
-          
-          <code class="ruby">      end</code>
-        </li>
-      
-        <li class="never" data-hits="" data-linenumber="111">
+        <li class="never" data-hits="" data-linenumber="97">
           
           
           <code class="ruby">    end</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="112">
-          
-          
-          <code class="ruby">  else</code>
-        </li>
-      
-        <li class="never" data-hits="" data-linenumber="113">
-          
-          
-          <code class="ruby">    # Default to json if no format.</code>
-        </li>
-      
-        <li class="covered" data-hits="1" data-linenumber="114">
-          <span class="hits">1</span>
-          
-          <code class="ruby">    content_type :json</code>
-        </li>
-      
-        <li class="covered" data-hits="1" data-linenumber="115">
-          <span class="hits">1</span>
-          
-          <code class="ruby">    data = { :link =&gt; @link, :website =&gt; url }</code>
-        </li>
-      
-        <li class="covered" data-hits="1" data-linenumber="116">
-          <span class="hits">1</span>
-          
-          <code class="ruby">    JSONP data      # JSONP is an alias for jsonp method</code>
-        </li>
-      
-        <li class="never" data-hits="" data-linenumber="117">
-          
-          
-          <code class="ruby">  end</code>
-        </li>
-      
-        <li class="never" data-hits="" data-linenumber="118">
-          
-          
-          <code class="ruby">end</code>
-        </li>
-      
-        <li class="never" data-hits="" data-linenumber="119">
+        <li class="never" data-hits="" data-linenumber="98">
           
           
           <code class="ruby"></code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="120">
+        <li class="never" data-hits="" data-linenumber="99">
+          
+          
+          <code class="ruby">    # set headers accordingly (all that apply)</code>
+        </li>
+      
+        <li class="missed" data-hits="0" data-linenumber="100">
+          
+          
+          <code class="ruby">    headers &#39;Content-Type&#39; =&gt; head[&#39;Content-Type&#39;]</code>
+        </li>
+      
+        <li class="missed" data-hits="0" data-linenumber="101">
+          
+          
+          <code class="ruby">    headers &#39;Cache-Control&#39; =&gt; &#39;max-age=2592000, no-transform, public&#39;</code>
+        </li>
+      
+        <li class="missed" data-hits="0" data-linenumber="102">
+          
+          
+          <code class="ruby">    headers &#39;Expires&#39; =&gt; &#39;Thu, 29 Sep 2022 01:22:54 GMT+00:00&#39;</code>
+        </li>
+      
+        <li class="never" data-hits="" data-linenumber="103">
+          
+          
+          <code class="ruby"></code>
+        </li>
+      
+        <li class="never" data-hits="" data-linenumber="104">
+          
+          
+          <code class="ruby">    # stream back the contents</code>
+        </li>
+      
+        <li class="missed" data-hits="0" data-linenumber="105">
+          
+          
+          <code class="ruby">    stream do |out|</code>
+        </li>
+      
+        <li class="missed" data-hits="0" data-linenumber="106">
+          
+          
+          <code class="ruby">      Net::HTTP.get_response(uri) do |f|</code>
+        </li>
+      
+        <li class="missed" data-hits="0" data-linenumber="107">
+          
+          
+          <code class="ruby">        f.read_body { |ch| out &lt;&lt; ch }</code>
+        </li>
+      
+        <li class="never" data-hits="" data-linenumber="108">
+          
+          
+          <code class="ruby">      end</code>
+        </li>
+      
+        <li class="never" data-hits="" data-linenumber="109">
+          
+          
+          <code class="ruby">    end</code>
+        </li>
+      
+        <li class="never" data-hits="" data-linenumber="110">
+          
+          
+          <code class="ruby">  else</code>
+        </li>
+      
+        <li class="never" data-hits="" data-linenumber="111">
+          
+          
+          <code class="ruby">    # Return json if no format or format = json.</code>
+        </li>
+      
+        <li class="missed" data-hits="0" data-linenumber="112">
+          
+          
+          <code class="ruby">    content_type :json</code>
+        </li>
+      
+        <li class="missed" data-hits="0" data-linenumber="113">
+          
+          
+          <code class="ruby">    data = { :link =&gt; link, :website =&gt; url }</code>
+        </li>
+      
+        <li class="missed" data-hits="0" data-linenumber="114">
+          
+          
+          <code class="ruby">    JSONP data      # JSONP is an alias for jsonp method</code>
+        </li>
+      
+        <li class="never" data-hits="" data-linenumber="115">
+          
+          
+          <code class="ruby">  end</code>
+        </li>
+      
+        <li class="never" data-hits="" data-linenumber="116">
+          
+          
+          <code class="ruby">end</code>
+        </li>
+      
+        <li class="never" data-hits="" data-linenumber="117">
+          
+          
+          <code class="ruby"></code>
+        </li>
+      
+        <li class="never" data-hits="" data-linenumber="118">
           
           
           <code class="ruby">#### validate</code>
+        </li>
+      
+        <li class="never" data-hits="" data-linenumber="119">
+          
+          
+          <code class="ruby">#</code>
+        </li>
+      
+        <li class="never" data-hits="" data-linenumber="120">
+          
+          
+          <code class="ruby"># * `params`: the params that were sent with the request.</code>
         </li>
       
         <li class="never" data-hits="" data-linenumber="121">
@@ -1287,193 +1287,193 @@
         <li class="never" data-hits="" data-linenumber="122">
           
           
-          <code class="ruby"># * `params`: the params that were sent with the request.</code>
-        </li>
-      
-        <li class="never" data-hits="" data-linenumber="123">
-          
-          
-          <code class="ruby">#</code>
-        </li>
-      
-        <li class="never" data-hits="" data-linenumber="124">
-          
-          
           <code class="ruby"># Validate the params sent with the request.</code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="125">
+        <li class="covered" data-hits="1" data-linenumber="123">
           <span class="hits">1</span>
           
           <code class="ruby">def validate(params)</code>
         </li>
       
-        <li class="covered" data-hits="13" data-linenumber="126">
-          <span class="hits">13</span>
+        <li class="covered" data-hits="7" data-linenumber="124">
+          <span class="hits">7</span>
           
           <code class="ruby">  errors = {}</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="127">
+        <li class="never" data-hits="" data-linenumber="125">
           
           
-          <code class="ruby">  </code>
+          <code class="ruby"></code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="128">
+        <li class="never" data-hits="" data-linenumber="126">
           
           
           <code class="ruby">  # Make sure the website is a passed in param.</code>
         </li>
       
-        <li class="covered" data-hits="13" data-linenumber="129">
-          <span class="hits">13</span>
+        <li class="covered" data-hits="7" data-linenumber="127">
+          <span class="hits">7</span>
           
           <code class="ruby">  unless params[&#39;website&#39;] &amp;&amp; given?(params[&#39;website&#39;])</code>
         </li>
       
-        <li class="covered" data-hits="2" data-linenumber="130">
+        <li class="covered" data-hits="2" data-linenumber="128">
           <span class="hits">2</span>
           
-          <code class="ruby">    errors[&#39;website&#39;]   = &quot;This field is required&quot;</code>
+          <code class="ruby">    errors[&#39;website&#39;]   = &#39;This field is required&#39;</code>
+        </li>
+      
+        <li class="never" data-hits="" data-linenumber="129">
+          
+          
+          <code class="ruby">  end</code>
+        </li>
+      
+        <li class="never" data-hits="" data-linenumber="130">
+          
+          
+          <code class="ruby"></code>
         </li>
       
         <li class="never" data-hits="" data-linenumber="131">
           
           
-          <code class="ruby">  end</code>
-        </li>
-      
-        <li class="never" data-hits="" data-linenumber="132">
-          
-          
-          <code class="ruby">  </code>
-        </li>
-      
-        <li class="never" data-hits="" data-linenumber="133">
-          
-          
           <code class="ruby">  # Make sure the width is a passed in param.</code>
         </li>
       
-        <li class="covered" data-hits="13" data-linenumber="134">
-          <span class="hits">13</span>
+        <li class="covered" data-hits="7" data-linenumber="132">
+          <span class="hits">7</span>
           
           <code class="ruby">  unless params[&#39;width&#39;] &amp;&amp; given?(params[&#39;width&#39;])</code>
         </li>
       
-        <li class="covered" data-hits="2" data-linenumber="135">
+        <li class="covered" data-hits="2" data-linenumber="133">
           <span class="hits">2</span>
           
-          <code class="ruby">    errors[&#39;width&#39;]   = &quot;This field is required&quot;</code>
+          <code class="ruby">    errors[&#39;width&#39;]   = &#39;This field is required&#39;</code>
+        </li>
+      
+        <li class="never" data-hits="" data-linenumber="134">
+          
+          
+          <code class="ruby">  end</code>
+        </li>
+      
+        <li class="never" data-hits="" data-linenumber="135">
+          
+          
+          <code class="ruby"></code>
         </li>
       
         <li class="never" data-hits="" data-linenumber="136">
           
           
-          <code class="ruby">  end</code>
-        </li>
-      
-        <li class="never" data-hits="" data-linenumber="137">
-          
-          
-          <code class="ruby">  </code>
-        </li>
-      
-        <li class="never" data-hits="" data-linenumber="138">
-          
-          
           <code class="ruby">  # Make sure the height is a passed in param.</code>
         </li>
       
-        <li class="covered" data-hits="13" data-linenumber="139">
-          <span class="hits">13</span>
+        <li class="covered" data-hits="7" data-linenumber="137">
+          <span class="hits">7</span>
           
           <code class="ruby">  unless params[&#39;height&#39;] &amp;&amp; given?(params[&#39;height&#39;])</code>
         </li>
       
-        <li class="covered" data-hits="2" data-linenumber="140">
+        <li class="covered" data-hits="2" data-linenumber="138">
           <span class="hits">2</span>
           
-          <code class="ruby">    errors[&#39;height&#39;]   = &quot;This field is required&quot;</code>
+          <code class="ruby">    errors[&#39;height&#39;]   = &#39;This field is required&#39;</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="141">
+        <li class="never" data-hits="" data-linenumber="139">
           
           
           <code class="ruby">  end</code>
+        </li>
+      
+        <li class="never" data-hits="" data-linenumber="140">
+          
+          
+          <code class="ruby"></code>
+        </li>
+      
+        <li class="covered" data-hits="7" data-linenumber="141">
+          <span class="hits">7</span>
+          
+          <code class="ruby">  errors</code>
         </li>
       
         <li class="never" data-hits="" data-linenumber="142">
           
           
-          <code class="ruby">  </code>
+          <code class="ruby">end</code>
         </li>
       
         <li class="never" data-hits="" data-linenumber="143">
           
           
-          <code class="ruby">  # Make sure the format is a passed in param.</code>
-        </li>
-      
-        <li class="covered" data-hits="13" data-linenumber="144">
-          <span class="hits">13</span>
-          
-          <code class="ruby">  unless params[&#39;format&#39;] &amp;&amp; given?(params[&#39;format&#39;])</code>
-        </li>
-      
-        <li class="covered" data-hits="3" data-linenumber="145">
-          <span class="hits">3</span>
-          
-          <code class="ruby">    errors[&#39;format&#39;]   = &quot;This field is required&quot;</code>
-        </li>
-      
-        <li class="never" data-hits="" data-linenumber="146">
-          
-          
-          <code class="ruby">  end</code>
-        </li>
-      
-        <li class="never" data-hits="" data-linenumber="147">
-          
-          
           <code class="ruby"></code>
         </li>
       
-        <li class="covered" data-hits="13" data-linenumber="148">
-          <span class="hits">13</span>
-          
-          <code class="ruby">  errors</code>
-        </li>
-      
-        <li class="never" data-hits="" data-linenumber="149">
-          
-          
-          <code class="ruby">end</code>
-        </li>
-      
-        <li class="never" data-hits="" data-linenumber="150">
-          
-          
-          <code class="ruby"></code>
-        </li>
-      
-        <li class="never" data-hits="" data-linenumber="151">
+        <li class="never" data-hits="" data-linenumber="144">
           
           
           <code class="ruby">#### given?</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="152">
+        <li class="never" data-hits="" data-linenumber="145">
           
           
           <code class="ruby">#</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="153">
+        <li class="never" data-hits="" data-linenumber="146">
           
           
           <code class="ruby"># * `field`: the param field to check.</code>
+        </li>
+      
+        <li class="never" data-hits="" data-linenumber="147">
+          
+          
+          <code class="ruby">#</code>
+        </li>
+      
+        <li class="never" data-hits="" data-linenumber="148">
+          
+          
+          <code class="ruby"># Check that a field is not empty</code>
+        </li>
+      
+        <li class="covered" data-hits="1" data-linenumber="149">
+          <span class="hits">1</span>
+          
+          <code class="ruby">def given?(field)</code>
+        </li>
+      
+        <li class="covered" data-hits="18" data-linenumber="150">
+          <span class="hits">18</span>
+          
+          <code class="ruby">  !field.empty?</code>
+        </li>
+      
+        <li class="never" data-hits="" data-linenumber="151">
+          
+          
+          <code class="ruby">end</code>
+        </li>
+      
+        <li class="never" data-hits="" data-linenumber="152">
+          
+          
+          <code class="ruby"></code>
+        </li>
+      
+        <li class="never" data-hits="" data-linenumber="153">
+          
+          
+          <code class="ruby">#### send_to_s3</code>
         </li>
       
         <li class="never" data-hits="" data-linenumber="154">
@@ -1485,247 +1485,247 @@
         <li class="never" data-hits="" data-linenumber="155">
           
           
-          <code class="ruby"># Check that a field is not empty</code>
+          <code class="ruby"># * `img`: the tmp path to the image file.</code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="156">
-          <span class="hits">1</span>
-          
-          <code class="ruby">def given?(field)</code>
-        </li>
-      
-        <li class="covered" data-hits="47" data-linenumber="157">
-          <span class="hits">47</span>
-          
-          <code class="ruby">  !field.empty?</code>
-        </li>
-      
-        <li class="never" data-hits="" data-linenumber="158">
-          
-          
-          <code class="ruby">end</code>
-        </li>
-      
-        <li class="never" data-hits="" data-linenumber="159">
-          
-          
-          <code class="ruby"></code>
-        </li>
-      
-        <li class="never" data-hits="" data-linenumber="160">
-          
-          
-          <code class="ruby">#### send_to_s3</code>
-        </li>
-      
-        <li class="never" data-hits="" data-linenumber="161">
+        <li class="never" data-hits="" data-linenumber="156">
           
           
           <code class="ruby">#</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="162">
-          
-          
-          <code class="ruby"># * `file`: the tmp path to the image file.</code>
-        </li>
-      
-        <li class="never" data-hits="" data-linenumber="163">
-          
-          
-          <code class="ruby">#</code>
-        </li>
-      
-        <li class="never" data-hits="" data-linenumber="164">
+        <li class="never" data-hits="" data-linenumber="157">
           
           
           <code class="ruby"># * `name`: the name to use for the file.</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="165">
+        <li class="never" data-hits="" data-linenumber="158">
           
           
           <code class="ruby">#</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="166">
+        <li class="never" data-hits="" data-linenumber="159">
           
           
           <code class="ruby"># Store the image on s3.</code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="167">
+        <li class="covered" data-hits="1" data-linenumber="160">
           <span class="hits">1</span>
           
           <code class="ruby">def send_to_s3(img, name)</code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="168">
+        <li class="covered" data-hits="1" data-linenumber="161">
           <span class="hits">1</span>
           
-          <code class="ruby">  begin</code>
+          <code class="ruby">  s3_directory.files.create({</code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="169">
-          <span class="hits">1</span>
+        <li class="never" data-hits="" data-linenumber="162">
           
-          <code class="ruby">    fork_to(18) do</code>
+          
+          <code class="ruby">    key: &quot;#{name}.jpg&quot;,</code>
         </li>
       
-        <li class="missed" data-hits="0" data-linenumber="170">
+        <li class="never" data-hits="" data-linenumber="163">
           
           
-          <code class="ruby">      AWS::S3::Base.establish_connection!(</code>
+          <code class="ruby">    body: img,</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="171">
+        <li class="never" data-hits="" data-linenumber="164">
           
           
-          <code class="ruby">                                          :access_key_id     =&gt; ENV[&#39;S3_KEY&#39;],</code>
+          <code class="ruby">    public: true</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="172">
+        <li class="never" data-hits="" data-linenumber="165">
           
           
-          <code class="ruby">                                          :secret_access_key =&gt; ENV[&#39;S3_SECRET&#39;]</code>
+          <code class="ruby">  })</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="173">
-          
-          
-          <code class="ruby">                                         )</code>
-        </li>
-      
-        <li class="missed" data-hits="0" data-linenumber="174">
-          
-          
-          <code class="ruby">      AWS::S3::S3Object.store(</code>
-        </li>
-      
-        <li class="never" data-hits="" data-linenumber="175">
-          
-          
-          <code class="ruby">                                &quot;#{name}.jpg&quot;,</code>
-        </li>
-      
-        <li class="never" data-hits="" data-linenumber="176">
-          
-          
-          <code class="ruby">                                img,</code>
-        </li>
-      
-        <li class="never" data-hits="" data-linenumber="177">
-          
-          
-          <code class="ruby">                                ENV[&#39;S3_BUCKET&#39;],</code>
-        </li>
-      
-        <li class="never" data-hits="" data-linenumber="178">
-          
-          
-          <code class="ruby">                                :access =&gt; :public_read</code>
-        </li>
-      
-        <li class="never" data-hits="" data-linenumber="179">
-          
-          
-          <code class="ruby">                              )</code>
-        </li>
-      
-        <li class="never" data-hits="" data-linenumber="180">
-          
-          
-          <code class="ruby">    end</code>
-        </li>
-      
-        <li class="covered" data-hits="1" data-linenumber="181">
-          <span class="hits">1</span>
-          
-          <code class="ruby">  rescue Timeout::Error</code>
-        </li>
-      
-        <li class="missed" data-hits="0" data-linenumber="182">
-          
-          
-          <code class="ruby">    raise &quot;SubprocessTimedOut&quot;</code>
-        </li>
-      
-        <li class="never" data-hits="" data-linenumber="183">
-          
-          
-          <code class="ruby">  end</code>
-        </li>
-      
-        <li class="never" data-hits="" data-linenumber="184">
+        <li class="never" data-hits="" data-linenumber="166">
           
           
           <code class="ruby">end</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="185">
+        <li class="never" data-hits="" data-linenumber="167">
           
           
           <code class="ruby"></code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="186">
+        <li class="never" data-hits="" data-linenumber="168">
           
           
           <code class="ruby">#### generate_image</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="187">
+        <li class="never" data-hits="" data-linenumber="169">
           
           
           <code class="ruby">#</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="188">
+        <li class="never" data-hits="" data-linenumber="170">
           
           
           <code class="ruby"># * `url`: the url of the website to thumbnail. (http://www.example.com)</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="189">
+        <li class="never" data-hits="" data-linenumber="171">
           
           
           <code class="ruby">#</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="190">
+        <li class="never" data-hits="" data-linenumber="172">
           
           
           <code class="ruby"># Grab the website image, resize with rmagick and return the image blob.</code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="191">
+        <li class="covered" data-hits="1" data-linenumber="173">
           <span class="hits">1</span>
           
           <code class="ruby">def generate_image(url)</code>
         </li>
       
+        <li class="never" data-hits="" data-linenumber="174">
+          
+          
+          <code class="ruby">  # Capture the screenshot</code>
+        </li>
+      
+        <li class="missed" data-hits="0" data-linenumber="175">
+          
+          
+          <code class="ruby">  kit = IMGKit.new(url, quality: 90, width: 1280, height: 720)</code>
+        </li>
+      
+        <li class="never" data-hits="" data-linenumber="176">
+          
+          
+          <code class="ruby"></code>
+        </li>
+      
+        <li class="never" data-hits="" data-linenumber="177">
+          
+          
+          <code class="ruby">  # Resize the screengrab using rmagick</code>
+        </li>
+      
+        <li class="never" data-hits="" data-linenumber="178">
+          
+          
+          <code class="ruby">  Image.from_blob(kit.to_img(:jpg)).first.</code>
+        </li>
+      
+        <li class="missed" data-hits="0" data-linenumber="179">
+          
+          
+          <code class="ruby">    resize_to_fill!(params[&#39;width&#39;].to_i, params[&#39;height&#39;].to_i).to_blob</code>
+        </li>
+      
+        <li class="never" data-hits="" data-linenumber="180">
+          
+          
+          <code class="ruby">end</code>
+        </li>
+      
+        <li class="never" data-hits="" data-linenumber="181">
+          
+          
+          <code class="ruby"></code>
+        </li>
+      
+        <li class="never" data-hits="" data-linenumber="182">
+          
+          
+          <code class="ruby">#### build_url</code>
+        </li>
+      
+        <li class="never" data-hits="" data-linenumber="183">
+          
+          
+          <code class="ruby">#</code>
+        </li>
+      
+        <li class="never" data-hits="" data-linenumber="184">
+          
+          
+          <code class="ruby"># * `website`: the website to build a working url for.</code>
+        </li>
+      
+        <li class="never" data-hits="" data-linenumber="185">
+          
+          
+          <code class="ruby">#</code>
+        </li>
+      
+        <li class="never" data-hits="" data-linenumber="186">
+          
+          
+          <code class="ruby"># Build a usable url from the website param</code>
+        </li>
+      
+        <li class="covered" data-hits="1" data-linenumber="187">
+          <span class="hits">1</span>
+          
+          <code class="ruby">def build_url(website)</code>
+        </li>
+      
+        <li class="covered" data-hits="3" data-linenumber="188">
+          <span class="hits">3</span>
+          
+          <code class="ruby">  decoded_url = URI::decode(website)</code>
+        </li>
+      
+        <li class="covered" data-hits="3" data-linenumber="189">
+          <span class="hits">3</span>
+          
+          <code class="ruby">  if decoded_url[/^https?/]</code>
+        </li>
+      
+        <li class="covered" data-hits="2" data-linenumber="190">
+          <span class="hits">2</span>
+          
+          <code class="ruby">    url = decoded_url</code>
+        </li>
+      
+        <li class="never" data-hits="" data-linenumber="191">
+          
+          
+          <code class="ruby">  else</code>
+        </li>
+      
         <li class="covered" data-hits="1" data-linenumber="192">
           <span class="hits">1</span>
           
-          <code class="ruby">  begin</code>
+          <code class="ruby">    url = &quot;http://#{decoded_url}&quot;</code>
         </li>
       
-        <li class="covered" data-hits="1" data-linenumber="193">
-          <span class="hits">1</span>
+        <li class="never" data-hits="" data-linenumber="193">
           
-          <code class="ruby">    fork_to(20) do</code>
+          
+          <code class="ruby">  end</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="194">
+        <li class="covered" data-hits="3" data-linenumber="194">
+          <span class="hits">3</span>
           
-          
-          <code class="ruby">      # Capture the screenshot</code>
+          <code class="ruby">  url</code>
         </li>
       
-        <li class="missed" data-hits="0" data-linenumber="195">
+        <li class="never" data-hits="" data-linenumber="195">
           
           
-          <code class="ruby">      kit   = IMGKit.new(url, quality: 90, width: 1280, height: 720 )</code>
+          <code class="ruby">end</code>
         </li>
       
         <li class="never" data-hits="" data-linenumber="196">
@@ -1737,73 +1737,73 @@
         <li class="never" data-hits="" data-linenumber="197">
           
           
-          <code class="ruby">      # Resize the screengrab using rmagick</code>
+          <code class="ruby">#### not_found_link</code>
         </li>
       
-        <li class="missed" data-hits="0" data-linenumber="198">
+        <li class="never" data-hits="" data-linenumber="198">
           
           
-          <code class="ruby">      img = Image.from_blob(kit.to_img(:jpg)).first</code>
+          <code class="ruby">#</code>
         </li>
       
         <li class="never" data-hits="" data-linenumber="199">
           
           
-          <code class="ruby">      # img.thumbnail!(params[&#39;width&#39;].to_i, params[&#39;height&#39;].to_i)</code>
+          <code class="ruby"># The link to return if something goes wrong</code>
         </li>
       
-        <li class="missed" data-hits="0" data-linenumber="200">
+        <li class="covered" data-hits="1" data-linenumber="200">
+          <span class="hits">1</span>
           
-          
-          <code class="ruby">      img.resize_to_fill!(params[&#39;width&#39;].to_i, params[&#39;height&#39;].to_i)</code>
+          <code class="ruby">def not_found_link</code>
         </li>
       
-        <li class="missed" data-hits="0" data-linenumber="201">
+        <li class="covered" data-hits="1" data-linenumber="201">
+          <span class="hits">1</span>
           
-          
-          <code class="ruby">      img.to_blob</code>
+          <code class="ruby">  @not_found_url ||= &quot;#{ENV[&#39;BASE_LINK_URL&#39;]}not_found.jpg&quot;</code>
         </li>
       
         <li class="never" data-hits="" data-linenumber="202">
           
           
-          <code class="ruby">    end</code>
-        </li>
-      
-        <li class="covered" data-hits="1" data-linenumber="203">
-          <span class="hits">1</span>
-          
-          <code class="ruby">  rescue Timeout::Error</code>
-        </li>
-      
-        <li class="missed" data-hits="0" data-linenumber="204">
-          
-          
-          <code class="ruby">    raise &quot;SubprocessTimedOut&quot;</code>
-        </li>
-      
-        <li class="never" data-hits="" data-linenumber="205">
-          
-          
-          <code class="ruby">  end</code>
-        </li>
-      
-        <li class="never" data-hits="" data-linenumber="206">
-          
-          
           <code class="ruby">end</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="207">
+        <li class="never" data-hits="" data-linenumber="203">
           
           
           <code class="ruby"></code>
         </li>
       
+        <li class="never" data-hits="" data-linenumber="204">
+          
+          
+          <code class="ruby">#### save_to_redis</code>
+        </li>
+      
+        <li class="never" data-hits="" data-linenumber="205">
+          
+          
+          <code class="ruby">#</code>
+        </li>
+      
+        <li class="never" data-hits="" data-linenumber="206">
+          
+          
+          <code class="ruby"># * `key`: the key for redis.</code>
+        </li>
+      
+        <li class="never" data-hits="" data-linenumber="207">
+          
+          
+          <code class="ruby">#</code>
+        </li>
+      
         <li class="never" data-hits="" data-linenumber="208">
           
           
-          <code class="ruby">#### build_url</code>
+          <code class="ruby"># * `value`: the value to save in redis.</code>
         </li>
       
         <li class="never" data-hits="" data-linenumber="209">
@@ -1815,7 +1815,7 @@
         <li class="never" data-hits="" data-linenumber="210">
           
           
-          <code class="ruby"># * `website`: the website to build a working url for.</code>
+          <code class="ruby"># * `time`: how long to store the value in redis. defaults 2 weeks</code>
         </li>
       
         <li class="never" data-hits="" data-linenumber="211">
@@ -1827,436 +1827,208 @@
         <li class="never" data-hits="" data-linenumber="212">
           
           
-          <code class="ruby"># Build a usable url from the website param</code>
+          <code class="ruby"># Save the image link to redis</code>
         </li>
       
         <li class="covered" data-hits="1" data-linenumber="213">
           <span class="hits">1</span>
           
-          <code class="ruby">def build_url(website)</code>
+          <code class="ruby">def save_to_redis(key, value, time=1209600)</code>
         </li>
       
-        <li class="covered" data-hits="4" data-linenumber="214">
-          <span class="hits">4</span>
+        <li class="never" data-hits="" data-linenumber="214">
           
-          <code class="ruby">  decoded_url = URI::decode(website)</code>
+          
+          <code class="ruby">  # Save in redis for re-use later.</code>
         </li>
       
-        <li class="covered" data-hits="4" data-linenumber="215">
-          <span class="hits">4</span>
+        <li class="covered" data-hits="1" data-linenumber="215">
+          <span class="hits">1</span>
           
-          <code class="ruby">  if decoded_url[/^https?/]</code>
+          <code class="ruby">  $redis.with do |conn|</code>
         </li>
       
-        <li class="missed" data-hits="0" data-linenumber="216">
+        <li class="covered" data-hits="1" data-linenumber="216">
+          <span class="hits">1</span>
           
-          
-          <code class="ruby">    url = decoded_url</code>
+          <code class="ruby">    conn.set key, value</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="217">
+        <li class="covered" data-hits="1" data-linenumber="217">
+          <span class="hits">1</span>
           
-          
-          <code class="ruby">  else</code>
+          <code class="ruby">    conn.expire key, time</code>
         </li>
       
-        <li class="covered" data-hits="4" data-linenumber="218">
-          <span class="hits">4</span>
+        <li class="never" data-hits="" data-linenumber="218">
           
-          <code class="ruby">    url = &quot;http://#{decoded_url}&quot;</code>
+          
+          <code class="ruby">  end</code>
         </li>
       
         <li class="never" data-hits="" data-linenumber="219">
           
           
-          <code class="ruby">  end</code>
+          <code class="ruby">end</code>
         </li>
       
-        <li class="covered" data-hits="4" data-linenumber="220">
-          <span class="hits">4</span>
+        <li class="never" data-hits="" data-linenumber="220">
           
-          <code class="ruby">  url</code>
+          
+          <code class="ruby"></code>
         </li>
       
         <li class="never" data-hits="" data-linenumber="221">
           
           
-          <code class="ruby">end</code>
+          <code class="ruby">#### s3_directory</code>
         </li>
       
         <li class="never" data-hits="" data-linenumber="222">
           
           
-          <code class="ruby"></code>
+          <code class="ruby">#</code>
         </li>
       
         <li class="never" data-hits="" data-linenumber="223">
           
           
-          <code class="ruby"># pulled from http://aphyr.com/posts/214-unsafe-thread-concurrency-with-fork</code>
+          <code class="ruby"># Get the s3 bucket object</code>
         </li>
       
         <li class="covered" data-hits="1" data-linenumber="224">
           <span class="hits">1</span>
           
-          <code class="ruby">def fork_to(timeout = 4)</code>
+          <code class="ruby">def s3_directory</code>
         </li>
       
         <li class="covered" data-hits="2" data-linenumber="225">
           <span class="hits">2</span>
           
-          <code class="ruby">  r, w, pid = nil, nil, nil</code>
+          <code class="ruby">  @s3directory ||= s3_connection.directories.get(ENV[&#39;S3_BUCKET&#39;])</code>
         </li>
       
-        <li class="covered" data-hits="2" data-linenumber="226">
-          <span class="hits">2</span>
+        <li class="never" data-hits="" data-linenumber="226">
           
-          <code class="ruby">  begin</code>
+          
+          <code class="ruby">end</code>
         </li>
       
         <li class="never" data-hits="" data-linenumber="227">
           
           
-          <code class="ruby">    # Open pipe</code>
+          <code class="ruby"></code>
         </li>
       
-        <li class="covered" data-hits="2" data-linenumber="228">
-          <span class="hits">2</span>
+        <li class="never" data-hits="" data-linenumber="228">
           
-          <code class="ruby">    r, w = IO.pipe</code>
+          
+          <code class="ruby">#### s3_connection</code>
         </li>
       
         <li class="never" data-hits="" data-linenumber="229">
           
           
-          <code class="ruby"></code>
+          <code class="ruby">#</code>
         </li>
       
         <li class="never" data-hits="" data-linenumber="230">
           
           
-          <code class="ruby">    # Start subprocess</code>
+          <code class="ruby"># Get the s3 connection</code>
         </li>
       
-        <li class="covered" data-hits="2" data-linenumber="231">
-          <span class="hits">2</span>
+        <li class="covered" data-hits="1" data-linenumber="231">
+          <span class="hits">1</span>
           
-          <code class="ruby">    pid = fork do</code>
+          <code class="ruby">def s3_connection</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="232">
+        <li class="covered" data-hits="3" data-linenumber="232">
+          <span class="hits">3</span>
           
-          
-          <code class="ruby">      # Child</code>
+          <code class="ruby">  @s3connection ||= connect_to_s3</code>
         </li>
       
-        <li class="missed" data-hits="0" data-linenumber="233">
+        <li class="never" data-hits="" data-linenumber="233">
           
           
-          <code class="ruby">      begin</code>
+          <code class="ruby">end</code>
         </li>
       
-        <li class="missed" data-hits="0" data-linenumber="234">
+        <li class="never" data-hits="" data-linenumber="234">
           
           
-          <code class="ruby">        r.close</code>
+          <code class="ruby"></code>
         </li>
       
         <li class="never" data-hits="" data-linenumber="235">
           
           
-          <code class="ruby"></code>
+          <code class="ruby">#### connect_to_s3</code>
         </li>
       
-        <li class="missed" data-hits="0" data-linenumber="236">
+        <li class="never" data-hits="" data-linenumber="236">
           
           
-          <code class="ruby">        val = begin</code>
+          <code class="ruby">#</code>
         </li>
       
-        <li class="missed" data-hits="0" data-linenumber="237">
+        <li class="never" data-hits="" data-linenumber="237">
           
           
-          <code class="ruby">          Timeout.timeout(timeout) do</code>
+          <code class="ruby"># Handle connection to s3 with Fog</code>
         </li>
       
-        <li class="never" data-hits="" data-linenumber="238">
+        <li class="covered" data-hits="1" data-linenumber="238">
+          <span class="hits">1</span>
           
-          
-          <code class="ruby">            # Run block</code>
+          <code class="ruby">def connect_to_s3</code>
         </li>
       
-        <li class="missed" data-hits="0" data-linenumber="239">
+        <li class="covered" data-hits="4" data-linenumber="239">
+          <span class="hits">4</span>
           
-          
-          <code class="ruby">            yield</code>
+          <code class="ruby">  config = {</code>
         </li>
       
         <li class="never" data-hits="" data-linenumber="240">
           
           
-          <code class="ruby">          end</code>
+          <code class="ruby">    provider: &#39;AWS&#39;,</code>
         </li>
       
         <li class="never" data-hits="" data-linenumber="241">
           
           
-          <code class="ruby">        rescue Exception =&gt; e</code>
+          <code class="ruby">    aws_access_key_id: ENV[&#39;S3_KEY&#39;],</code>
         </li>
       
-        <li class="missed" data-hits="0" data-linenumber="242">
+        <li class="never" data-hits="" data-linenumber="242">
           
           
-          <code class="ruby">          e</code>
+          <code class="ruby">    aws_secret_access_key: ENV[&#39;S3_SECRET&#39;],</code>
         </li>
       
         <li class="never" data-hits="" data-linenumber="243">
           
           
-          <code class="ruby">        end</code>
+          <code class="ruby">    path_style: true</code>
         </li>
       
         <li class="never" data-hits="" data-linenumber="244">
           
           
-          <code class="ruby"></code>
+          <code class="ruby">  }</code>
         </li>
       
-        <li class="missed" data-hits="0" data-linenumber="245">
+        <li class="covered" data-hits="4" data-linenumber="245">
+          <span class="hits">4</span>
           
-          
-          <code class="ruby">        w.write Marshal.dump val</code>
+          <code class="ruby">  Fog::Storage.new(config)</code>
         </li>
       
-        <li class="missed" data-hits="0" data-linenumber="246">
-          
-          
-          <code class="ruby">        w.close</code>
-        </li>
-      
-        <li class="never" data-hits="" data-linenumber="247">
-          
-          
-          <code class="ruby">      ensure</code>
-        </li>
-      
-        <li class="never" data-hits="" data-linenumber="248">
-          
-          
-          <code class="ruby">        # YOU SHALL NOT PASS</code>
-        </li>
-      
-        <li class="never" data-hits="" data-linenumber="249">
-          
-          
-          <code class="ruby">        # Skip at_exit handlers.</code>
-        </li>
-      
-        <li class="missed" data-hits="0" data-linenumber="250">
-          
-          
-          <code class="ruby">        exit!</code>
-        </li>
-      
-        <li class="never" data-hits="" data-linenumber="251">
-          
-          
-          <code class="ruby">      end</code>
-        </li>
-      
-        <li class="never" data-hits="" data-linenumber="252">
-          
-          
-          <code class="ruby">    end</code>
-        </li>
-      
-        <li class="never" data-hits="" data-linenumber="253">
-          
-          
-          <code class="ruby"></code>
-        </li>
-      
-        <li class="never" data-hits="" data-linenumber="254">
-          
-          
-          <code class="ruby">    # Parent</code>
-        </li>
-      
-        <li class="covered" data-hits="2" data-linenumber="255">
-          <span class="hits">2</span>
-          
-          <code class="ruby">    w.close</code>
-        </li>
-      
-        <li class="never" data-hits="" data-linenumber="256">
-          
-          
-          <code class="ruby"></code>
-        </li>
-      
-        <li class="covered" data-hits="2" data-linenumber="257">
-          <span class="hits">2</span>
-          
-          <code class="ruby">    Timeout.timeout(timeout) do</code>
-        </li>
-      
-        <li class="never" data-hits="" data-linenumber="258">
-          
-          
-          <code class="ruby">      # Read value from pipe</code>
-        </li>
-      
-        <li class="covered" data-hits="2" data-linenumber="259">
-          <span class="hits">2</span>
-          
-          <code class="ruby">      begin</code>
-        </li>
-      
-        <li class="covered" data-hits="2" data-linenumber="260">
-          <span class="hits">2</span>
-          
-          <code class="ruby">        val = Marshal.load r.read</code>
-        </li>
-      
-        <li class="never" data-hits="" data-linenumber="261">
-          
-          
-          <code class="ruby">      rescue ArgumentError =&gt; e</code>
-        </li>
-      
-        <li class="never" data-hits="" data-linenumber="262">
-          
-          
-          <code class="ruby">        # Marshal data too short</code>
-        </li>
-      
-        <li class="never" data-hits="" data-linenumber="263">
-          
-          
-          <code class="ruby">        # Subprocess likely exited without writing.</code>
-        </li>
-      
-        <li class="missed" data-hits="0" data-linenumber="264">
-          
-          
-          <code class="ruby">        raise Timeout::Error</code>
-        </li>
-      
-        <li class="never" data-hits="" data-linenumber="265">
-          
-          
-          <code class="ruby">      end</code>
-        </li>
-      
-        <li class="never" data-hits="" data-linenumber="266">
-          
-          
-          <code class="ruby"></code>
-        </li>
-      
-        <li class="never" data-hits="" data-linenumber="267">
-          
-          
-          <code class="ruby">      # Return or raise value from subprocess.</code>
-        </li>
-      
-        <li class="covered" data-hits="2" data-linenumber="268">
-          <span class="hits">2</span>
-          
-          <code class="ruby">      case val</code>
-        </li>
-      
-        <li class="never" data-hits="" data-linenumber="269">
-          
-          
-          <code class="ruby">      when Exception</code>
-        </li>
-      
-        <li class="covered" data-hits="2" data-linenumber="270">
-          <span class="hits">2</span>
-          
-          <code class="ruby">        raise val</code>
-        </li>
-      
-        <li class="never" data-hits="" data-linenumber="271">
-          
-          
-          <code class="ruby">      else</code>
-        </li>
-      
-        <li class="missed" data-hits="0" data-linenumber="272">
-          
-          
-          <code class="ruby">        return val</code>
-        </li>
-      
-        <li class="never" data-hits="" data-linenumber="273">
-          
-          
-          <code class="ruby">      end</code>
-        </li>
-      
-        <li class="never" data-hits="" data-linenumber="274">
-          
-          
-          <code class="ruby">    end</code>
-        </li>
-      
-        <li class="never" data-hits="" data-linenumber="275">
-          
-          
-          <code class="ruby">  ensure</code>
-        </li>
-      
-        <li class="covered" data-hits="2" data-linenumber="276">
-          <span class="hits">2</span>
-          
-          <code class="ruby">    if pid</code>
-        </li>
-      
-        <li class="covered" data-hits="2" data-linenumber="277">
-          <span class="hits">2</span>
-          
-          <code class="ruby">      Process.kill &quot;TERM&quot;, pid rescue nil</code>
-        </li>
-      
-        <li class="covered" data-hits="2" data-linenumber="278">
-          <span class="hits">2</span>
-          
-          <code class="ruby">      Process.kill &quot;KILL&quot;, pid rescue nil</code>
-        </li>
-      
-        <li class="covered" data-hits="2" data-linenumber="279">
-          <span class="hits">2</span>
-          
-          <code class="ruby">      Process.waitpid pid rescue nil</code>
-        </li>
-      
-        <li class="never" data-hits="" data-linenumber="280">
-          
-          
-          <code class="ruby">    end</code>
-        </li>
-      
-        <li class="covered" data-hits="2" data-linenumber="281">
-          <span class="hits">2</span>
-          
-          <code class="ruby">    r.close rescue nil</code>
-        </li>
-      
-        <li class="covered" data-hits="2" data-linenumber="282">
-          <span class="hits">2</span>
-          
-          <code class="ruby">    w.close rescue nil</code>
-        </li>
-      
-        <li class="never" data-hits="" data-linenumber="283">
-          
-          
-          <code class="ruby">  end</code>
-        </li>
-      
-        <li class="never" data-hits="" data-linenumber="284">
+        <li class="never" data-hits="" data-linenumber="246">
           
           
           <code class="ruby">end</code>

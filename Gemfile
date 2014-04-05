@@ -22,6 +22,7 @@ group :development,:test do
 end
 
 group :test do
+  gem 'fakeredis'
 	gem 'simplecov', :require => false
 	gem 'coveralls', :require => false
 end

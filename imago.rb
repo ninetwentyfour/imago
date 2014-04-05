@@ -198,7 +198,7 @@ end
 #
 # The link to return if something goes wrong
 def not_found_link
-  @not_found_url ||= "#{settings.base_link_url}not_found.jpg"
+  @not_found_url ||= "#{ENV['BASE_LINK_URL']}not_found.jpg"
 end
 
 #### save_to_redis
