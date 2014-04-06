@@ -66,8 +66,8 @@ def get_image_link(url)
       link = "#{ENV['BASE_LINK_URL']}#{name}.jpg"
       save_to_redis(name, link)
     # return a 'not found' link if something goes wrong.
-    rescue Exception => exception
-      logger.error "Rescued Error Creating and Uploading Image: #{exception}"
+    rescue StandardError => e
+      logger.error "Rescued Error Creating and Uploading Image: #{e}"
       link = not_found_link
       save_to_redis(name, link, 300)
     end
@@ -80,7 +80,7 @@ end
 #
 # * `link`: the final link to the image.
 #
-# * `params`: the params that were sent with the request.
+# * `url`: the url the image was created from.
 #
 # Respond to request
 def respond(link, url)
@@ -97,9 +97,9 @@ def respond(link, url)
       http.head(uri.request_uri)
     end
 
-    headers 'Content-Type' => head['Content-Type']
-    headers 'Cache-Control' => 'max-age=2592000, no-transform, public'
-    headers 'Expires' => 'Thu, 29 Sep 2022 01:22:54 GMT+00:00'
+    headers 'Content-Type': head['Content-Type']
+    headers 'Cache-Control': 'max-age=2592000, no-transform, public'
+    headers 'Expires': 'Thu, 29 Sep 2022 01:22:54 GMT+00:00'
 
     stream do |out|
       Net::HTTP.get_response(uri) do |f|
@@ -109,7 +109,7 @@ def respond(link, url)
   # Handle no format or format = json.
   else
     content_type :json
-    data = { :link => link, :website => url }
+    data = { link: link, website: url }
     JSONP data      # JSONP is an alias for jsonp method
   end
 end
