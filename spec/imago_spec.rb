@@ -207,7 +207,7 @@ describe 'Imago' do
       app.any_instance.stub(:generate_image).and_raise("any error")
       get '/get_image?&width=320&height=200&format=json'
       last_response.should be_ok
-      last_response.body.should == "{\"link\":\"#{ENV['BASE_LINK_URL']}not_found.jpg\",\"website\":\"http://www.travisberry.com\"}"
+      last_response.body.should == "{\"link\":\"#{ENV['BASE_LINK_URL']}not_found.jpg\",\"website\":\"\"}"
     end
   end
 end
