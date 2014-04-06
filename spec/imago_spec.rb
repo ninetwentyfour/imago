@@ -202,5 +202,12 @@ describe 'Imago' do
       last_response.should be_ok
       last_response.header["Content-Type"].should == "text/html;charset=utf-8"
     end
+
+    it "returns the not found url no website passed in" do
+      app.any_instance.stub(:generate_image).and_raise("any error")
+      get '/get_image?&width=320&height=200&format=json'
+      last_response.should be_ok
+      last_response.body.should == "{\"link\":\"#{ENV['BASE_LINK_URL']}not_found.jpg\",\"website\":\"http://www.travisberry.com\"}"
+    end
   end
 end
