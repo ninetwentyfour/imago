@@ -184,13 +184,17 @@ end
 #
 # Build a usable url from the website param
 def build_url(website)
-  decoded_url = URI::decode(website)
-  if decoded_url[/^https?/]
-    url = decoded_url
-  else
-    url = "http://#{decoded_url}"
+  begin
+    decoded_url = URI::decode(website)
+    if decoded_url[/^https?/]
+      url = decoded_url
+    else
+      url = "http://#{decoded_url}"
+    end
+    url
+  rescue StandardError => e
+    nil
   end
-  url
 end
 
 ###### not_found_link

@@ -162,8 +162,8 @@ private</pre></div>
         <p>return a ‘not found’ link if something goes wrong.</p>
 
         
-          <div class='highlight'><pre>    <span class="hljs-keyword">rescue</span> <span class="hljs-constant">Exception</span> =&gt; exception
-      logger.error <span class="hljs-string">"Rescued Error Creating and Uploading Image: <span class="hljs-subst">#{exception}</span>"</span>
+          <div class='highlight'><pre>    <span class="hljs-keyword">rescue</span> <span class="hljs-constant">StandardError</span> =&gt; e
+      logger.error <span class="hljs-string">"Rescued Error Creating and Uploading Image: <span class="hljs-subst">#{e}</span>"</span>
       link = not_found_link
       save_to_redis(name, link, <span class="hljs-number">300</span>)
     <span class="hljs-keyword">end</span>
@@ -178,7 +178,7 @@ private</pre></div>
 <ul>
 <li><p><code>link</code>: the final link to the image.</p>
 </li>
-<li><p><code>params</code>: the params that were sent with the request.</p>
+<li><p><code>url</code>: the url the image was created from.</p>
 </li>
 </ul>
 <p>Respond to request</p>
@@ -225,7 +225,7 @@ private</pre></div>
         
           <div class='highlight'><pre>  <span class="hljs-keyword">else</span>
     content_type <span class="hljs-symbol">:json</span>
-    data = { <span class="hljs-symbol">:link</span> =&gt; link, <span class="hljs-symbol">:website</span> =&gt; url }
+    data = { <span class="hljs-symbol">link:</span> link, <span class="hljs-symbol">website:</span> url }
     <span class="hljs-constant">JSONP</span> data      <span class="hljs-comment"># JSONP is an alias for jsonp method</span>
   <span class="hljs-keyword">end</span>
 <span class="hljs-keyword">end</span></pre></div>
