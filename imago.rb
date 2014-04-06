@@ -93,7 +93,7 @@ def respond(link, url)
   case params['format']
   # Handle format = html
   when 'html'
-    haml :main, locals: { link: link }
+    return haml :main, locals: { link: link }
   # Handle format = image
   when 'image'
     link.sub!('https://', 'http://')
@@ -107,7 +107,7 @@ def respond(link, url)
     headers 'Cache-Control' => 'max-age=2592000, no-transform, public'
     headers 'Expires' => 'Thu, 29 Sep 2022 01:22:54 GMT+00:00'
 
-    stream do |out|
+    return stream do |out|
       Net::HTTP.get_response(uri) do |f|
         f.read_body { |ch| out << ch }
       end
@@ -115,7 +115,7 @@ def respond(link, url)
   # Handle no format or format = json.
   else
     content_type :json
-    JSONP({ link: link, website: url }) # JSONP is an alias for jsonp method
+    return JSONP({ link: link, website: url }) # JSONP is an alias for jsonp method
   end
 end
 
