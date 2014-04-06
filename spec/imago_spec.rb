@@ -178,7 +178,7 @@ describe 'Imago' do
       expect(last_response.header['Content-Type']).to eq 'application/json;charset=utf-8'
       expect(last_response.body).to eq "{\"link\":\"#{ENV['IMAGO_BASE_LINK_URL']}6b3927a0e37512e2efa3b25cb440a498.jpg\",\"website\":\"http://www.travisberry.com\"}"
     end
-    
+
     it "returns an image response for a valid url" do
       get '/get_image?website=www.travisberry.com&width=320&height=200&format=image'
       expect(last_response).to be_ok
@@ -186,7 +186,7 @@ describe 'Imago' do
       last_response.header.delete("Content-Length") # remove the length, it fluctuates a bit
       expect(last_response.header).to eq ({"Content-Type"=>"image/jpeg", "Cache-Control"=>"max-age=2592000, no-transform, public", "Expires"=>"Thu, 29 Sep 2022 01:22:54 GMT+00:00", "X-Content-Type-Options"=>"nosniff"})
     end
-    
+
     it "returns a html response for a valid url" do
       get '/get_image?website=www.travisberry.com&width=320&height=200&format=html'
       expect(last_response).to be_ok
