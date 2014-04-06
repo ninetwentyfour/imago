@@ -168,6 +168,13 @@ describe 'Imago' do
   end
   
   describe 'http calls to our endpoint' do
+    it "returns the not found url if an exception is raised" do
+      app.any_instance.stub(:generate_image).and_raise("any error")
+      get '/get_image?website=www.travisberry.com&width=320&height=200&format=json'
+      last_response.should be_ok
+      last_response.body.should == "{\"link\":\"#{ENV['BASE_LINK_URL']}not_found.jpg\",\"website\":\"http://www.travisberry.com\"}"
+    end
+    
     it "returns a json response for a url with no format" do
       get '/get_image?website=www.travisberry.com&width=320&height=200'
       last_response.should be_ok
