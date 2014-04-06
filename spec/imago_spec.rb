@@ -28,11 +28,11 @@ describe 'Imago' do
     Fog::Mock.reset
     @s3_connection_double = Fog::Storage.new({
       provider: 'AWS',
-      aws_access_key_id: ENV['S3_KEY'],
-      aws_secret_access_key: ENV['S3_SECRET'],
+      aws_access_key_id: ENV['IMAGO_S3_KEY'],
+      aws_secret_access_key: ENV['IMAGO_S3_SECRET'],
       path_style: true
     })
-    @s3_connection_double.directories.create({key: ENV['S3_BUCKET']})
+    @s3_connection_double.directories.create({key: ENV['IMAGO_S3_BUCKET']})
 
     @redis = Redis.new
     @redis.flushall
@@ -118,14 +118,14 @@ describe 'Imago' do
     end
 
     it "#s3_directory returns a fog object" do
-      expect(s3_directory.key).to eq @s3_connection_double.directories.get(ENV['S3_BUCKET']).key
+      expect(s3_directory.key).to eq @s3_connection_double.directories.get(ENV['IMAGO_S3_BUCKET']).key
     end
 
     it "#send_to_s3 uploads a file to amazon s3" do
       file = File.open('./spec/thug_life.jpeg')
       send_to_s3(file, 'test_file')
 
-      s3_directory = @s3_connection_double.directories.get(ENV['S3_BUCKET'])
+      s3_directory = @s3_connection_double.directories.get(ENV['IMAGO_S3_BUCKET'])
       uploaded_file = s3_directory.files.get('test_file.jpg')
 
       expect(uploaded_file.body).to eq File.read('./spec/thug_life.jpeg')
@@ -142,7 +142,7 @@ describe 'Imago' do
 
   describe '#not_found_link' do
     it "returns the not found link" do
-      expect(not_found_link).to eq "#{ENV['BASE_LINK_URL']}not_found.jpg"
+      expect(not_found_link).to eq "#{ENV['IMAGO_BASE_LINK_URL']}not_found.jpg"
     end
   end
 
@@ -169,14 +169,14 @@ describe 'Imago' do
       get '/get_image?website=www.travisberry.com&width=320&height=200'
       expect(last_response).to be_ok
       expect(last_response.header['Content-Type']).to eq 'application/json;charset=utf-8'
-      expect(last_response.body).to eq "{\"link\":\"#{ENV['BASE_LINK_URL']}6b3927a0e37512e2efa3b25cb440a498.jpg\",\"website\":\"http://www.travisberry.com\"}"
+      expect(last_response.body).to eq "{\"link\":\"#{ENV['IMAGO_BASE_LINK_URL']}6b3927a0e37512e2efa3b25cb440a498.jpg\",\"website\":\"http://www.travisberry.com\"}"
     end
 
     it "returns a json response for a valid url" do
       get '/get_image?website=www.travisberry.com&width=320&height=200&format=json'
       expect(last_response).to be_ok
       expect(last_response.header['Content-Type']).to eq 'application/json;charset=utf-8'
-      expect(last_response.body).to eq "{\"link\":\"#{ENV['BASE_LINK_URL']}6b3927a0e37512e2efa3b25cb440a498.jpg\",\"website\":\"http://www.travisberry.com\"}"
+      expect(last_response.body).to eq "{\"link\":\"#{ENV['IMAGO_BASE_LINK_URL']}6b3927a0e37512e2efa3b25cb440a498.jpg\",\"website\":\"http://www.travisberry.com\"}"
     end
     
     it "returns an image response for a valid url" do
@@ -197,31 +197,31 @@ describe 'Imago' do
       app.any_instance.stub(:generate_image).and_raise("any error")
       get '/get_image?website=www.travisberry.com&width=320&height=200&format=json'
       expect(last_response).to be_ok
-      expect(last_response.body).to eq "{\"link\":\"#{ENV['BASE_LINK_URL']}not_found.jpg\",\"website\":\"http://www.travisberry.com\"}"
+      expect(last_response.body).to eq "{\"link\":\"#{ENV['IMAGO_BASE_LINK_URL']}not_found.jpg\",\"website\":\"http://www.travisberry.com\"}"
     end
 
     it "returns the not found url no website is passed in" do
       get '/get_image?width=320&height=200&format=json'
       expect(last_response).to be_ok
-      expect(last_response.body).to eq "{\"link\":\"#{ENV['BASE_LINK_URL']}not_found.jpg\",\"website\":\"\"}"
+      expect(last_response.body).to eq "{\"link\":\"#{ENV['IMAGO_BASE_LINK_URL']}not_found.jpg\",\"website\":\"\"}"
     end
 
     it "returns the not found url no width is passed in" do
       get '/get_image?website=www.travisberry.com&height=200&format=json'
       expect(last_response).to be_ok
-      expect(last_response.body).to eq "{\"link\":\"#{ENV['BASE_LINK_URL']}not_found.jpg\",\"website\":\"http://www.travisberry.com\"}"
+      expect(last_response.body).to eq "{\"link\":\"#{ENV['IMAGO_BASE_LINK_URL']}not_found.jpg\",\"website\":\"http://www.travisberry.com\"}"
     end
 
     it "returns the not found url no height is passed in" do
       get '/get_image?website=www.travisberry.com&width=200&format=json'
       expect(last_response).to be_ok
-      expect(last_response.body).to eq "{\"link\":\"#{ENV['BASE_LINK_URL']}not_found.jpg\",\"website\":\"http://www.travisberry.com\"}"
+      expect(last_response.body).to eq "{\"link\":\"#{ENV['IMAGO_BASE_LINK_URL']}not_found.jpg\",\"website\":\"http://www.travisberry.com\"}"
     end
 
     it "returns the not found url no params are passed in" do
       get '/get_image?'
       expect(last_response).to be_ok
-      expect(last_response.body).to eq "{\"link\":\"#{ENV['BASE_LINK_URL']}not_found.jpg\",\"website\":\"\"}"
+      expect(last_response.body).to eq "{\"link\":\"#{ENV['IMAGO_BASE_LINK_URL']}not_found.jpg\",\"website\":\"\"}"
     end
   end
 end
