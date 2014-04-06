@@ -2,10 +2,10 @@
 
 configure do
   # s3 configs
-  set :bucket, ENV['S3_BUCKET']
-  set :s3_key, ENV['S3_KEY']
-  set :s3_secret, ENV['S3_SECRET']
-  set :base_link_url, ENV['BASE_LINK_URL'] # http://abc.com/ - note trailing slash
+  set :bucket, ENV['IMAGO_S3_BUCKET']
+  set :s3_key, ENV['IMAGO_S3_KEY']
+  set :s3_secret, ENV['IMAGO_S3_SECRET']
+  set :base_link_url, ENV['IMAGO_BASE_LINK_URL'] # http://abc.com/ - note trailing slash
   
   # redis configs
   if ENV['REDISTOGO_URL']
