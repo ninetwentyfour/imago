@@ -109,8 +109,7 @@ def respond(link, url)
   # Handle no format or format = json.
   else
     content_type :json
-    data = { link: link, website: url }
-    JSONP data      # JSONP is an alias for jsonp method
+    JSONP { link: link, website: url } # JSONP is an alias for jsonp method
   end
 end
 
