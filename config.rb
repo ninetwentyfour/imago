@@ -1,16 +1,18 @@
-#### App Configs
+###### App Configs
 
 configure do
   # s3 configs
   set :bucket, ENV['S3_BUCKET']
   set :s3_key, ENV['S3_KEY']
   set :s3_secret, ENV['S3_SECRET']
-  set :base_link_url, ENV['BASE_LINK_URL'] # http://www.example.com/ note trailing slash
+  set :base_link_url, ENV['BASE_LINK_URL'] # http://abc.com/ - note trailing slash
   
   # redis configs
   if ENV['REDISTOGO_URL']
     uri = URI.parse(ENV['REDISTOGO_URL'])
-    $redis = ConnectionPool.new(size: 5, timeout: 5) { Redis.new(host: uri.host, port: uri.port, password: uri.password) }
+    $redis = ConnectionPool.new(size: 5, timeout: 5) { 
+      Redis.new(host: uri.host, port: uri.port, password: uri.password) 
+    }
   else
     $redis = ConnectionPool.new(size: 5, timeout: 5) { Redis.new }
   end
@@ -20,13 +22,11 @@ configure do
     config.wkhtmltoimage = "#{settings.root}/bin/wkhtmltoimage-amd64"
   end
   
+  # airbrake configs
   if ENV['RACK_ENV'] == 'production'
-    # airbrake configs
     Airbrake.configure do |config|
       config.api_key = ENV['AIRBRAKE_API_KEY']
     end
-  
-    # use airbrake errors
     use Airbrake::Rack
     enable :raise_errors
   end

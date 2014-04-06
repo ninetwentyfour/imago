@@ -1,4 +1,6 @@
-#### Requires
+# **Imago** is a simple service to return website thumbnails.
+
+###### Requires
 
 # Write out all requires from gems
 %w(rubygems sinatra imgkit digest/md5 haml redis open-uri RMagick json airbrake
@@ -8,8 +10,8 @@
 require_relative 'config'
 include Magick
 
-#### GET /get_image?
-
+###### GET /get_image?
+#
 # `/get_image?` takes a list of params.
 # The list of params are (all are required):
 #
@@ -24,9 +26,8 @@ include Magick
 #    Accepted values are html, json, and image.
 #    Use image to inline images (e.g. `<img src="/get_image?format=image" />`)
 #
-# _EXAMPLE_:
-#
-# /get_image?website=www.example.com&width=600&height=600&format=json
+# _example_: 
+# `/get_image?website=www.example.com&width=600&height=600&format=json`
 get '/get_image?' do
   url = build_url(params['website']) || ''
   link = get_image_link(url)
@@ -36,7 +37,7 @@ end
 
 private
 
-#### get_image_link
+###### get_image_link
 #
 # * `url`: the url of the website to image.
 #
@@ -44,7 +45,7 @@ private
 def get_image_link(url)
   return not_found_link unless validate(params).empty?
 
-  # Hash the params to get the filename and the key for redis
+  # Hash the params to get the filename and the key for redis.
   name = Digest::MD5.hexdigest(
     "#{params['website']}_#{params['width']}_#{params['height']}"
   )
@@ -53,7 +54,7 @@ def get_image_link(url)
   link = $redis.with { |conn| conn.get(name) }
   unless link
     begin
-      # keep super slow sites from taking forever
+      # keep super slow sites from taking forever.
       Timeout.timeout(20) do
         # Generate the image.
         img = generate_image(url)
@@ -64,6 +65,7 @@ def get_image_link(url)
       # Create the link url.
       link = "#{ENV['BASE_LINK_URL']}#{name}.jpg"
       save_to_redis(name, link)
+    # return a 'not found' link if something goes wrong.
     rescue Exception => exception
       logger.error "Rescued Error Creating and Uploading Image: #{exception}"
       link = not_found_link
@@ -74,7 +76,7 @@ def get_image_link(url)
   link
 end
 
-#### respond
+###### respond
 #
 # * `link`: the final link to the image.
 #
@@ -83,39 +85,36 @@ end
 # Respond to request
 def respond(link, url)
   case params['format']
+  # Handle format = html
   when 'html'
     haml :main, locals: { link: link }
+  # Handle format = image
   when 'image'
-    # TODO: do all of this in a begin block.
-    # Do a send_file with a local copy of not found if fail
     link.sub!('https://', 'http://')
     uri = URI(link)
 
-    # get only header data
     head = Net::HTTP.start(uri.host, uri.port) do |http|
       http.head(uri.request_uri)
     end
 
-    # set headers accordingly (all that apply)
     headers 'Content-Type' => head['Content-Type']
     headers 'Cache-Control' => 'max-age=2592000, no-transform, public'
     headers 'Expires' => 'Thu, 29 Sep 2022 01:22:54 GMT+00:00'
 
-    # stream back the contents
     stream do |out|
       Net::HTTP.get_response(uri) do |f|
         f.read_body { |ch| out << ch }
       end
     end
+  # Handle no format or format = json.
   else
-    # Return json if no format or format = json.
     content_type :json
     data = { :link => link, :website => url }
     JSONP data      # JSONP is an alias for jsonp method
   end
 end
 
-#### validate
+###### validate
 #
 # * `params`: the params that were sent with the request.
 #
@@ -141,7 +140,7 @@ def validate(params)
   errors
 end
 
-#### given?
+###### given?
 #
 # * `field`: the param field to check.
 #
@@ -150,7 +149,7 @@ def given?(field)
   !field.empty?
 end
 
-#### send_to_s3
+###### send_to_s3
 #
 # * `img`: the tmp path to the image file.
 #
@@ -165,7 +164,7 @@ def send_to_s3(img, name)
   })
 end
 
-#### generate_image
+###### generate_image
 #
 # * `url`: the url of the website to thumbnail. (http://www.example.com)
 #
@@ -179,7 +178,7 @@ def generate_image(url)
     resize_to_fill!(params['width'].to_i, params['height'].to_i).to_blob
 end
 
-#### build_url
+###### build_url
 #
 # * `website`: the website to build a working url for.
 #
@@ -194,14 +193,14 @@ def build_url(website)
   url
 end
 
-#### not_found_link
+###### not_found_link
 #
 # The link to return if something goes wrong
 def not_found_link
   @not_found_url ||= "#{ENV['BASE_LINK_URL']}not_found.jpg"
 end
 
-#### save_to_redis
+###### save_to_redis
 #
 # * `key`: the key for redis.
 #
@@ -211,28 +210,27 @@ end
 #
 # Save the image link to redis
 def save_to_redis(key, value, time=1209600)
-  # Save in redis for re-use later.
   $redis.with do |conn|
     conn.set key, value
     conn.expire key, time
   end
 end
 
-#### s3_directory
+###### s3_directory
 #
 # Get the s3 bucket object
 def s3_directory
   @s3directory ||= s3_connection.directories.get(ENV['S3_BUCKET'])
 end
 
-#### s3_connection
+###### s3_connection
 #
 # Get the s3 connection
 def s3_connection
   @s3connection ||= connect_to_s3
 end
 
-#### connect_to_s3
+###### connect_to_s3
 #
 # Handle connection to s3 with Fog
 def connect_to_s3

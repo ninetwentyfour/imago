@@ -97,6 +97,8 @@ Docs
 
 View our docs [here](http://imago.in/docs/imago.html).
 
+To generate run `docco *.rb -l linear`
+
 Disclaimer
 ===========
 
