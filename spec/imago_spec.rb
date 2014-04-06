@@ -184,7 +184,7 @@ describe 'Imago' do
       expect(last_response).to be_ok
       expect(last_response.header['Content-Length'].to_i).to be > 0
       last_response.header.delete("Content-Length") # remove the length, it fluctuates a bit
-      expect(last_response.header).to eq {"Content-Type"=>"image/jpeg", "Cache-Control"=>"max-age=2592000, no-transform, public", "Expires"=>"Thu, 29 Sep 2022 01:22:54 GMT+00:00", "X-Content-Type-Options"=>"nosniff"}
+      expect(last_response.header).to eq ({"Content-Type"=>"image/jpeg", "Cache-Control"=>"max-age=2592000, no-transform, public", "Expires"=>"Thu, 29 Sep 2022 01:22:54 GMT+00:00", "X-Content-Type-Options"=>"nosniff"})
     end
     
     it "returns a html response for a valid url" do
