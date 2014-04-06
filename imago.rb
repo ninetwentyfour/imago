@@ -49,7 +49,7 @@ private
 #
 # Create the image and upload it. Return the link to the image
 def get_image_link(url)
-  return not_found_link unless validate(params).empty?
+  return not_found_link unless valid?(params)
 
   # Hash the params to get the filename and the key for redis.
   name = Digest::MD5.hexdigest(
@@ -119,30 +119,28 @@ def respond(link, url)
   end
 end
 
-###### validate
+###### valid?
 #
 # * `params`: the params that were sent with the request.
 #
 # Validate the params sent with the request.
-def validate(params)
-  errors = {}
-
+def valid?(params)
   # Make sure the website is a passed in param.
   unless params['website'] && given?(params['website'])
-    errors['website']   = 'This field is required'
+    return false
   end
 
   # Make sure the width is a passed in param.
   unless params['width'] && given?(params['width'])
-    errors['width']   = 'This field is required'
+    return false
   end
 
   # Make sure the height is a passed in param.
   unless params['height'] && given?(params['height'])
-    errors['height']   = 'This field is required'
+    return false
   end
 
-  errors
+  true
 end
 
 ###### given?

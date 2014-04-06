@@ -47,8 +47,7 @@ describe 'Imago' do
         'height' => '600',
         'format' => 'json'
       }
-      errors = validate(params)
-      errors.should == {}
+      expect(valid?(params)).to eq true
     end
 
     it "requires a website" do
@@ -57,8 +56,7 @@ describe 'Imago' do
         'height' => '600',
         'format' => 'json'
       }
-      errors = validate(params)
-      errors['website'].should == 'This field is required'
+      expect(valid?(params)).to eq false
     end
 
     it "requires a non empty website" do
@@ -68,8 +66,7 @@ describe 'Imago' do
         'height' => '600',
         'format' => 'json'
       }
-      errors = validate(params)
-      errors['website'].should == 'This field is required'
+      expect(valid?(params)).to eq false
     end
     
     it "requires a width" do
@@ -78,8 +75,7 @@ describe 'Imago' do
         'height' => '600',
         'format' => 'json'
       }
-      errors = validate(params)
-      errors['width'].should == 'This field is required'
+      expect(valid?(params)).to eq false
     end
 
     it "requires a non empty width" do
@@ -89,8 +85,7 @@ describe 'Imago' do
         'height' => '600',
         'format' => 'json'
       }
-      errors = validate(params)
-      errors['width'].should == 'This field is required'
+      expect(valid?(params)).to eq false
     end
     
     it "requires a height" do
@@ -99,8 +94,7 @@ describe 'Imago' do
         'width' => '600',
         'format' => 'json'
       }
-      errors = validate(params)
-      errors['height'].should == 'This field is required'
+      expect(valid?(params)).to eq false
     end
 
     it "requires a non empty height" do
@@ -110,8 +104,7 @@ describe 'Imago' do
         'height' => '',
         'format' => 'json'
       }
-      errors = validate(params)
-      errors['height'].should == 'This field is required'
+      expect(valid?(params)).to eq false
     end    
   end    
 
@@ -174,61 +167,61 @@ describe 'Imago' do
   describe 'http calls to our endpoint' do
     it "returns a json response for a url with no format" do
       get '/get_image?website=www.travisberry.com&width=320&height=200'
-      last_response.should be_ok
-      last_response.header["Content-Type"].should == "application/json;charset=utf-8"
-      last_response.body.should == "{\"link\":\"#{ENV['BASE_LINK_URL']}6b3927a0e37512e2efa3b25cb440a498.jpg\",\"website\":\"http://www.travisberry.com\"}"
+      expect(last_response).to be_ok
+      expect(last_response.header['Content-Type']).to eq 'application/json;charset=utf-8'
+      expect(last_response.body).to eq "{\"link\":\"#{ENV['BASE_LINK_URL']}6b3927a0e37512e2efa3b25cb440a498.jpg\",\"website\":\"http://www.travisberry.com\"}"
     end
 
     it "returns a json response for a valid url" do
       get '/get_image?website=www.travisberry.com&width=320&height=200&format=json'
-      last_response.should be_ok
-      last_response.header["Content-Type"].should == "application/json;charset=utf-8"
-      last_response.body.should == "{\"link\":\"#{ENV['BASE_LINK_URL']}6b3927a0e37512e2efa3b25cb440a498.jpg\",\"website\":\"http://www.travisberry.com\"}"
+      expect(last_response).to be_ok
+      expect(last_response.header['Content-Type']).to eq 'application/json;charset=utf-8'
+      expect(last_response.body).to eq "{\"link\":\"#{ENV['BASE_LINK_URL']}6b3927a0e37512e2efa3b25cb440a498.jpg\",\"website\":\"http://www.travisberry.com\"}"
     end
     
     it "returns an image response for a valid url" do
       get '/get_image?website=www.travisberry.com&width=320&height=200&format=image'
-      last_response.should be_ok
+      expect(last_response).to be_ok
       expect(last_response.header['Content-Length'].to_i).to be > 0
       last_response.header.delete("Content-Length") # remove the length, it fluctuates a bit
-      last_response.header.should == {"Content-Type"=>"image/jpeg", "Cache-Control"=>"max-age=2592000, no-transform, public", "Expires"=>"Thu, 29 Sep 2022 01:22:54 GMT+00:00", "X-Content-Type-Options"=>"nosniff"}
+      expect(last_response.header).to eq {"Content-Type"=>"image/jpeg", "Cache-Control"=>"max-age=2592000, no-transform, public", "Expires"=>"Thu, 29 Sep 2022 01:22:54 GMT+00:00", "X-Content-Type-Options"=>"nosniff"}
     end
     
     it "returns a html response for a valid url" do
       get '/get_image?website=www.travisberry.com&width=320&height=200&format=html'
-      last_response.should be_ok
-      last_response.header["Content-Type"].should == "text/html;charset=utf-8"
+      expect(last_response).to be_ok
+      expect(last_response.header['Content-Type']).to eq "text/html;charset=utf-8"
     end
 
     it "returns the not found url if an exception is raised" do
       app.any_instance.stub(:generate_image).and_raise("any error")
       get '/get_image?website=www.travisberry.com&width=320&height=200&format=json'
-      last_response.should be_ok
-      last_response.body.should == "{\"link\":\"#{ENV['BASE_LINK_URL']}not_found.jpg\",\"website\":\"http://www.travisberry.com\"}"
+      expect(last_response).to be_ok
+      expect(last_response.body).to eq "{\"link\":\"#{ENV['BASE_LINK_URL']}not_found.jpg\",\"website\":\"http://www.travisberry.com\"}"
     end
 
     it "returns the not found url no website is passed in" do
       get '/get_image?width=320&height=200&format=json'
-      last_response.should be_ok
-      last_response.body.should == "{\"link\":\"#{ENV['BASE_LINK_URL']}not_found.jpg\",\"website\":\"\"}"
+      expect(last_response).to be_ok
+      expect(last_response.body).to eq "{\"link\":\"#{ENV['BASE_LINK_URL']}not_found.jpg\",\"website\":\"\"}"
     end
 
     it "returns the not found url no width is passed in" do
       get '/get_image?website=www.travisberry.com&height=200&format=json'
-      last_response.should be_ok
-      last_response.body.should == "{\"link\":\"#{ENV['BASE_LINK_URL']}not_found.jpg\",\"website\":\"http://www.travisberry.com\"}"
+      expect(last_response).to be_ok
+      expect(last_response.body).to eq "{\"link\":\"#{ENV['BASE_LINK_URL']}not_found.jpg\",\"website\":\"http://www.travisberry.com\"}"
     end
 
     it "returns the not found url no height is passed in" do
       get '/get_image?website=www.travisberry.com&width=200&format=json'
-      last_response.should be_ok
-      last_response.body.should == "{\"link\":\"#{ENV['BASE_LINK_URL']}not_found.jpg\",\"website\":\"http://www.travisberry.com\"}"
+      expect(last_response).to be_ok
+      expect(last_response.body).to eq "{\"link\":\"#{ENV['BASE_LINK_URL']}not_found.jpg\",\"website\":\"http://www.travisberry.com\"}"
     end
 
     it "returns the not found url no params are passed in" do
       get '/get_image?'
-      last_response.should be_ok
-      last_response.body.should == "{\"link\":\"#{ENV['BASE_LINK_URL']}not_found.jpg\",\"website\":\"\"}"
+      expect(last_response).to be_ok
+      expect(last_response.body).to eq "{\"link\":\"#{ENV['BASE_LINK_URL']}not_found.jpg\",\"website\":\"\"}"
     end
   end
 end

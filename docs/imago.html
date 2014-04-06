@@ -71,13 +71,13 @@
         
         <h2 id="public-routes">Public Routes</h2>
 <h5 id="-get-get_image-">“GET” /get_image?</h5>
-<p><code>/get_image?</code> </p>
+<p><code>/get_image?</code></p>
 <p>Takes a list of params.</p>
 <ul>
 <li><p><code>website</code>: [REQUIRED] the website you wish to screenshot.
- Website should be URL encoded 
- (e.g. <a href="http://www.example.com/test?1">http://www.example.com/test?1</a> becomes 
- http%3A%2F%2Fwww.example.com%2Ftest%3F1). 
+ Website should be URL encoded
+ (e.g. <a href="http://www.example.com/test?1">http://www.example.com/test?1</a> becomes
+ http%3A%2F%2Fwww.example.com%2Ftest%3F1).
  http/https optional.</p>
 </li>
 <li><p><code>width</code>: [REQUIRED] the width of the screen shot. (e.g. 600)</p>
@@ -116,7 +116,7 @@
 
         
           <div class='highlight'><pre><span class="hljs-function"><span class="hljs-keyword">def</span> </span>get_image_link(url)
-  <span class="hljs-keyword">return</span> not_found_link <span class="hljs-keyword">unless</span> validate(params).empty?</pre></div>
+  <span class="hljs-keyword">return</span> not_found_link <span class="hljs-keyword">unless</span> valid?(params)</pre></div>
         
       
         
@@ -202,7 +202,7 @@
 
         
           <div class='highlight'><pre>  <span class="hljs-keyword">when</span> <span class="hljs-string">'html'</span>
-    haml <span class="hljs-symbol">:main</span>, <span class="hljs-symbol">locals:</span> { <span class="hljs-symbol">link:</span> link }</pre></div>
+    <span class="hljs-keyword">return</span> haml <span class="hljs-symbol">:main</span>, <span class="hljs-symbol">locals:</span> { <span class="hljs-symbol">link:</span> link }</pre></div>
         
       
         
@@ -221,7 +221,7 @@
     headers <span class="hljs-string">'Cache-Control'</span> =&gt; <span class="hljs-string">'max-age=2592000, no-transform, public'</span>
     headers <span class="hljs-string">'Expires'</span> =&gt; <span class="hljs-string">'Thu, 29 Sep 2022 01:22:54 GMT+00:00'</span>
 
-    stream <span class="hljs-keyword">do</span> |out|
+    <span class="hljs-keyword">return</span> stream <span class="hljs-keyword">do</span> |out|
       <span class="hljs-constant">Net::HTTP</span>.get_response(uri) <span class="hljs-keyword">do</span> |f|
         f.read_body { |ch| out &lt;&lt; ch }
       <span class="hljs-keyword">end</span>
@@ -234,21 +234,20 @@
         
           <div class='highlight'><pre>  <span class="hljs-keyword">else</span>
     content_type <span class="hljs-symbol">:json</span>
-    <span class="hljs-constant">JSONP</span>({ <span class="hljs-symbol">link:</span> link, <span class="hljs-symbol">website:</span> url }) <span class="hljs-comment"># JSONP is an alias for jsonp method</span>
+    <span class="hljs-keyword">return</span> <span class="hljs-constant">JSONP</span>({ <span class="hljs-symbol">link:</span> link, <span class="hljs-symbol">website:</span> url }) <span class="hljs-comment"># JSONP is an alias for jsonp method</span>
   <span class="hljs-keyword">end</span>
 <span class="hljs-keyword">end</span></pre></div>
         
       
         
-        <h5 id="validate">validate</h5>
+        <h5 id="valid-">valid?</h5>
 <ul>
 <li><code>params</code>: the params that were sent with the request.</li>
 </ul>
 <p>Validate the params sent with the request.</p>
 
         
-          <div class='highlight'><pre><span class="hljs-function"><span class="hljs-keyword">def</span> </span>validate(params)
-  errors = {}</pre></div>
+          <div class='highlight'><pre><span class="hljs-function"><span class="hljs-keyword">def</span> </span>valid?(params)</pre></div>
         
       
         
@@ -256,7 +255,7 @@
 
         
           <div class='highlight'><pre>  <span class="hljs-keyword">unless</span> params[<span class="hljs-string">'website'</span>] &amp;&amp; given?(params[<span class="hljs-string">'website'</span>])
-    errors[<span class="hljs-string">'website'</span>]   = <span class="hljs-string">'This field is required'</span>
+    <span class="hljs-keyword">return</span> <span class="hljs-keyword">false</span>
   <span class="hljs-keyword">end</span></pre></div>
         
       
@@ -265,7 +264,7 @@
 
         
           <div class='highlight'><pre>  <span class="hljs-keyword">unless</span> params[<span class="hljs-string">'width'</span>] &amp;&amp; given?(params[<span class="hljs-string">'width'</span>])
-    errors[<span class="hljs-string">'width'</span>]   = <span class="hljs-string">'This field is required'</span>
+    <span class="hljs-keyword">return</span> <span class="hljs-keyword">false</span>
   <span class="hljs-keyword">end</span></pre></div>
         
       
@@ -274,10 +273,10 @@
 
         
           <div class='highlight'><pre>  <span class="hljs-keyword">unless</span> params[<span class="hljs-string">'height'</span>] &amp;&amp; given?(params[<span class="hljs-string">'height'</span>])
-    errors[<span class="hljs-string">'height'</span>]   = <span class="hljs-string">'This field is required'</span>
+    <span class="hljs-keyword">return</span> <span class="hljs-keyword">false</span>
   <span class="hljs-keyword">end</span>
 
-  errors
+  <span class="hljs-keyword">true</span>
 <span class="hljs-keyword">end</span></pre></div>
         
       

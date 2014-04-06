@@ -65,7 +65,7 @@ configure <span class="hljs-keyword">do</span></pre></div>
         
           <div class='highlight'><pre>  <span class="hljs-keyword">if</span> <span class="hljs-constant">ENV</span>[<span class="hljs-string">'REDISTOGO_URL'</span>]
     uri = <span class="hljs-constant">URI</span>.parse(<span class="hljs-constant">ENV</span>[<span class="hljs-string">'REDISTOGO_URL'</span>])
-    <span class="hljs-variable">$redis</span> ||= <span class="hljs-constant">ConnectionPool</span>.new(<span class="hljs-symbol">size:</span> <span class="hljs-number">5</span>, <span class="hljs-symbol">timeout:</span> <span class="hljs-number">5</span>) { 
+    <span class="hljs-variable">$redis</span> ||= <span class="hljs-constant">ConnectionPool</span>.new(<span class="hljs-symbol">size:</span> <span class="hljs-number">5</span>, <span class="hljs-symbol">timeout:</span> <span class="hljs-number">5</span>) {
       <span class="hljs-constant">Redis</span>.new(<span class="hljs-symbol">host:</span> uri.host, <span class="hljs-symbol">port:</span> uri.port, <span class="hljs-symbol">password:</span> uri.password) 
     }
   <span class="hljs-keyword">else</span>
