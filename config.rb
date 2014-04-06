@@ -10,11 +10,11 @@ configure do
   # redis configs
   if ENV['REDISTOGO_URL']
     uri = URI.parse(ENV['REDISTOGO_URL'])
-    $redis = ConnectionPool.new(size: 5, timeout: 5) { 
+    $redis ||= ConnectionPool.new(size: 5, timeout: 5) {
       Redis.new(host: uri.host, port: uri.port, password: uri.password) 
     }
   else
-    $redis = ConnectionPool.new(size: 5, timeout: 5) { Redis.new }
+    $redis ||= ConnectionPool.new(size: 5, timeout: 5) { Redis.new }
   end
   
   # imgkit configs

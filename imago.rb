@@ -1,30 +1,36 @@
 # **Imago** is a simple service to return website thumbnails.
 
+### Setup
 ###### Requires
 
-# Write out all requires from gems
+# Write out all requires from gems.
 %w(rubygems sinatra imgkit digest/md5 haml redis open-uri RMagick json airbrake
   newrelic_rpm sinatra/jsonp timeout fog connection_pool).each { |g| require g }
 
-# require the app configs
+# Require the app configs.
 require_relative 'config'
 include Magick
 
-###### GET /get_image?
+### Public Routes
+###### "GET" /get_image?
 #
-# `/get_image?` takes a list of params.
-# The list of params are (all are required):
+# `/get_image?`
 #
-# * `website`: the url you wish to screenshot. Do not include http/https.
-#    url should be encoded. (e.g. www.example.com)
+# Takes a list of params.
 #
-# * `width`: the width of the screen shot. (e.g. 600)
+# * `website`: [REQUIRED] the website you wish to screenshot.
+#    Website should be URL encoded
+#    (e.g. http://www.example.com/test?1 becomes
+#    http%3A%2F%2Fwww.example.com%2Ftest%3F1).
+#    http/https optional.
 #
-# * `height`: the height of the screenshot. (e.g. 600)
+# * `width`: [REQUIRED] the width of the screen shot. (e.g. 600)
 #
-# * `format`: the format to respond with.
+# * `height`: [REQUIRED] the height of the screenshot. (e.g. 600)
+#
+# * `format`: [OPTIONAL] the format to respond with.
 #    Accepted values are html, json, and image.
-#    Use image to inline images (e.g. `<img src="/get_image?format=image" />`)
+#    Use image to inline images `<img src="/get_image?format=image" />`.
 #
 # _example_: 
 # `/get_image?website=www.example.com&width=600&height=600&format=json`
@@ -34,7 +40,7 @@ get '/get_image?' do
   respond(link, url)
 end
 
-
+### Private Methods
 private
 
 ###### get_image_link

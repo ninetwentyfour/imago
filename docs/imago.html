@@ -47,12 +47,13 @@
         
       
         
-        <h5 id="requires">Requires</h5>
+        <h2 id="setup">Setup</h2>
+<h5 id="requires">Requires</h5>
 
         
       
         
-        <p>Write out all requires from gems</p>
+        <p>Write out all requires from gems.</p>
 
         
           <div class='highlight'><pre><span class="hljs-string">%w(rubygems sinatra imgkit digest/md5 haml redis open-uri RMagick json airbrake
@@ -60,7 +61,7 @@
         
       
         
-        <p>require the app configs</p>
+        <p>Require the app configs.</p>
 
         
           <div class='highlight'><pre>require_relative <span class="hljs-string">'config'</span>
@@ -68,20 +69,24 @@
         
       
         
-        <h5 id="get-get_image-">GET /get_image?</h5>
-<p><code>/get_image?</code> takes a list of params.
-The list of params are (all are required):</p>
+        <h2 id="public-routes">Public Routes</h2>
+<h5 id="-get-get_image-">“GET” /get_image?</h5>
+<p><code>/get_image?</code> </p>
+<p>Takes a list of params.</p>
 <ul>
-<li><p><code>website</code>: the url you wish to screenshot. Do not include http/https.
- url should be encoded. (e.g. www.example.com)</p>
+<li><p><code>website</code>: [REQUIRED] the website you wish to screenshot.
+ Website should be URL encoded 
+ (e.g. <a href="http://www.example.com/test?1">http://www.example.com/test?1</a> becomes 
+ http%3A%2F%2Fwww.example.com%2Ftest%3F1). 
+ http/https optional.</p>
 </li>
-<li><p><code>width</code>: the width of the screen shot. (e.g. 600)</p>
+<li><p><code>width</code>: [REQUIRED] the width of the screen shot. (e.g. 600)</p>
 </li>
-<li><p><code>height</code>: the height of the screenshot. (e.g. 600)</p>
+<li><p><code>height</code>: [REQUIRED] the height of the screenshot. (e.g. 600)</p>
 </li>
-<li><p><code>format</code>: the format to respond with.
+<li><p><code>format</code>: [OPTIONAL] the format to respond with.
  Accepted values are html, json, and image.
- Use image to inline images (e.g. <code>&lt;img src=&quot;/get_image?format=image&quot; /&gt;</code>)</p>
+ Use image to inline images <code>&lt;img src=&quot;/get_image?format=image&quot; /&gt;</code>.</p>
 </li>
 </ul>
 <p><em>example</em>: 
@@ -92,10 +97,14 @@ The list of params are (all are required):</p>
   url = build_url(params[<span class="hljs-string">'website'</span>]) || <span class="hljs-string">''</span>
   link = get_image_link(url)
   respond(link, url)
-<span class="hljs-keyword">end</span>
+<span class="hljs-keyword">end</span></pre></div>
+        
+      
+        
+        <h2 id="private-methods">Private Methods</h2>
 
-
-private</pre></div>
+        
+          <div class='highlight'><pre>private</pre></div>
         
       
         
@@ -225,8 +234,7 @@ private</pre></div>
         
           <div class='highlight'><pre>  <span class="hljs-keyword">else</span>
     content_type <span class="hljs-symbol">:json</span>
-    data = { <span class="hljs-symbol">link:</span> link, <span class="hljs-symbol">website:</span> url }
-    <span class="hljs-constant">JSONP</span> data      <span class="hljs-comment"># JSONP is an alias for jsonp method</span>
+    <span class="hljs-constant">JSONP</span>({ <span class="hljs-symbol">link:</span> link, <span class="hljs-symbol">website:</span> url }) <span class="hljs-comment"># JSONP is an alias for jsonp method</span>
   <span class="hljs-keyword">end</span>
 <span class="hljs-keyword">end</span></pre></div>
         
@@ -342,13 +350,17 @@ private</pre></div>
 
         
           <div class='highlight'><pre><span class="hljs-function"><span class="hljs-keyword">def</span> </span>build_url(website)
-  decoded_url = <span class="hljs-constant">URI::</span>decode(website)
-  <span class="hljs-keyword">if</span> decoded_url[<span class="hljs-regexp">/^https?/</span>]
-    url = decoded_url
-  <span class="hljs-keyword">else</span>
-    url = <span class="hljs-string">"http://<span class="hljs-subst">#{decoded_url}</span>"</span>
+  <span class="hljs-keyword">begin</span>
+    decoded_url = <span class="hljs-constant">URI::</span>decode(website)
+    <span class="hljs-keyword">if</span> decoded_url[<span class="hljs-regexp">/^https?/</span>]
+      url = decoded_url
+    <span class="hljs-keyword">else</span>
+      url = <span class="hljs-string">"http://<span class="hljs-subst">#{decoded_url}</span>"</span>
+    <span class="hljs-keyword">end</span>
+    url
+  <span class="hljs-keyword">rescue</span> <span class="hljs-constant">StandardError</span> =&gt; e
+    <span class="hljs-keyword">nil</span>
   <span class="hljs-keyword">end</span>
-  url
 <span class="hljs-keyword">end</span></pre></div>
         
       

@@ -92,10 +92,10 @@ Also available with jsonp.
 
 [http://api.imago.in/get_image?website=www.reddit.com&width=320&height=200&format=html](http://api.imago.in/get_image?website=www.reddit.com&width=320&height=200&format=html)
 
-Docs
+Source Docs
 ====
 
-View our docs [here](http://imago.in/docs/imago.html).
+View our source docs [here](http://imago.in/docs/imago.html).
 
 To generate run `docco *.rb -l linear`
 

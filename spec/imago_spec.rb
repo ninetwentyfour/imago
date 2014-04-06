@@ -7,9 +7,9 @@ SimpleCov.formatter = SimpleCov::Formatter::MultiFormatter[
   Coveralls::SimpleCov::Formatter
 ]
 SimpleCov.start 'rails' do
-  add_filter 'config.rb'
+  add_filter 'config.rb' # dont track code coverage of config
 end
-#
+
 require File.join(File.dirname(__FILE__), '../imago.rb')
 require 'rspec'
 require 'rack/test'
@@ -139,8 +139,8 @@ describe 'Imago' do
     end
   end
 
-  describe 'redis' do
-    it "#save_to_redis should save to redis" do
+  describe '#save_to_redis' do
+    it "should save to redis" do
       save_to_redis("example", "bar", 10)
 
       expect(@redis.get("example")).to eq "bar"
@@ -165,16 +165,13 @@ describe 'Imago' do
     it 'returns an unmodified url if the url contains https' do
       expect(build_url('https://www.example.com')).to eq 'https://www.example.com'
     end
+
+    it 'returns nil is no url is passed in' do
+      expect(build_url(nil)).to eq nil
+    end
   end
   
   describe 'http calls to our endpoint' do
-    it "returns the not found url if an exception is raised" do
-      app.any_instance.stub(:generate_image).and_raise("any error")
-      get '/get_image?website=www.travisberry.com&width=320&height=200&format=json'
-      last_response.should be_ok
-      last_response.body.should == "{\"link\":\"#{ENV['BASE_LINK_URL']}not_found.jpg\",\"website\":\"http://www.travisberry.com\"}"
-    end
-    
     it "returns a json response for a url with no format" do
       get '/get_image?website=www.travisberry.com&width=320&height=200'
       last_response.should be_ok
@@ -192,7 +189,7 @@ describe 'Imago' do
     it "returns an image response for a valid url" do
       get '/get_image?website=www.travisberry.com&width=320&height=200&format=image'
       last_response.should be_ok
-      # puts last_response.header
+      expect(last_response.header['Content-Length'].to_i).to be > 0
       last_response.header.delete("Content-Length") # remove the length, it fluctuates a bit
       last_response.header.should == {"Content-Type"=>"image/jpeg", "Cache-Control"=>"max-age=2592000, no-transform, public", "Expires"=>"Thu, 29 Sep 2022 01:22:54 GMT+00:00", "X-Content-Type-Options"=>"nosniff"}
     end
@@ -203,9 +200,33 @@ describe 'Imago' do
       last_response.header["Content-Type"].should == "text/html;charset=utf-8"
     end
 
-    it "returns the not found url no website passed in" do
+    it "returns the not found url if an exception is raised" do
       app.any_instance.stub(:generate_image).and_raise("any error")
-      get '/get_image?&width=320&height=200&format=json'
+      get '/get_image?website=www.travisberry.com&width=320&height=200&format=json'
+      last_response.should be_ok
+      last_response.body.should == "{\"link\":\"#{ENV['BASE_LINK_URL']}not_found.jpg\",\"website\":\"http://www.travisberry.com\"}"
+    end
+
+    it "returns the not found url no website is passed in" do
+      get '/get_image?width=320&height=200&format=json'
+      last_response.should be_ok
+      last_response.body.should == "{\"link\":\"#{ENV['BASE_LINK_URL']}not_found.jpg\",\"website\":\"\"}"
+    end
+
+    it "returns the not found url no width is passed in" do
+      get '/get_image?website=www.travisberry.com&height=200&format=json'
+      last_response.should be_ok
+      last_response.body.should == "{\"link\":\"#{ENV['BASE_LINK_URL']}not_found.jpg\",\"website\":\"\"}"
+    end
+
+    it "returns the not found url no height is passed in" do
+      get '/get_image?website=www.travisberry.com&width=200&format=json'
+      last_response.should be_ok
+      last_response.body.should == "{\"link\":\"#{ENV['BASE_LINK_URL']}not_found.jpg\",\"website\":\"\"}"
+    end
+
+    it "returns the not found url no params are passed in" do
+      get '/get_image?'
       last_response.should be_ok
       last_response.body.should == "{\"link\":\"#{ENV['BASE_LINK_URL']}not_found.jpg\",\"website\":\"\"}"
     end
