@@ -216,13 +216,13 @@ describe 'Imago' do
     it "returns the not found url no width is passed in" do
       get '/get_image?website=www.travisberry.com&height=200&format=json'
       last_response.should be_ok
-      last_response.body.should == "{\"link\":\"#{ENV['BASE_LINK_URL']}not_found.jpg\",\"website\":\"\"}"
+      last_response.body.should == "{\"link\":\"#{ENV['BASE_LINK_URL']}not_found.jpg\",\"website\":\"http://www.travisberry.com\"}"
     end
 
     it "returns the not found url no height is passed in" do
       get '/get_image?website=www.travisberry.com&width=200&format=json'
       last_response.should be_ok
-      last_response.body.should == "{\"link\":\"#{ENV['BASE_LINK_URL']}not_found.jpg\",\"website\":\"\"}"
+      last_response.body.should == "{\"link\":\"#{ENV['BASE_LINK_URL']}not_found.jpg\",\"website\":\"http://www.travisberry.com\"}"
     end
 
     it "returns the not found url no params are passed in" do
