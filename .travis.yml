@@ -6,11 +6,10 @@ env:
     # S3_KEY and S3_SECRET
     - secure: "UlJ49Mjvjn7gO+ZyeREfwFUxWtJzxuy4VmyPazwoZ+FmnQ2L3uX4D5wDGhx9LB2c7TAF/GwugZFKHnK56GWAZqKsMkFwL/sXczyIC6bJt1mOVQIrOlgMf+7KvRUp8Y55C4Jci5mhnCAGIsyzQCODGrmokZStZ6MpjiqRzWdGmWc="
     - secure: "Q23kdG7S8wlu0RCYCGpyO5GyAzORsHDoZxXDuTn96dSwC5YX+wNrpNSANAnLuduwYkG1HFjCSW57mjTtK85VOrsUpW7yUDDvw9ePWSVq24SN+2S9LNlULG32QNDeN7yoDJQMJ/iO8jZSku/fRHEvWTzwee6o9xb/0OxRe9+LGNo="
-    - secure: "OgTXESVLDg8hYxSP88VS5ayO2ZctoQIXZcYLu5Aab+gxUkYifoRgNJ38xLkw2CYYyMNj0yjSeG62NUdywzw+RfkTvLzl/QrTVzaOoZEbdvz7Q6C7Z9o1LXQVTGrwZaIRn/wn6O3cQCd0g2jSz69hj275gugpT0wvq0uk4YPWR/c="
-    - secure: "Xxb00XzUZ7Myb3JwUnUbjydGcaMc1V2a+tda0py8cbIgCpS1bdOa42sRvZ+fKzv9T6JE/Xq4oXAm0XzfNFJyoSF5ireUvFTkKR8TYtnSgNgz1x44qq//33d+qpaRWwbMzJU0BGTIHsBAr248zofk9sPJP9AejlM2tXjp5cfBrf0="
-    - IMAGO_S3_BUCKET=static-stage.imago.in
-    - IMAGO_BASE_LINK_URL=https://d29sc4udwyhodq.cloudfront.net/
+    - S3_BUCKET=static-stage.imago.in
+    - BASE_LINK_URL=https://d29sc4udwyhodq.cloudfront.net/
 # uncomment this line if your project needs to run something other than `rake`:
 services:
   - memcache # will start memcached
+  - redis
 script: bundle exec rspec spec
