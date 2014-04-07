@@ -7,7 +7,4 @@ env:
     - IMAGO_S3_SECRET=secret
     - IMAGO_S3_BUCKET=static-stage.imago.in
     - IMAGO_BASE_LINK_URL=https://d29sc4udwyhodq.cloudfront.net/
-# uncomment this line if your project needs to run something other than `rake`:
-services:
-  - memcache # will start memcached
 script: bundle exec rspec spec
