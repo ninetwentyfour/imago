@@ -6,10 +6,11 @@ env:
     # S3_KEY and S3_SECRET
     - secure: "UlJ49Mjvjn7gO+ZyeREfwFUxWtJzxuy4VmyPazwoZ+FmnQ2L3uX4D5wDGhx9LB2c7TAF/GwugZFKHnK56GWAZqKsMkFwL/sXczyIC6bJt1mOVQIrOlgMf+7KvRUp8Y55C4Jci5mhnCAGIsyzQCODGrmokZStZ6MpjiqRzWdGmWc="
     - secure: "Q23kdG7S8wlu0RCYCGpyO5GyAzORsHDoZxXDuTn96dSwC5YX+wNrpNSANAnLuduwYkG1HFjCSW57mjTtK85VOrsUpW7yUDDvw9ePWSVq24SN+2S9LNlULG32QNDeN7yoDJQMJ/iO8jZSku/fRHEvWTzwee6o9xb/0OxRe9+LGNo="
-    - S3_BUCKET=static-stage.imago.in
-    - BASE_LINK_URL=https://d29sc4udwyhodq.cloudfront.net/
+    - IMAGO_S3_KEY=key
+    - IMAGO_S3_SECRET=secret
+    - IMAGO_S3_BUCKET=static-stage.imago.in
+    - IMAGO_BASE_LINK_URL=https://d29sc4udwyhodq.cloudfront.net/
 # uncomment this line if your project needs to run something other than `rake`:
 services:
   - memcache # will start memcached
-  - redis
 script: bundle exec rspec spec

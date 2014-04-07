@@ -69,7 +69,7 @@ def get_image_link(url)
       end
 
       # Create the link url.
-      link = "#{ENV['BASE_LINK_URL']}#{name}.jpg"
+      link = "#{ENV['IMAGO_BASE_LINK_URL']}#{name}.jpg"
       save_to_redis(name, link)
     # return a 'not found' link if something goes wrong.
     rescue StandardError => e
@@ -204,7 +204,7 @@ end
 #
 # The link to return if something goes wrong
 def not_found_link
-  @not_found_url ||= "#{ENV['BASE_LINK_URL']}not_found.jpg"
+  @not_found_url ||= "#{ENV['IMAGO_BASE_LINK_URL']}not_found.jpg"
 end
 
 ###### save_to_redis
@@ -227,7 +227,7 @@ end
 #
 # Get the s3 bucket object
 def s3_directory
-  @s3directory ||= s3_connection.directories.get(ENV['S3_BUCKET'])
+  @s3directory ||= s3_connection.directories.get(ENV['IMAGO_S3_BUCKET'])
 end
 
 ###### s3_connection
@@ -243,8 +243,8 @@ end
 def connect_to_s3
   config = {
     provider: 'AWS',
-    aws_access_key_id: ENV['S3_KEY'],
-    aws_secret_access_key: ENV['S3_SECRET'],
+    aws_access_key_id: ENV['IMAGO_S3_KEY'],
+    aws_secret_access_key: ENV['IMAGO_S3_SECRET'],
     path_style: true
   }
   Fog::Storage.new(config)
