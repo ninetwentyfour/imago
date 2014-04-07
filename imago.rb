@@ -24,12 +24,12 @@ include Magick
 #    http%3A%2F%2Fwww.example.com%2Ftest%3F1).
 #    http/https optional.
 #
-# * `width`: [REQUIRED] the width of the screen shot. (e.g. 600)
+# * `width`: [REQUIRED] the width of the screenshot. (e.g. 600)
 #
 # * `height`: [REQUIRED] the height of the screenshot. (e.g. 600)
 #
 # * `format`: [OPTIONAL] the format to respond with.
-#    Accepted values are html, json, and image.
+#    Accepted values are html, json, and image. Defaults to json.
 #    Use image to inline images `<img src="/get_image?format=image" />`.
 #
 # _example_: 

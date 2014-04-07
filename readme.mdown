@@ -60,15 +60,15 @@ API
 
 http://api.imago.in/get_image?
 
-##### Required Params
+##### Params
 
-- `website`: the url you wish to screenshot. url should be encoded (e.g. http://www.example.com/test?1 becomes http%3A%2F%2Fwww.example.com%2Ftest%3F1). http/https optional.
+- `website`: [REQUIRED] the website you wish to screenshot. Website should be URL encoded (e.g. http://www.example.com/test?1 becomes http%3A%2F%2Fwww.example.com%2Ftest%3F1). http/https optional.
 
-- `width`: the width of the screen shot. (e.g. 600)
+- `width`: [REQUIRED] the width of the screenshot. (e.g. 600)
 
-- `height`: the height of the screenshot. (e.g. 600)
+- `height`: [REQUIRED] the height of the screenshot. (e.g. 600)
 
-- `format`: the format to respond with. Accepted values are html, json, and image. Use image to inline images (e.g. `<img src="/get_image?format=image" />`)
+- `format`: [OPTIONAL] the format to respond with. Accepted values are html, json, and image. Defaults to json. Use image to inline images (e.g. `<img src="/get_image?format=image" />`)
 
 Usage
 ====
@@ -76,7 +76,7 @@ Usage
 ##### Use as an image tag!
 
 `<img src="http://api.imago.in/get_image?website=www.reddit.com&width=320&height=200&format=image" />`
-<img src="http://api.imago.in/get_image?website=www.cmsks.com&width=320&height=200&format=image" />
+<img src="http://api.imago.in/get_image?website=www.reddit.com&width=320&height=200&format=image" />
 
 ##### Return JSON!
 
@@ -104,3 +104,11 @@ Disclaimer
 
 I'm in no way responsible for anything you do with this. If this breaks anything of yours, I'm not responsible for that either.
 
+Contributing:
+========================
+
+1. Fork it
+1. Create your feature branch (`git checkout -b my-new-feature`)
+1. Commit your changes (`git commit -am 'Add some feature'`)
+1. Push to the branch (`git push origin my-new-feature`)
+1. Create new Pull Request
