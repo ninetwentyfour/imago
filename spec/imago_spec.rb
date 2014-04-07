@@ -183,8 +183,11 @@ describe 'Imago' do
       get '/get_image?website=www.travisberry.com&width=320&height=200&format=image'
       expect(last_response).to be_ok
       expect(last_response.header['Content-Length'].to_i).to be > 0
-      last_response.header.delete("Content-Length") # remove the length, it fluctuates a bit
-      expect(last_response.header).to eq ({"Content-Type"=>"image/jpeg", "Cache-Control"=>"max-age=2592000, no-transform, public", "Expires"=>"Thu, 29 Sep 2022 01:22:54 GMT+00:00", "X-Content-Type-Options"=>"nosniff"})
+      # last_response.header.delete("Content-Length") # remove the length, it fluctuates a bit
+      expect(last_response.header['Cache-Control'].to_i).to eq 'max-age=2592000, no-transform, public'
+      expect(last_response.header['Expires'].to_i).to eq 'Thu, 29 Sep 2022 01:22:54 GMT+00:00'
+      expect(last_response.header['X-Content-Type-Options'].to_i).to eq 'nosniff'
+      expect(last_response.header['Content-Type'].to_i).to eq 'image/jpeg'
     end
     
     it "returns a html response for a valid url" do
