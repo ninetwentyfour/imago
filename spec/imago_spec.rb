@@ -226,5 +226,12 @@ describe 'Imago' do
       expect(last_response).to be_ok
       expect(last_response.body).to eq "{\"link\":\"#{ENV['IMAGO_BASE_LINK_URL']}not_found.jpg\",\"website\":\"\"}"
     end
+
+    it "returns the link from redis if cached" do
+      save_to_redis("6b3927a0e37512e2efa3b25cb440a498", "woohoo")
+      get '/get_image?'
+      expect(last_response).to be_ok
+      expect(last_response.body).to eq "{\"link\":\"#{ENV['IMAGO_BASE_LINK_URL']}woohoo.jpg\",\"website\":\"http://www.travisberry.com\"}"
+    end
   end
 end
