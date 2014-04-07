@@ -3,9 +3,6 @@ rvm:
   - "2.1.1"
 env:
   global:
-    # S3_KEY and S3_SECRET
-    - secure: "UlJ49Mjvjn7gO+ZyeREfwFUxWtJzxuy4VmyPazwoZ+FmnQ2L3uX4D5wDGhx9LB2c7TAF/GwugZFKHnK56GWAZqKsMkFwL/sXczyIC6bJt1mOVQIrOlgMf+7KvRUp8Y55C4Jci5mhnCAGIsyzQCODGrmokZStZ6MpjiqRzWdGmWc="
-    - secure: "Q23kdG7S8wlu0RCYCGpyO5GyAzORsHDoZxXDuTn96dSwC5YX+wNrpNSANAnLuduwYkG1HFjCSW57mjTtK85VOrsUpW7yUDDvw9ePWSVq24SN+2S9LNlULG32QNDeN7yoDJQMJ/iO8jZSku/fRHEvWTzwee6o9xb/0OxRe9+LGNo="
     - IMAGO_S3_KEY=key
     - IMAGO_S3_SECRET=secret
     - IMAGO_S3_BUCKET=static-stage.imago.in

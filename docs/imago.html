@@ -163,7 +163,7 @@
         <p>Create the link url.</p>
 
         
-          <div class='highlight'><pre>      link = <span class="hljs-string">"<span class="hljs-subst">#{<span class="hljs-constant">ENV</span>[<span class="hljs-string">'BASE_LINK_URL'</span>]}</span><span class="hljs-subst">#{name}</span>.jpg"</span>
+          <div class='highlight'><pre>      link = <span class="hljs-string">"<span class="hljs-subst">#{<span class="hljs-constant">ENV</span>[<span class="hljs-string">'IMAGO_BASE_LINK_URL'</span>]}</span><span class="hljs-subst">#{name}</span>.jpg"</span>
       save_to_redis(name, link)</pre></div>
         
       
@@ -217,7 +217,7 @@
       http.head(uri.request_uri)
     <span class="hljs-keyword">end</span>
 
-    headers <span class="hljs-string">'Content-Type'</span> =&gt; head[<span class="hljs-string">'Content-Type'</span>]
+    headers <span class="hljs-string">'Content-Type'</span> =&gt; <span class="hljs-string">'image/jpeg'</span>
     headers <span class="hljs-string">'Cache-Control'</span> =&gt; <span class="hljs-string">'max-age=2592000, no-transform, public'</span>
     headers <span class="hljs-string">'Expires'</span> =&gt; <span class="hljs-string">'Thu, 29 Sep 2022 01:22:54 GMT+00:00'</span>
 
@@ -369,7 +369,7 @@
 
         
           <div class='highlight'><pre><span class="hljs-function"><span class="hljs-keyword">def</span> </span>not_found_link
-  <span class="hljs-variable">@not_found_url</span> ||= <span class="hljs-string">"<span class="hljs-subst">#{<span class="hljs-constant">ENV</span>[<span class="hljs-string">'BASE_LINK_URL'</span>]}</span>not_found.jpg"</span>
+  <span class="hljs-variable">@not_found_url</span> ||= <span class="hljs-string">"<span class="hljs-subst">#{<span class="hljs-constant">ENV</span>[<span class="hljs-string">'IMAGO_BASE_LINK_URL'</span>]}</span>not_found.jpg"</span>
 <span class="hljs-keyword">end</span></pre></div>
         
       
@@ -400,7 +400,7 @@
 
         
           <div class='highlight'><pre><span class="hljs-function"><span class="hljs-keyword">def</span> </span>s3_directory
-  <span class="hljs-variable">@s3directory</span> ||= s3_connection.directories.get(<span class="hljs-constant">ENV</span>[<span class="hljs-string">'S3_BUCKET'</span>])
+  <span class="hljs-variable">@s3directory</span> ||= s3_connection.directories.get(<span class="hljs-constant">ENV</span>[<span class="hljs-string">'IMAGO_S3_BUCKET'</span>])
 <span class="hljs-keyword">end</span></pre></div>
         
       
@@ -422,8 +422,8 @@
           <div class='highlight'><pre><span class="hljs-function"><span class="hljs-keyword">def</span> </span>connect_to_s3
   config = {
     <span class="hljs-symbol">provider:</span> <span class="hljs-string">'AWS'</span>,
-    <span class="hljs-symbol">aws_access_key_id:</span> <span class="hljs-constant">ENV</span>[<span class="hljs-string">'S3_KEY'</span>],
-    <span class="hljs-symbol">aws_secret_access_key:</span> <span class="hljs-constant">ENV</span>[<span class="hljs-string">'S3_SECRET'</span>],
+    <span class="hljs-symbol">aws_access_key_id:</span> <span class="hljs-constant">ENV</span>[<span class="hljs-string">'IMAGO_S3_KEY'</span>],
+    <span class="hljs-symbol">aws_secret_access_key:</span> <span class="hljs-constant">ENV</span>[<span class="hljs-string">'IMAGO_S3_SECRET'</span>],
     <span class="hljs-symbol">path_style:</span> <span class="hljs-keyword">true</span>
   }
   <span class="hljs-constant">Fog::Storage</span>.new(config)
