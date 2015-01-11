@@ -1,5 +1,5 @@
 source 'http://bundler-api.herokuapp.com'
-ruby "2.1.1"
+ruby "2.2.0"
 
 gem "sinatra"
 gem "shotgun"
