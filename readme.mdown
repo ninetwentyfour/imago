@@ -9,51 +9,7 @@ Imago is a simple service to return website thumbnails.
 Installation
 ====
 
-Imago works best when deployed to Heroku. It requires a Amazon s3 account and an Airbrake account.
-
 [![Deploy](https://www.herokucdn.com/deploy/button.png)](https://heroku.com/deploy)
-
-First download the latest imago source.
-
-    git clone https://github.com/ninetwentyfour/imago.git
-
-    cd imago
-
-You should have the heroku command available if you've installed the heroku gem correctly. You can read the [Heroku help](https://devcenter.heroku.com/articles/heroku-command) for configuring the gem once it's installed.
-
-Create a new Heroku application.
-
-    heroku create
-
-You will need to add the Redis to Go addon (this requires a verified account).
-
-    heroku addons:add redistogo:nano
-
-(please note that the nano plan does not include persistence)
-
-Using the Airbrake addon is highly recommended as well.
-
-    heroku addons:add airbrake
-
-(This adds the the developer plan. If you’d like another plan, specify that instead.)
-
-You will also need to set a couple configuration variables.
-
-    heroku config:add IMAGO_S3_KEY=YOUR_S3_KEY
-
-    heroku config:add IMAGO_S3_SECRET=YOUR_S3_SECRET
-
-    heroku config:add IMAGO_S3_BUCKET=YOUR_S3_BUCKET
-
-    heroku config:add IMAGO_BASE_LINK_URL=YOUR_BASE_URL # This is for the final link url. Should be your s3 url or cloudfront url. Include trailing slash.
-
-After the configuration variables are added, you can deploy the app.
-
-    git push heroku master
-
-When the deploy is finished, you can test the install with
-
-    curl http://YOUR_HEROKU_APP_URL/get_image?website=www.reddit.com&width=320&height=200&format=json
 
 API
 ====
