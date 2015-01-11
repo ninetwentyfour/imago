@@ -3,6 +3,7 @@
   "description": "Imago is a simple service to return website thumbnails.",
   "repository": "https://github.com/ninetwentyfour/imago",
   "website": "http://imago.in/",
+  "success_url": "/get_image?website=www.example.com&width=320&height=200&format=image",
   "env": {
     "IMAGO_S3_KEY": {
       "description": "Your s3 key."
