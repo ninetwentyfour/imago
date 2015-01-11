@@ -18,6 +18,6 @@
     }
   },
   "addons": [
-    "redistogo:nano",
+    "redistogo:nano"
   ]
 }
