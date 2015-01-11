@@ -168,14 +168,14 @@ describe 'Imago' do
     it "returns a json response for a url with no format" do
       get '/get_image?website=www.travisberry.com&width=320&height=200'
       expect(last_response).to be_ok
-      expect(last_response.header['Content-Type']).to eq 'application/json;charset=utf-8'
+      expect(last_response.header['Content-Type']).to eq 'application/json'
       expect(last_response.body).to eq "{\"link\":\"#{ENV['IMAGO_BASE_LINK_URL']}6b3927a0e37512e2efa3b25cb440a498.jpg\",\"website\":\"http://www.travisberry.com\"}"
     end
 
     it "returns a json response for a valid url" do
       get '/get_image?website=www.travisberry.com&width=320&height=200&format=json'
       expect(last_response).to be_ok
-      expect(last_response.header['Content-Type']).to eq 'application/json;charset=utf-8'
+      expect(last_response.header['Content-Type']).to eq 'application/json'
       expect(last_response.body).to eq "{\"link\":\"#{ENV['IMAGO_BASE_LINK_URL']}6b3927a0e37512e2efa3b25cb440a498.jpg\",\"website\":\"http://www.travisberry.com\"}"
     end
     
