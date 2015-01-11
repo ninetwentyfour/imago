@@ -1,0 +1,24 @@
+{
+  "name": "Imago",
+  "description": "Imago is a simple service to return website thumbnails.",
+  "repository": "https://github.com/ninetwentyfour/imago",
+  "website": "http://imago.in/",
+  "env": {
+    "IMAGO_S3_KEY": {
+      "description": "Your s3 key."
+    },
+    "IMAGO_S3_SECRET": {
+      "description": "Your s3 secret."
+    },
+    "IMAGO_S3_BUCKET": {
+      "description": "The s3 bucket to store the images in."
+    },
+    "IMAGO_BASE_LINK_URL": {
+      "description": "This is for the final link url. Should be your s3 url or cloudfront url. Include trailing slash."
+    }
+  },
+  "addons": [
+    "redistogo:nano",
+    "airbrake"
+  ]
+}

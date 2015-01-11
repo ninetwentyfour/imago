@@ -11,6 +11,8 @@ Installation
 
 Imago works best when deployed to Heroku. It requires a Amazon s3 account and an Airbrake account.
 
+[![Deploy](https://www.herokucdn.com/deploy/button.png)](https://heroku.com/deploy)
+
 First download the latest imago source.
 
     git clone https://github.com/ninetwentyfour/imago.git
