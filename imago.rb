@@ -4,8 +4,11 @@
 ###### Requires
 
 # Write out all requires from gems.
-%w(rubygems sinatra imgkit digest/md5 haml redis open-uri RMagick json airbrake
+%w(rubygems sinatra imgkit digest/md5 haml redis open-uri RMagick json
   newrelic_rpm sinatra/jsonp timeout fog connection_pool).each { |g| require g }
+unless ENV['AIRBRAKE_API_KEY'].nil?
+  require 'airbrake'
+end
 
 # Require the app configs.
 require_relative 'config'

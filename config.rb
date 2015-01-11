@@ -23,7 +23,7 @@ configure do
   end
   
   # airbrake configs
-  if ENV['RACK_ENV'] == 'production'
+  if ENV['RACK_ENV'] == 'production' && ENV['AIRBRAKE_API_KEY'] != nil
     Airbrake.configure do |config|
       config.api_key = ENV['AIRBRAKE_API_KEY']
     end
